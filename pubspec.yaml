@@ -1,0 +1,78 @@
+name: flutter_portfolio
+description: Manohar Thullimalli — Senior Flutter Developer Portfolio. Cross-platform showcase across Android, iOS, Web, and Desktop.
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.8.1
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+  flutter_web_plugins:
+    sdk: flutter
+
+  # Navigation
+  go_router: ^13.2.0
+
+  # State management — BLoC only
+  flutter_bloc: ^8.1.6
+  equatable: ^2.0.5
+
+  # Dependency injection
+  get_it: ^7.7.0
+
+  # Functional error handling
+  dartz: ^0.10.1
+
+  # UI & Animations
+  animate_do: ^3.3.4
+  lottie: ^3.1.2
+  google_fonts: ^6.2.1
+  flutter_svg: ^2.0.10+1
+
+  # Responsive layout
+  responsive_framework: ^1.4.0
+
+  # Media
+  cached_network_image: ^3.3.1
+
+  # Platform utilities
+  url_launcher: ^6.3.0
+  window_manager: ^0.3.9
+  open_filex: ^4.5.0
+
+  # Persistence
+  shared_preferences: ^2.3.1
+
+  # HTTP client
+  dio: ^5.7.0
+
+  # Localization
+  intl: ^0.20.2
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  integration_test:
+    sdk: flutter
+
+  flutter_lints: ^5.0.0
+  flutter_native_splash: ^2.4.1
+
+  # Testing
+  bloc_test: ^9.1.7
+  mocktail: ^1.0.4
+
+flutter:
+  uses-material-design: true
+  generate: true
+
+  assets:
+    - assets/images/
+    - assets/data/
+    - assets/resume/
+
+  # Fonts loaded via google_fonts package (no local font files required)

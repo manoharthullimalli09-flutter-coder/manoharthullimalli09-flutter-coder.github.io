@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python3 -c \"import json,sys; d=json.load\\(sys.stdin\\); print\\('developer:', list\\(d['developer'].keys\\(\\)\\)\\); print\\('projects count:', len\\(d['projects']\\)\\); print\\('skills count:', len\\(d['skills']\\)\\); print\\('top-level keys:', list\\(d.keys\\(\\)\\)\\)\")",
+      "Bash(python3 -c \"import json; d=json.load\\(open\\('/Users/manoharthullimalli/Projects/flutter_portfolio/assets/data/portfolio_data.json'\\)\\); print\\(list\\(d.keys\\(\\)\\)\\)\")",
+      "Bash(flutter pub *)",
+      "Bash(flutter analyze *)",
+      "Bash(flutter test *)",
+      "Read(//private/tmp/**)"
+    ]
+  }
+}
