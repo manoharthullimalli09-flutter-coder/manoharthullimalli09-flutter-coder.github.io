@@ -262,11 +262,12 @@ class _ContactFormState extends State<_ContactForm> {
             }
           },
           builder: (context, state) {
-            if (state is ContactSuccess)
+            if (state is ContactSuccess) {
               return _SuccessView(
                 onReset: () =>
                     context.read<ContactBloc>().add(ResetContactForm()),
               );
+            }
             return Form(
               key: _formKey,
               child: Column(

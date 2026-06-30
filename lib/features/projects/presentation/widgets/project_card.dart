@@ -23,7 +23,7 @@ class _ProjectCardState extends State<ProjectCard> {
       onExit: (_) => setState(() => _hovered = false),
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 200),
-        transform: Matrix4.identity()..translate(0.0, _hovered ? -6.0 : 0.0),
+        transform: Matrix4.translationValues(0.0, _hovered ? -6.0 : 0.0, 0.0),
         child: GlassCard(
           padding: EdgeInsets.zero,
           borderColor: _hovered
