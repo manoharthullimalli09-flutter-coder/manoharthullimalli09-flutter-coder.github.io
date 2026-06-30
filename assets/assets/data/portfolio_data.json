@@ -1,0 +1,136 @@
+{
+  "developer": {
+    "name": "Manohar Thullimalli",
+    "title": "Senior Flutter Developer",
+    "bio": "I build high-performance, cross-platform apps with Flutter — from pixel-perfect mobile UIs to full-featured web and desktop products. 5+ years of shipping production apps across Android, iOS, Web, and Desktop for e-commerce, enterprise, and social platforms.",
+    "email": "manohar.professional.flutter@gmail.com",
+    "profileImageUrl": "assets/images/profile.jpg",
+    "yearsOfExperience": 5,
+    "projectsCompleted": 20,
+    "platformsSupported": 4,
+    "socialLinks": {
+      "github": "https://github.com/manoharthullimalli09-flutter-coder",
+      "linkedin": "https://www.linkedin.com/in/manohar-t-68a32231a",
+      "twitter": "",
+      "resume": "assets/resume/Manohar_Thullimalli_Resume.pdf"
+    }
+  },
+  "projects": [
+    {
+      "id": "ecommerce-app",
+      "title": "E-Commerce Marketplace",
+      "description": "A full-featured shopping platform with real-time inventory, Razorpay & Stripe payment integration, push notifications via FCM, and a vendor dashboard. Serves 10,000+ active users.",
+      "category": "E-Commerce",
+      "platforms": ["android", "ios"],
+      "techStack": ["Flutter", "BLoC", "Firebase", "Razorpay", "Stripe", "FCM", "Clean Architecture"],
+      "imageUrl": "assets/images/project_ecommerce.webp",
+      "playStoreUrl": "",
+      "appStoreUrl": "",
+      "isFeatured": true
+    },
+    {
+      "id": "healthcare-app",
+      "title": "Healthcare Patient Portal",
+      "description": "Enterprise B2B SaaS for patient appointment booking, digital prescriptions, and doctor-patient video consultations. Integrated HL7-compliant REST APIs with offline-first data sync.",
+      "category": "Healthcare",
+      "platforms": ["android", "ios", "web"],
+      "techStack": ["Flutter", "BLoC", "REST API", "Dio", "Hive", "WebRTC", "Clean Architecture"],
+      "imageUrl": "assets/images/project_healthcare.webp",
+      "playStoreUrl": "",
+      "appStoreUrl": "",
+      "webUrl": "",
+      "isFeatured": true
+    },
+    {
+      "id": "fintech-app",
+      "title": "FinTech Invoice Manager",
+      "description": "B2B invoicing and expense tracking tool with PDF generation, multi-currency support, and bank reconciliation. Used by 500+ SMEs across South Asia.",
+      "category": "FinTech",
+      "platforms": ["android", "ios", "web", "desktop"],
+      "techStack": ["Flutter", "Riverpod", "Firebase", "PDF Generation", "REST API", "Clean Architecture"],
+      "imageUrl": "assets/images/project_fintech.webp",
+      "isFeatured": true
+    },
+    {
+      "id": "logistics-app",
+      "title": "Logistics Tracking Platform",
+      "description": "Real-time shipment tracking with Google Maps integration, QR code scanning, and driver dispatch management. Reduced delivery delays by 35% for the client.",
+      "category": "Logistics",
+      "platforms": ["android", "ios"],
+      "techStack": ["Flutter", "BLoC", "Google Maps", "WebSocket", "QR Code", "Clean Architecture"],
+      "imageUrl": "assets/images/project_logistics.webp",
+      "playStoreUrl": "",
+      "appStoreUrl": ""
+    },
+    {
+      "id": "social-app",
+      "title": "Community Social Platform",
+      "description": "A social networking app with real-time chat (WebSocket), activity feeds, story posting, and event creation. Built for a community of 25,000+ users.",
+      "category": "Social",
+      "platforms": ["android", "ios"],
+      "techStack": ["Flutter", "BLoC", "Firebase", "WebSocket", "FCM", "Clean Architecture"],
+      "imageUrl": "assets/images/project_social.webp",
+      "playStoreUrl": "",
+      "appStoreUrl": "",
+      "isFeatured": true
+    },
+    {
+      "id": "hr-dashboard",
+      "title": "HR Productivity Dashboard",
+      "description": "Cross-platform desktop and web HR suite with leave management, attendance tracking, payroll summaries, and role-based access control.",
+      "category": "Enterprise",
+      "platforms": ["web", "desktop"],
+      "techStack": ["Flutter Web", "Flutter Desktop", "BLoC", "REST API", "Dio", "Clean Architecture"],
+      "imageUrl": "assets/images/project_hr.webp",
+      "webUrl": ""
+    }
+  ],
+  "skillCategories": [
+    {
+      "name": "Flutter & Dart",
+      "skills": [
+        { "name": "Flutter (All Platforms)", "proficiency": 0.97, "category": "Flutter & Dart" },
+        { "name": "Dart", "proficiency": 0.95, "category": "Flutter & Dart" },
+        { "name": "Custom Animations", "proficiency": 0.90, "category": "Flutter & Dart" },
+        { "name": "CustomPainter / Canvas", "proficiency": 0.85, "category": "Flutter & Dart" },
+        { "name": "Platform Channels", "proficiency": 0.80, "category": "Flutter & Dart" }
+      ]
+    },
+    {
+      "name": "State Management",
+      "skills": [
+        { "name": "BLoC / Cubit", "proficiency": 0.97, "category": "State Management" },
+        { "name": "Riverpod", "proficiency": 0.88, "category": "State Management" },
+        { "name": "Provider", "proficiency": 0.85, "category": "State Management" },
+        { "name": "GetX", "proficiency": 0.80, "category": "State Management" }
+      ]
+    },
+    {
+      "name": "Backend & APIs",
+      "skills": [
+        { "name": "Firebase (Auth, Firestore, FCM)", "proficiency": 0.92, "category": "Backend & APIs" },
+        { "name": "REST APIs / Dio", "proficiency": 0.95, "category": "Backend & APIs" },
+        { "name": "WebSocket", "proficiency": 0.80, "category": "Backend & APIs" },
+        { "name": "GraphQL", "proficiency": 0.70, "category": "Backend & APIs" }
+      ]
+    },
+    {
+      "name": "Architecture & Testing",
+      "skills": [
+        { "name": "Clean Architecture", "proficiency": 0.95, "category": "Architecture & Testing" },
+        { "name": "SOLID Principles", "proficiency": 0.92, "category": "Architecture & Testing" },
+        { "name": "Unit & Widget Testing", "proficiency": 0.88, "category": "Architecture & Testing" },
+        { "name": "TDD", "proficiency": 0.82, "category": "Architecture & Testing" }
+      ]
+    },
+    {
+      "name": "DevOps & Tools",
+      "skills": [
+        { "name": "GitHub Actions", "proficiency": 0.85, "category": "DevOps & Tools" },
+        { "name": "Codemagic / Fastlane", "proficiency": 0.80, "category": "DevOps & Tools" },
+        { "name": "Git", "proficiency": 0.95, "category": "DevOps & Tools" },
+        { "name": "Play Store / App Store", "proficiency": 0.90, "category": "DevOps & Tools" }
+      ]
+    }
+  ]
+}

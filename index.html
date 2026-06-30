@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <base href="/">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+
+  <!-- SEO -->
+  <title>Manohar Thullimalli — Senior Flutter Developer</title>
+  <meta name="description" content="Manohar Thullimalli is a Senior Flutter Developer with 5+ years of experience building cross-platform apps for Android, iOS, Web, and Desktop. Expert in BLoC, Clean Architecture, Firebase, and CI/CD.">
+  <meta name="keywords" content="Flutter Developer, Flutter, Dart, Android, iOS, Cross-Platform, BLoC, Clean Architecture, Mobile Developer, Senior Flutter Developer">
+  <meta name="author" content="Manohar Thullimalli">
+
+  <!-- Open Graph (LinkedIn, Facebook previews) -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Manohar Thullimalli — Senior Flutter Developer">
+  <meta property="og:description" content="5+ years building cross-platform Flutter apps. Expert in BLoC, Clean Architecture, Firebase. Available for Senior / Lead roles.">
+  <meta property="og:url" content="https://manoharthullimalli09-flutter-coder.github.io">
+  <meta property="og:image" content="icons/Icon-512.png">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Manohar Thullimalli — Senior Flutter Developer">
+  <meta name="twitter:description" content="5+ years Flutter · Android · iOS · Web · Desktop · BLoC · Clean Architecture">
+  <meta name="twitter:image" content="icons/Icon-512.png">
+
+  <!-- PWA & Icons -->
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Manohar T.">
+  <meta name="theme-color" content="#0D0D0D">
+  <link rel="apple-touch-icon" href="icons/Icon-192.png">
+  <link rel="icon" type="image/png" href="favicon.png">
+  <link rel="manifest" href="manifest.json">
+
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body, html { width: 100%; height: 100%; background: #0D0D0D; font-family: -apple-system, sans-serif; }
+
+    #loader {
+      position: fixed; inset: 0;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      background: #0D0D0D;
+      z-index: 9999;
+      transition: opacity 0.5s ease;
+    }
+    #loader.hidden { opacity: 0; pointer-events: none; }
+
+    .logo {
+      font-size: 48px; font-weight: 800; letter-spacing: -2px;
+      background: linear-gradient(135deg, #6C63FF, #00D4FF);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 24px;
+    }
+    .spinner {
+      width: 40px; height: 40px;
+      border: 3px solid rgba(108,99,255,0.2);
+      border-top-color: #6C63FF;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+    .tagline { color: #9E9E9E; font-size: 14px; margin-top: 16px; letter-spacing: 1px; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+  </style>
+</head>
+<body>
+  <div id="loader">
+    <div class="logo">MT.</div>
+    <div class="spinner"></div>
+    <p class="tagline">FLUTTER · ANDROID · iOS · WEB · DESKTOP</p>
+  </div>
+
+  <script>
+    window.addEventListener('flutter-first-frame', function() {
+      const loader = document.getElementById('loader');
+      if (loader) {
+        loader.classList.add('hidden');
+        setTimeout(() => loader.remove(), 600);
+      }
+    });
+  </script>
+  <script src="flutter_bootstrap.js" async></script>
+</body>
+</html>
