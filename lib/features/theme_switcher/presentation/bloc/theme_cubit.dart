@@ -6,8 +6,7 @@ class ThemeCubit extends Cubit<ThemeMode> {
   final SharedPreferences prefs;
   static const _key = 'theme_mode';
 
-  ThemeCubit({required this.prefs})
-      : super(_loadTheme(prefs));
+  ThemeCubit({required this.prefs}) : super(_loadTheme(prefs));
 
   static ThemeMode _loadTheme(SharedPreferences prefs) {
     final saved = prefs.getString(_key);

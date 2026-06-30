@@ -19,8 +19,9 @@ void main() {
   });
 
   test('returns Right(developer) when data source succeeds', () async {
-    when(() => mockDataSource.getDeveloperInfo())
-        .thenAnswer((_) async => tDeveloper);
+    when(
+      () => mockDataSource.getDeveloperInfo(),
+    ).thenAnswer((_) async => tDeveloper);
 
     final result = await repo.getDeveloperInfo();
 
@@ -29,19 +30,21 @@ void main() {
   });
 
   test('returns Left(ParseFailure) on TypeError from data source', () async {
-    when(() => mockDataSource.getDeveloperInfo()).thenThrow(
-      TypeError(),
-    );
+    when(() => mockDataSource.getDeveloperInfo()).thenThrow(TypeError());
 
     final result = await repo.getDeveloperInfo();
 
     expect(result.isLeft(), true);
-    result.fold((f) => expect(f, isA<ParseFailure>()), (_) => fail('Expected failure'));
+    result.fold(
+      (f) => expect(f, isA<ParseFailure>()),
+      (_) => fail('Expected failure'),
+    );
   });
 
   test('returns Left(CacheFailure) on generic exception', () async {
-    when(() => mockDataSource.getDeveloperInfo())
-        .thenThrow(Exception('disk error'));
+    when(
+      () => mockDataSource.getDeveloperInfo(),
+    ).thenThrow(Exception('disk error'));
 
     final result = await repo.getDeveloperInfo();
 

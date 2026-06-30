@@ -13,21 +13,12 @@ final appRouter = GoRouter(
   initialLocation: AppRoutes.home,
   debugLogDiagnostics: kDebugMode,
   routes: [
-    GoRoute(
-      path: AppRoutes.home,
-      builder: (_, __) => const PortfolioPage(),
-    ),
+    GoRoute(path: AppRoutes.home, builder: (_, __) => const PortfolioPage()),
     GoRoute(
       path: AppRoutes.projects,
       builder: (_, __) => const PortfolioPage(),
     ),
-    GoRoute(
-      path: AppRoutes.skills,
-      builder: (_, __) => const PortfolioPage(),
-    ),
-    GoRoute(
-      path: AppRoutes.contact,
-      builder: (_, __) => const PortfolioPage(),
-    ),
+    GoRoute(path: AppRoutes.skills, builder: (_, __) => const PortfolioPage()),
+    GoRoute(path: AppRoutes.contact, builder: (_, __) => const PortfolioPage()),
   ],
 );

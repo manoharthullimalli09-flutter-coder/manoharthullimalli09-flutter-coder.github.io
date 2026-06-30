@@ -10,7 +10,8 @@ class SkillsRepositoryImpl implements SkillsRepository {
   SkillsRepositoryImpl(this.dataSource);
 
   @override
-  Future<Either<Failure, List<SkillCategoryEntity>>> getSkillCategories() async {
+  Future<Either<Failure, List<SkillCategoryEntity>>>
+  getSkillCategories() async {
     try {
       final models = await dataSource.getSkillCategories();
       return Right(models);

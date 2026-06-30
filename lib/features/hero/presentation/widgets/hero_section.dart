@@ -39,15 +39,28 @@ class _HeroContent extends StatelessWidget {
       builder: (context, state) {
         if (state is HeroLoaded) {
           return context.isDesktop
-              ? _HeroDesktop(state: state, onViewWork: onViewWork, onHireMe: onHireMe)
-              : _HeroMobile(state: state, onViewWork: onViewWork, onHireMe: onHireMe);
+              ? _HeroDesktop(
+                  state: state,
+                  onViewWork: onViewWork,
+                  onHireMe: onHireMe,
+                )
+              : _HeroMobile(
+                  state: state,
+                  onViewWork: onViewWork,
+                  onHireMe: onHireMe,
+                );
         }
         if (state is HeroError) {
           return Center(
-            child: Text(state.message, style: const TextStyle(color: AppColors.error)),
+            child: Text(
+              state.message,
+              style: const TextStyle(color: AppColors.error),
+            ),
           );
         }
-        return const Center(child: CircularProgressIndicator(color: AppColors.primary));
+        return const Center(
+          child: CircularProgressIndicator(color: AppColors.primary),
+        );
       },
     );
   }
@@ -79,9 +92,9 @@ class _HeroDesktop extends StatelessWidget {
                 child: Text(
                   'Hi, I\'m ${dev.name.split(' ').first}',
                   style: Theme.of(context).textTheme.displaySmall?.copyWith(
-                        color: AppColors.textSecondary,
-                        fontWeight: FontWeight.w400,
-                      ),
+                    color: AppColors.textSecondary,
+                    fontWeight: FontWeight.w400,
+                  ),
                 ),
               ),
               const SizedBox(height: AppSizes.sm),
@@ -113,9 +126,9 @@ class _HeroDesktop extends StatelessWidget {
                 child: Text(
                   dev.bio,
                   style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                        color: AppColors.textSecondary,
-                        height: 1.7,
-                      ),
+                    color: AppColors.textSecondary,
+                    height: 1.7,
+                  ),
                   maxLines: 3,
                   overflow: TextOverflow.ellipsis,
                 ),
@@ -169,9 +182,9 @@ class _HeroMobile extends StatelessWidget {
           child: Text(
             'Hi, I\'m ${dev.name.split(' ').first}',
             style: Theme.of(context).textTheme.headlineLarge?.copyWith(
-                  color: AppColors.textSecondary,
-                  fontWeight: FontWeight.w400,
-                ),
+              color: AppColors.textSecondary,
+              fontWeight: FontWeight.w400,
+            ),
             textAlign: TextAlign.center,
           ),
         ),
@@ -215,7 +228,10 @@ class _AvailableBadge extends StatelessWidget {
   Widget build(BuildContext context) {
     return FadeInDown(
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: AppSizes.md, vertical: AppSizes.xs),
+        padding: const EdgeInsets.symmetric(
+          horizontal: AppSizes.md,
+          vertical: AppSizes.xs,
+        ),
         decoration: BoxDecoration(
           color: AppColors.success.withValues(alpha: 0.1),
           borderRadius: BorderRadius.circular(AppSizes.radiusXl),
@@ -227,12 +243,17 @@ class _AvailableBadge extends StatelessWidget {
             Container(
               width: 8,
               height: 8,
-              decoration: const BoxDecoration(color: AppColors.success, shape: BoxShape.circle),
+              decoration: const BoxDecoration(
+                color: AppColors.success,
+                shape: BoxShape.circle,
+              ),
             ),
             const SizedBox(width: AppSizes.sm),
             Text(
               'Available for new opportunities',
-              style: Theme.of(context).textTheme.labelMedium?.copyWith(color: AppColors.success),
+              style: Theme.of(
+                context,
+              ).textTheme.labelMedium?.copyWith(color: AppColors.success),
             ),
           ],
         ),
@@ -265,8 +286,13 @@ class _CTAButtons extends StatelessWidget {
           style: OutlinedButton.styleFrom(
             foregroundColor: AppColors.primary,
             side: const BorderSide(color: AppColors.primary),
-            padding: const EdgeInsets.symmetric(horizontal: AppSizes.xl, vertical: AppSizes.md),
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppSizes.radiusSm)),
+            padding: const EdgeInsets.symmetric(
+              horizontal: AppSizes.xl,
+              vertical: AppSizes.md,
+            ),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(AppSizes.radiusSm),
+            ),
             textStyle: Theme.of(context).textTheme.labelLarge,
           ),
         ),
@@ -286,9 +312,21 @@ class _StatRow extends StatelessWidget {
       runSpacing: AppSizes.lg,
       alignment: WrapAlignment.start,
       children: [
-        _StatItem(value: developer.yearsOfExperience, suffix: '+', label: 'Years Experience'),
-        _StatItem(value: developer.projectsCompleted, suffix: '+', label: 'Projects Shipped'),
-        _StatItem(value: developer.platformsSupported, suffix: '', label: 'Platforms'),
+        _StatItem(
+          value: developer.yearsOfExperience,
+          suffix: '+',
+          label: 'Years Experience',
+        ),
+        _StatItem(
+          value: developer.projectsCompleted,
+          suffix: '+',
+          label: 'Projects Shipped',
+        ),
+        _StatItem(
+          value: developer.platformsSupported,
+          suffix: '',
+          label: 'Platforms',
+        ),
       ],
     );
   }
@@ -298,7 +336,11 @@ class _StatItem extends StatelessWidget {
   final int value;
   final String suffix;
   final String label;
-  const _StatItem({required this.value, required this.suffix, required this.label});
+  const _StatItem({
+    required this.value,
+    required this.suffix,
+    required this.label,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -309,15 +351,15 @@ class _StatItem extends StatelessWidget {
           end: value,
           suffix: suffix,
           style: Theme.of(context).textTheme.displaySmall?.copyWith(
-                color: AppColors.primary,
-                fontWeight: FontWeight.w700,
-              ),
+            color: AppColors.primary,
+            fontWeight: FontWeight.w700,
+          ),
         ),
         Text(
           label,
-          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                color: AppColors.textSecondary,
-              ),
+          style: Theme.of(
+            context,
+          ).textTheme.bodyMedium?.copyWith(color: AppColors.textSecondary),
         ),
       ],
     );

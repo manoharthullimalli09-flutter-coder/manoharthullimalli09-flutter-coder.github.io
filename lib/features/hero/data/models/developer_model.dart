@@ -14,35 +14,35 @@ class DeveloperModel extends DeveloperEntity {
   });
 
   factory DeveloperModel.fromJson(Map<String, dynamic> json) => DeveloperModel(
-        name: json['name'] as String,
-        title: json['title'] as String,
-        bio: json['bio'] as String,
-        email: json['email'] as String,
-        profileImageUrl: json['profileImageUrl'] as String,
-        yearsOfExperience: json['yearsOfExperience'] as int,
-        projectsCompleted: json['projectsCompleted'] as int,
-        platformsSupported: json['platformsSupported'] as int,
-        socialLinks: SocialLinks.fromJson(
-          json['socialLinks'] as Map<String, dynamic>? ?? {},
-        ),
-      );
+    name: json['name'] as String,
+    title: json['title'] as String,
+    bio: json['bio'] as String,
+    email: json['email'] as String,
+    profileImageUrl: json['profileImageUrl'] as String,
+    yearsOfExperience: json['yearsOfExperience'] as int,
+    projectsCompleted: json['projectsCompleted'] as int,
+    platformsSupported: json['platformsSupported'] as int,
+    socialLinks: SocialLinks.fromJson(
+      json['socialLinks'] as Map<String, dynamic>? ?? {},
+    ),
+  );
 
   Map<String, dynamic> toJson() => {
-        'name': name,
-        'title': title,
-        'bio': bio,
-        'email': email,
-        'profileImageUrl': profileImageUrl,
-        'yearsOfExperience': yearsOfExperience,
-        'projectsCompleted': projectsCompleted,
-        'platformsSupported': platformsSupported,
-        'socialLinks': {
-          'github': socialLinks.github,
-          'linkedin': socialLinks.linkedin,
-          'twitter': socialLinks.twitter,
-          'resume': socialLinks.resumeUrl,
-        },
-      };
+    'name': name,
+    'title': title,
+    'bio': bio,
+    'email': email,
+    'profileImageUrl': profileImageUrl,
+    'yearsOfExperience': yearsOfExperience,
+    'projectsCompleted': projectsCompleted,
+    'platformsSupported': platformsSupported,
+    'socialLinks': {
+      'github': socialLinks.github,
+      'linkedin': socialLinks.linkedin,
+      'twitter': socialLinks.twitter,
+      'resume': socialLinks.resumeUrl,
+    },
+  };
 
   DeveloperModel copyWith({
     String? name,
@@ -54,16 +54,15 @@ class DeveloperModel extends DeveloperEntity {
     int? projectsCompleted,
     int? platformsSupported,
     SocialLinks? socialLinks,
-  }) =>
-      DeveloperModel(
-        name: name ?? this.name,
-        title: title ?? this.title,
-        bio: bio ?? this.bio,
-        email: email ?? this.email,
-        profileImageUrl: profileImageUrl ?? this.profileImageUrl,
-        yearsOfExperience: yearsOfExperience ?? this.yearsOfExperience,
-        projectsCompleted: projectsCompleted ?? this.projectsCompleted,
-        platformsSupported: platformsSupported ?? this.platformsSupported,
-        socialLinks: socialLinks ?? this.socialLinks,
-      );
+  }) => DeveloperModel(
+    name: name ?? this.name,
+    title: title ?? this.title,
+    bio: bio ?? this.bio,
+    email: email ?? this.email,
+    profileImageUrl: profileImageUrl ?? this.profileImageUrl,
+    yearsOfExperience: yearsOfExperience ?? this.yearsOfExperience,
+    projectsCompleted: projectsCompleted ?? this.projectsCompleted,
+    platformsSupported: platformsSupported ?? this.platformsSupported,
+    socialLinks: socialLinks ?? this.socialLinks,
+  );
 }

@@ -82,13 +82,13 @@ class _Particle {
   });
 
   factory _Particle.random(math.Random rng) => _Particle(
-        x: rng.nextDouble(),
-        y: rng.nextDouble(),
-        radius: rng.nextDouble() * 2 + 1,
-        speed: rng.nextDouble() * 0.03 + 0.005,
-        angle: rng.nextDouble() * math.pi * 2,
-        opacity: rng.nextDouble() * 0.4 + 0.1,
-      );
+    x: rng.nextDouble(),
+    y: rng.nextDouble(),
+    radius: rng.nextDouble() * 2 + 1,
+    speed: rng.nextDouble() * 0.03 + 0.005,
+    angle: rng.nextDouble() * math.pi * 2,
+    opacity: rng.nextDouble() * 0.4 + 0.1,
+  );
 }
 
 class _ParticlesPainter extends CustomPainter {
@@ -100,8 +100,10 @@ class _ParticlesPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     for (final p in particles) {
-      final dx = (p.x + math.cos(p.angle + progress * math.pi * 2) * p.speed) % 1.0;
-      final dy = (p.y + math.sin(p.angle + progress * math.pi * 2) * p.speed) % 1.0;
+      final dx =
+          (p.x + math.cos(p.angle + progress * math.pi * 2) * p.speed) % 1.0;
+      final dy =
+          (p.y + math.sin(p.angle + progress * math.pi * 2) * p.speed) % 1.0;
 
       final paint = Paint()
         ..color = (dx > 0.5 ? AppColors.primary : AppColors.secondary)

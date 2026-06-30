@@ -18,25 +18,17 @@ class SectionHeader extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Container(
-                width: 32,
-                height: 2,
-                color: AppColors.primary,
-              ),
+              Container(width: 32, height: 2, color: AppColors.primary),
               const SizedBox(width: AppSizes.sm),
               Text(
                 title.toUpperCase(),
                 style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                      color: AppColors.primary,
-                      letterSpacing: 3,
-                    ),
+                  color: AppColors.primary,
+                  letterSpacing: 3,
+                ),
               ),
               const SizedBox(width: AppSizes.sm),
-              Container(
-                width: 32,
-                height: 2,
-                color: AppColors.primary,
-              ),
+              Container(width: 32, height: 2, color: AppColors.primary),
             ],
           ),
         ),
@@ -46,9 +38,9 @@ class SectionHeader extends StatelessWidget {
           duration: const Duration(milliseconds: 600),
           child: Text(
             subtitle,
-            style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                  color: AppColors.textSecondary,
-                ),
+            style: Theme.of(
+              context,
+            ).textTheme.bodyLarge?.copyWith(color: AppColors.textSecondary),
             textAlign: TextAlign.center,
           ),
         ),

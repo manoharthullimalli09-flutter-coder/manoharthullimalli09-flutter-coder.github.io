@@ -18,8 +18,9 @@ void main() {
   });
 
   test('returns skill categories on success', () async {
-    when(() => mockRepo.getSkillCategories())
-        .thenAnswer((_) async => Right(tSkillCategoriesTyped));
+    when(
+      () => mockRepo.getSkillCategories(),
+    ).thenAnswer((_) async => Right(tSkillCategoriesTyped));
 
     final result = await usecase(NoParams());
 
@@ -29,8 +30,9 @@ void main() {
   });
 
   test('returns CacheFailure when repository fails', () async {
-    when(() => mockRepo.getSkillCategories())
-        .thenAnswer((_) async => const Left(CacheFailure()));
+    when(
+      () => mockRepo.getSkillCategories(),
+    ).thenAnswer((_) async => const Left(CacheFailure()));
 
     final result = await usecase(NoParams());
 

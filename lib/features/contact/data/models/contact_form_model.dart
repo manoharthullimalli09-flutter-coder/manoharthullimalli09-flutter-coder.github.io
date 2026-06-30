@@ -16,15 +16,19 @@ class ContactFormModel extends ContactFormEntity {
         message: entity.message,
       );
 
-  Map<String, dynamic> toEmailJsParams(String serviceId, String templateId, String publicKey) => {
-        'service_id': serviceId,
-        'template_id': templateId,
-        'user_id': publicKey,
-        'template_params': {
-          'from_name': name,
-          'from_email': email,
-          'subject': subject,
-          'message': message,
-        },
-      };
+  Map<String, dynamic> toEmailJsParams(
+    String serviceId,
+    String templateId,
+    String publicKey,
+  ) => {
+    'service_id': serviceId,
+    'template_id': templateId,
+    'user_id': publicKey,
+    'template_params': {
+      'from_name': name,
+      'from_email': email,
+      'subject': subject,
+      'message': message,
+    },
+  };
 }

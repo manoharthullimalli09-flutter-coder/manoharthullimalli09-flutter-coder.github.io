@@ -72,9 +72,9 @@ class _AnimatedTaglineState extends State<AnimatedTagline> {
             _display,
             textAlign: widget.textAlign,
             style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                  color: AppColors.secondary,
-                  fontWeight: FontWeight.w500,
-                ),
+              color: AppColors.secondary,
+              fontWeight: FontWeight.w500,
+            ),
           ),
         ),
         _Cursor(),

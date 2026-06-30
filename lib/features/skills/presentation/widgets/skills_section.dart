@@ -33,13 +33,17 @@ class _SkillsContent extends StatelessWidget {
           children: [
             const SectionHeader(
               title: 'Skills & Tech',
-              subtitle: 'Technologies I use to build production-grade Flutter apps across all platforms.',
+              subtitle:
+                  'Technologies I use to build production-grade Flutter apps across all platforms.',
             ),
             const SizedBox(height: AppSizes.xxl),
             if (state is SkillsLoading)
               const CircularProgressIndicator(color: AppColors.primary)
             else if (state is SkillsError)
-              Text(state.message, style: const TextStyle(color: AppColors.error))
+              Text(
+                state.message,
+                style: const TextStyle(color: AppColors.error),
+              )
             else if (state is SkillsLoaded)
               _SkillsGrid(categories: state.categories),
           ],
@@ -84,7 +88,12 @@ class _SkillCategoryCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(category.name, style: Theme.of(context).textTheme.titleMedium?.copyWith(color: AppColors.primary)),
+          Text(
+            category.name,
+            style: Theme.of(
+              context,
+            ).textTheme.titleMedium?.copyWith(color: AppColors.primary),
+          ),
           const SizedBox(height: AppSizes.md),
           const Divider(color: AppColors.border, height: 1),
           const SizedBox(height: AppSizes.md),
@@ -92,10 +101,12 @@ class _SkillCategoryCard extends StatelessWidget {
             child: ListView(
               physics: const NeverScrollableScrollPhysics(),
               children: category.skills
-                  .map((s) => Padding(
-                        padding: const EdgeInsets.only(bottom: AppSizes.md),
-                        child: _AnimatedSkillBar(skill: s),
-                      ))
+                  .map(
+                    (s) => Padding(
+                      padding: const EdgeInsets.only(bottom: AppSizes.md),
+                      child: _AnimatedSkillBar(skill: s),
+                    ),
+                  )
                   .toList(),
             ),
           ),
@@ -121,7 +132,10 @@ class _AnimatedSkillBarState extends State<_AnimatedSkillBar>
   @override
   void initState() {
     super.initState();
-    _controller = AnimationController(vsync: this, duration: const Duration(milliseconds: 1200));
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 1200),
+    );
     _animation = CurvedAnimation(parent: _controller, curve: Curves.easeOut);
     Future.delayed(const Duration(milliseconds: 400), () {
       if (mounted) _controller.forward();
@@ -142,12 +156,17 @@ class _AnimatedSkillBarState extends State<_AnimatedSkillBar>
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(widget.skill.name, style: Theme.of(context).textTheme.bodySmall),
+            Text(
+              widget.skill.name,
+              style: Theme.of(context).textTheme.bodySmall,
+            ),
             AnimatedBuilder(
               animation: _animation,
               builder: (_, __) => Text(
                 '${(_animation.value * widget.skill.proficiency * 100).round()}%',
-                style: Theme.of(context).textTheme.labelSmall?.copyWith(color: AppColors.primary),
+                style: Theme.of(
+                  context,
+                ).textTheme.labelSmall?.copyWith(color: AppColors.primary),
               ),
             ),
           ],
@@ -161,7 +180,11 @@ class _AnimatedSkillBarState extends State<_AnimatedSkillBar>
               value: _animation.value * widget.skill.proficiency,
               backgroundColor: AppColors.border,
               valueColor: AlwaysStoppedAnimation<Color>(
-                Color.lerp(AppColors.primary, AppColors.secondary, widget.skill.proficiency)!,
+                Color.lerp(
+                  AppColors.primary,
+                  AppColors.secondary,
+                  widget.skill.proficiency,
+                )!,
               ),
               minHeight: 6,
             ),

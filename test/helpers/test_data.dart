@@ -69,7 +69,11 @@ const tProject = ProjectModel(
 final tProjects = [tProject];
 
 // --- Skill fixtures ---
-const tSkill = SkillModel(name: 'Flutter', proficiency: 0.97, category: 'Flutter & Dart');
+const tSkill = SkillModel(
+  name: 'Flutter',
+  proficiency: 0.97,
+  category: 'Flutter & Dart',
+);
 
 const tSkillCategoryJson = {
   'name': 'Flutter & Dart',

@@ -42,7 +42,9 @@ class _PortfolioPageState extends State<PortfolioPage> {
 
   @override
   Widget build(BuildContext context) {
-    final hPad = context.isDesktop ? AppSizes.xxxl * 1.5 : (context.isTablet ? AppSizes.xl : AppSizes.md);
+    final hPad = context.isDesktop
+        ? AppSizes.xxxl * 1.5
+        : (context.isTablet ? AppSizes.xl : AppSizes.md);
 
     return Scaffold(
       body: Stack(
@@ -61,7 +63,10 @@ class _PortfolioPageState extends State<PortfolioPage> {
                     child: _Section(
                       key: _heroKey,
                       minHeight: context.screenHeight * 0.9,
-                      padding: EdgeInsets.symmetric(horizontal: hPad, vertical: AppSizes.xxxl),
+                      padding: EdgeInsets.symmetric(
+                        horizontal: hPad,
+                        vertical: AppSizes.xxxl,
+                      ),
                       child: HeroSection(
                         onViewWork: () => _scrollTo(_projectsKey),
                         onHireMe: () => _scrollTo(_contactKey),
@@ -79,7 +84,10 @@ class _PortfolioPageState extends State<PortfolioPage> {
                 child: RepaintBoundary(
                   child: _Section(
                     key: _projectsKey,
-                    padding: EdgeInsets.symmetric(horizontal: hPad, vertical: AppSizes.sectionPaddingV),
+                    padding: EdgeInsets.symmetric(
+                      horizontal: hPad,
+                      vertical: AppSizes.sectionPaddingV,
+                    ),
                     child: _MaxWidth(child: const ProjectsSection()),
                   ),
                 ),
@@ -93,7 +101,10 @@ class _PortfolioPageState extends State<PortfolioPage> {
                 child: RepaintBoundary(
                   child: _Section(
                     key: _skillsKey,
-                    padding: EdgeInsets.symmetric(horizontal: hPad, vertical: AppSizes.sectionPaddingV),
+                    padding: EdgeInsets.symmetric(
+                      horizontal: hPad,
+                      vertical: AppSizes.sectionPaddingV,
+                    ),
                     child: _MaxWidth(child: const SkillsSection()),
                   ),
                 ),
@@ -107,7 +118,10 @@ class _PortfolioPageState extends State<PortfolioPage> {
                 child: RepaintBoundary(
                   child: _Section(
                     key: _contactKey,
-                    padding: EdgeInsets.symmetric(horizontal: hPad, vertical: AppSizes.sectionPaddingV),
+                    padding: EdgeInsets.symmetric(
+                      horizontal: hPad,
+                      vertical: AppSizes.sectionPaddingV,
+                    ),
                     child: _MaxWidth(child: const ContactSection()),
                   ),
                 ),
@@ -139,16 +153,18 @@ class _Section extends StatelessWidget {
   final EdgeInsetsGeometry padding;
   final double? minHeight;
 
-  const _Section({super.key, required this.child, required this.padding, this.minHeight});
+  const _Section({
+    super.key,
+    required this.child,
+    required this.padding,
+    this.minHeight,
+  });
 
   @override
   Widget build(BuildContext context) {
     return ConstrainedBox(
       constraints: BoxConstraints(minHeight: minHeight ?? 0),
-      child: Padding(
-        padding: padding,
-        child: child,
-      ),
+      child: Padding(padding: padding, child: child),
     );
   }
 }
@@ -194,22 +210,27 @@ class _Footer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(vertical: AppSizes.xl, horizontal: AppSizes.lg),
+      padding: const EdgeInsets.symmetric(
+        vertical: AppSizes.xl,
+        horizontal: AppSizes.lg,
+      ),
       child: Column(
         children: [
           const Divider(color: AppColors.border),
           const SizedBox(height: AppSizes.md),
           Text(
             '© ${DateTime.now().year} Manohar Thullimalli · Built with Flutter',
-            style: Theme.of(context).textTheme.bodySmall?.copyWith(color: AppColors.textMuted),
+            style: Theme.of(
+              context,
+            ).textTheme.bodySmall?.copyWith(color: AppColors.textMuted),
             textAlign: TextAlign.center,
           ),
           const SizedBox(height: AppSizes.sm),
           Text(
             'Web · Android · iOS · Desktop · from one codebase',
             style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                  color: AppColors.primary.withValues(alpha: 0.6),
-                ),
+              color: AppColors.primary.withValues(alpha: 0.6),
+            ),
             textAlign: TextAlign.center,
           ),
         ],

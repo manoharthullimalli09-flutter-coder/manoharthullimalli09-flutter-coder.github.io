@@ -7,7 +7,8 @@ import 'package:mocktail/mocktail.dart';
 
 import '../../../../helpers/test_data.dart';
 
-class _MockSkillsLocalDataSource extends Mock implements SkillsLocalDataSource {}
+class _MockSkillsLocalDataSource extends Mock
+    implements SkillsLocalDataSource {}
 
 void main() {
   late SkillsRepositoryImpl repo;
@@ -19,8 +20,9 @@ void main() {
   });
 
   test('returns Right(categories) on success', () async {
-    when(() => mockDataSource.getSkillCategories())
-        .thenAnswer((_) async => [tSkillCategory]);
+    when(
+      () => mockDataSource.getSkillCategories(),
+    ).thenAnswer((_) async => [tSkillCategory]);
 
     final result = await repo.getSkillCategories();
 
@@ -35,12 +37,16 @@ void main() {
 
     final result = await repo.getSkillCategories();
 
-    result.fold((f) => expect(f, isA<ParseFailure>()), (_) => fail('Expected failure'));
+    result.fold(
+      (f) => expect(f, isA<ParseFailure>()),
+      (_) => fail('Expected failure'),
+    );
   });
 
   test('returns Left(CacheFailure) on generic exception', () async {
-    when(() => mockDataSource.getSkillCategories())
-        .thenThrow(Exception('io error'));
+    when(
+      () => mockDataSource.getSkillCategories(),
+    ).thenThrow(Exception('io error'));
 
     final result = await repo.getSkillCategories();
 

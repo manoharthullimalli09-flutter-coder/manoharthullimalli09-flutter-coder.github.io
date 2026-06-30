@@ -47,12 +47,23 @@ class AppTheme {
         style: ElevatedButton.styleFrom(
           backgroundColor: AppColors.primary,
           foregroundColor: Colors.white,
-          padding: const EdgeInsets.symmetric(horizontal: AppSizes.xl, vertical: AppSizes.md),
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppSizes.radiusSm)),
-          textStyle: GoogleFonts.inter(fontWeight: FontWeight.w600, fontSize: 15),
+          padding: const EdgeInsets.symmetric(
+            horizontal: AppSizes.xl,
+            vertical: AppSizes.md,
+          ),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(AppSizes.radiusSm),
+          ),
+          textStyle: GoogleFonts.inter(
+            fontWeight: FontWeight.w600,
+            fontSize: 15,
+          ),
         ),
       ),
-      dividerTheme: const DividerThemeData(color: AppColors.border, thickness: 1),
+      dividerTheme: const DividerThemeData(
+        color: AppColors.border,
+        thickness: 1,
+      ),
     );
   }
 
@@ -81,9 +92,17 @@ class AppTheme {
         style: ElevatedButton.styleFrom(
           backgroundColor: AppColors.primary,
           foregroundColor: Colors.white,
-          padding: const EdgeInsets.symmetric(horizontal: AppSizes.xl, vertical: AppSizes.md),
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppSizes.radiusSm)),
-          textStyle: GoogleFonts.inter(fontWeight: FontWeight.w600, fontSize: 15),
+          padding: const EdgeInsets.symmetric(
+            horizontal: AppSizes.xl,
+            vertical: AppSizes.md,
+          ),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(AppSizes.radiusSm),
+          ),
+          textStyle: GoogleFonts.inter(
+            fontWeight: FontWeight.w600,
+            fontSize: 15,
+          ),
         ),
       ),
     );
@@ -91,21 +110,90 @@ class AppTheme {
 
   static TextTheme _textTheme(Color baseColor) {
     return TextTheme(
-      displayLarge: GoogleFonts.inter(fontSize: 72, fontWeight: FontWeight.w700, color: baseColor, height: 1.1),
-      displayMedium: GoogleFonts.inter(fontSize: 56, fontWeight: FontWeight.w700, color: baseColor, height: 1.1),
-      displaySmall: GoogleFonts.inter(fontSize: 40, fontWeight: FontWeight.w700, color: baseColor, height: 1.2),
-      headlineLarge: GoogleFonts.inter(fontSize: 32, fontWeight: FontWeight.w600, color: baseColor, height: 1.3),
-      headlineMedium: GoogleFonts.inter(fontSize: 24, fontWeight: FontWeight.w600, color: baseColor, height: 1.3),
-      headlineSmall: GoogleFonts.inter(fontSize: 20, fontWeight: FontWeight.w600, color: baseColor, height: 1.4),
-      titleLarge: GoogleFonts.inter(fontSize: 18, fontWeight: FontWeight.w600, color: baseColor),
-      titleMedium: GoogleFonts.inter(fontSize: 16, fontWeight: FontWeight.w500, color: baseColor),
-      titleSmall: GoogleFonts.inter(fontSize: 14, fontWeight: FontWeight.w500, color: baseColor),
-      bodyLarge: GoogleFonts.inter(fontSize: 16, fontWeight: FontWeight.w400, color: baseColor, height: 1.6),
-      bodyMedium: GoogleFonts.inter(fontSize: 14, fontWeight: FontWeight.w400, color: baseColor, height: 1.6),
-      bodySmall: GoogleFonts.inter(fontSize: 12, fontWeight: FontWeight.w400, color: baseColor, height: 1.5),
-      labelLarge: GoogleFonts.inter(fontSize: 14, fontWeight: FontWeight.w600, color: baseColor),
-      labelMedium: GoogleFonts.inter(fontSize: 12, fontWeight: FontWeight.w500, color: baseColor),
-      labelSmall: GoogleFonts.inter(fontSize: 11, fontWeight: FontWeight.w500, color: baseColor),
+      displayLarge: GoogleFonts.inter(
+        fontSize: 72,
+        fontWeight: FontWeight.w700,
+        color: baseColor,
+        height: 1.1,
+      ),
+      displayMedium: GoogleFonts.inter(
+        fontSize: 56,
+        fontWeight: FontWeight.w700,
+        color: baseColor,
+        height: 1.1,
+      ),
+      displaySmall: GoogleFonts.inter(
+        fontSize: 40,
+        fontWeight: FontWeight.w700,
+        color: baseColor,
+        height: 1.2,
+      ),
+      headlineLarge: GoogleFonts.inter(
+        fontSize: 32,
+        fontWeight: FontWeight.w600,
+        color: baseColor,
+        height: 1.3,
+      ),
+      headlineMedium: GoogleFonts.inter(
+        fontSize: 24,
+        fontWeight: FontWeight.w600,
+        color: baseColor,
+        height: 1.3,
+      ),
+      headlineSmall: GoogleFonts.inter(
+        fontSize: 20,
+        fontWeight: FontWeight.w600,
+        color: baseColor,
+        height: 1.4,
+      ),
+      titleLarge: GoogleFonts.inter(
+        fontSize: 18,
+        fontWeight: FontWeight.w600,
+        color: baseColor,
+      ),
+      titleMedium: GoogleFonts.inter(
+        fontSize: 16,
+        fontWeight: FontWeight.w500,
+        color: baseColor,
+      ),
+      titleSmall: GoogleFonts.inter(
+        fontSize: 14,
+        fontWeight: FontWeight.w500,
+        color: baseColor,
+      ),
+      bodyLarge: GoogleFonts.inter(
+        fontSize: 16,
+        fontWeight: FontWeight.w400,
+        color: baseColor,
+        height: 1.6,
+      ),
+      bodyMedium: GoogleFonts.inter(
+        fontSize: 14,
+        fontWeight: FontWeight.w400,
+        color: baseColor,
+        height: 1.6,
+      ),
+      bodySmall: GoogleFonts.inter(
+        fontSize: 12,
+        fontWeight: FontWeight.w400,
+        color: baseColor,
+        height: 1.5,
+      ),
+      labelLarge: GoogleFonts.inter(
+        fontSize: 14,
+        fontWeight: FontWeight.w600,
+        color: baseColor,
+      ),
+      labelMedium: GoogleFonts.inter(
+        fontSize: 12,
+        fontWeight: FontWeight.w500,
+        color: baseColor,
+      ),
+      labelSmall: GoogleFonts.inter(
+        fontSize: 11,
+        fontWeight: FontWeight.w500,
+        color: baseColor,
+      ),
     );
   }
 }

@@ -19,8 +19,9 @@ void main() {
   });
 
   test('returns Right(unit) on successful submission', () async {
-    when(() => mockRepo.submitForm(any()))
-        .thenAnswer((_) async => const Right(unit));
+    when(
+      () => mockRepo.submitForm(any()),
+    ).thenAnswer((_) async => const Right(unit));
 
     final result = await usecase(tContactForm);
 
@@ -30,8 +31,9 @@ void main() {
   });
 
   test('returns ServerFailure when submission fails', () async {
-    when(() => mockRepo.submitForm(any()))
-        .thenAnswer((_) async => const Left(ServerFailure('Network error')));
+    when(
+      () => mockRepo.submitForm(any()),
+    ).thenAnswer((_) async => const Left(ServerFailure('Network error')));
 
     final result = await usecase(tContactForm);
 
@@ -39,11 +41,15 @@ void main() {
   });
 
   test('returns NetworkFailure on connectivity issues', () async {
-    when(() => mockRepo.submitForm(any()))
-        .thenAnswer((_) async => const Left(NetworkFailure()));
+    when(
+      () => mockRepo.submitForm(any()),
+    ).thenAnswer((_) async => const Left(NetworkFailure()));
 
     final result = await usecase(tContactForm);
 
-    result.fold((f) => expect(f, isA<NetworkFailure>()), (_) => fail('Expected failure'));
+    result.fold(
+      (f) => expect(f, isA<NetworkFailure>()),
+      (_) => fail('Expected failure'),
+    );
   });
 }

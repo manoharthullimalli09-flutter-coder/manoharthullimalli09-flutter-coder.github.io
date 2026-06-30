@@ -26,7 +26,9 @@ class _ProjectCardState extends State<ProjectCard> {
         transform: Matrix4.identity()..translate(0.0, _hovered ? -6.0 : 0.0),
         child: GlassCard(
           padding: EdgeInsets.zero,
-          borderColor: _hovered ? _categoryGradient(p.category).first.withValues(alpha: 0.6) : null,
+          borderColor: _hovered
+              ? _categoryGradient(p.category).first.withValues(alpha: 0.6)
+              : null,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -34,7 +36,9 @@ class _ProjectCardState extends State<ProjectCard> {
               Container(
                 height: 160,
                 decoration: BoxDecoration(
-                  borderRadius: const BorderRadius.vertical(top: Radius.circular(AppSizes.radiusMd)),
+                  borderRadius: const BorderRadius.vertical(
+                    top: Radius.circular(AppSizes.radiusMd),
+                  ),
                   gradient: LinearGradient(
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
@@ -44,19 +48,32 @@ class _ProjectCardState extends State<ProjectCard> {
                 child: Stack(
                   children: [
                     Center(
-                      child: Icon(_categoryIcon(p.category), size: 56, color: Colors.white.withValues(alpha: 0.3)),
+                      child: Icon(
+                        _categoryIcon(p.category),
+                        size: 56,
+                        color: Colors.white.withValues(alpha: 0.3),
+                      ),
                     ),
                     if (p.isFeatured)
                       Positioned(
                         top: AppSizes.sm,
                         right: AppSizes.sm,
                         child: Container(
-                          padding: const EdgeInsets.symmetric(horizontal: AppSizes.sm, vertical: 3),
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: AppSizes.sm,
+                            vertical: 3,
+                          ),
                           decoration: BoxDecoration(
                             color: AppColors.primary,
-                            borderRadius: BorderRadius.circular(AppSizes.radiusXl),
+                            borderRadius: BorderRadius.circular(
+                              AppSizes.radiusXl,
+                            ),
                           ),
-                          child: Text('Featured', style: Theme.of(context).textTheme.labelSmall?.copyWith(color: Colors.white)),
+                          child: Text(
+                            'Featured',
+                            style: Theme.of(context).textTheme.labelSmall
+                                ?.copyWith(color: Colors.white),
+                          ),
                         ),
                       ),
                   ],
@@ -68,22 +85,39 @@ class _ProjectCardState extends State<ProjectCard> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(p.title, style: Theme.of(context).textTheme.titleMedium, maxLines: 1, overflow: TextOverflow.ellipsis),
+                      Text(
+                        p.title,
+                        style: Theme.of(context).textTheme.titleMedium,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
                       const SizedBox(height: AppSizes.xs),
-                      Text(p.description, style: Theme.of(context).textTheme.bodySmall?.copyWith(color: AppColors.textSecondary), maxLines: 3, overflow: TextOverflow.ellipsis),
+                      Text(
+                        p.description,
+                        style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                          color: AppColors.textSecondary,
+                        ),
+                        maxLines: 3,
+                        overflow: TextOverflow.ellipsis,
+                      ),
                       const Spacer(),
                       // Platform badges
                       Wrap(
                         spacing: 4,
                         runSpacing: 4,
-                        children: p.platforms.map((pl) => _PlatformBadge(platform: pl)).toList(),
+                        children: p.platforms
+                            .map((pl) => _PlatformBadge(platform: pl))
+                            .toList(),
                       ),
                       const SizedBox(height: AppSizes.sm),
                       // Tech stack chips
                       Wrap(
                         spacing: 4,
                         runSpacing: 4,
-                        children: p.techStack.take(4).map((t) => _TechChip(label: t)).toList(),
+                        children: p.techStack
+                            .take(4)
+                            .map((t) => _TechChip(label: t))
+                            .toList(),
                       ),
                     ],
                   ),
@@ -98,23 +132,35 @@ class _ProjectCardState extends State<ProjectCard> {
 
   List<Color> _categoryGradient(String category) {
     switch (category.toLowerCase()) {
-      case 'e-commerce': return [const Color(0xFF6C63FF), const Color(0xFF9E97FF)];
-      case 'healthcare': return [const Color(0xFF00897B), const Color(0xFF4DB6AC)];
-      case 'fintech': return [const Color(0xFF1565C0), const Color(0xFF42A5F5)];
-      case 'logistics': return [const Color(0xFFE65100), const Color(0xFFFF8A65)];
-      case 'social': return [const Color(0xFFAD1457), const Color(0xFFF06292)];
-      default: return [const Color(0xFF37474F), const Color(0xFF78909C)];
+      case 'e-commerce':
+        return [const Color(0xFF6C63FF), const Color(0xFF9E97FF)];
+      case 'healthcare':
+        return [const Color(0xFF00897B), const Color(0xFF4DB6AC)];
+      case 'fintech':
+        return [const Color(0xFF1565C0), const Color(0xFF42A5F5)];
+      case 'logistics':
+        return [const Color(0xFFE65100), const Color(0xFFFF8A65)];
+      case 'social':
+        return [const Color(0xFFAD1457), const Color(0xFFF06292)];
+      default:
+        return [const Color(0xFF37474F), const Color(0xFF78909C)];
     }
   }
 
   IconData _categoryIcon(String category) {
     switch (category.toLowerCase()) {
-      case 'e-commerce': return Icons.shopping_bag_outlined;
-      case 'healthcare': return Icons.local_hospital_outlined;
-      case 'fintech': return Icons.account_balance_outlined;
-      case 'logistics': return Icons.local_shipping_outlined;
-      case 'social': return Icons.people_outline_rounded;
-      default: return Icons.dashboard_outlined;
+      case 'e-commerce':
+        return Icons.shopping_bag_outlined;
+      case 'healthcare':
+        return Icons.local_hospital_outlined;
+      case 'fintech':
+        return Icons.account_balance_outlined;
+      case 'logistics':
+        return Icons.local_shipping_outlined;
+      case 'social':
+        return Icons.people_outline_rounded;
+      default:
+        return Icons.dashboard_outlined;
     }
   }
 }
@@ -134,18 +180,27 @@ class _PlatformBadge extends StatelessWidget {
       ),
       child: Text(
         platform.toUpperCase(),
-        style: Theme.of(context).textTheme.labelSmall?.copyWith(color: _color(), fontSize: 10, fontWeight: FontWeight.w600),
+        style: Theme.of(context).textTheme.labelSmall?.copyWith(
+          color: _color(),
+          fontSize: 10,
+          fontWeight: FontWeight.w600,
+        ),
       ),
     );
   }
 
   Color _color() {
     switch (platform) {
-      case 'android': return const Color(0xFF4CAF50);
-      case 'ios': return const Color(0xFF9E9E9E);
-      case 'web': return const Color(0xFF00D4FF);
-      case 'desktop': return const Color(0xFF9C27B0);
-      default: return AppColors.primary;
+      case 'android':
+        return const Color(0xFF4CAF50);
+      case 'ios':
+        return const Color(0xFF9E9E9E);
+      case 'web':
+        return const Color(0xFF00D4FF);
+      case 'desktop':
+        return const Color(0xFF9C27B0);
+      default:
+        return AppColors.primary;
     }
   }
 }
@@ -165,9 +220,9 @@ class _TechChip extends StatelessWidget {
       child: Text(
         label,
         style: Theme.of(context).textTheme.labelSmall?.copyWith(
-              color: AppColors.primary,
-              fontSize: 10,
-            ),
+          color: AppColors.primary,
+          fontSize: 10,
+        ),
       ),
     );
   }

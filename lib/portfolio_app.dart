@@ -30,10 +30,7 @@ class PortfolioApp extends StatelessWidget {
             GlobalWidgetsLocalizations.delegate,
             GlobalCupertinoLocalizations.delegate,
           ],
-          supportedLocales: const [
-            Locale('en'),
-            Locale('hi'),
-          ],
+          supportedLocales: const [Locale('en'), Locale('hi')],
         ),
       ),
     );

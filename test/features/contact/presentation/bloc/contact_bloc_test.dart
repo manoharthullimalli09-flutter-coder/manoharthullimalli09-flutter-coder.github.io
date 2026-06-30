@@ -29,8 +29,7 @@ void main() {
   blocTest<ContactBloc, ContactState>(
     'emits [Submitting, Success] on successful form submission',
     build: () {
-      when(() => mockUseCase(any()))
-          .thenAnswer((_) async => const Right(unit));
+      when(() => mockUseCase(any())).thenAnswer((_) async => const Right(unit));
       return bloc;
     },
     act: (b) => b.add(SubmitContactForm(tContactForm)),
@@ -41,8 +40,9 @@ void main() {
   blocTest<ContactBloc, ContactState>(
     'emits [Submitting, Error] when submission fails with ServerFailure',
     build: () {
-      when(() => mockUseCase(any()))
-          .thenAnswer((_) async => const Left(ServerFailure('Server down')));
+      when(
+        () => mockUseCase(any()),
+      ).thenAnswer((_) async => const Left(ServerFailure('Server down')));
       return bloc;
     },
     act: (b) => b.add(SubmitContactForm(tContactForm)),
@@ -56,8 +56,9 @@ void main() {
   blocTest<ContactBloc, ContactState>(
     'emits [Submitting, Error] when submission fails with NetworkFailure',
     build: () {
-      when(() => mockUseCase(any()))
-          .thenAnswer((_) async => const Left(NetworkFailure()));
+      when(
+        () => mockUseCase(any()),
+      ).thenAnswer((_) async => const Left(NetworkFailure()));
       return bloc;
     },
     act: (b) => b.add(SubmitContactForm(tContactForm)),
@@ -75,10 +76,16 @@ void main() {
   group('ContactFormEntity equality', () {
     test('two identical forms are equal', () {
       const a = ContactFormEntity(
-        name: 'Test', email: 'a@b.com', subject: 'Hi', message: 'Hello',
+        name: 'Test',
+        email: 'a@b.com',
+        subject: 'Hi',
+        message: 'Hello',
       );
       const b = ContactFormEntity(
-        name: 'Test', email: 'a@b.com', subject: 'Hi', message: 'Hello',
+        name: 'Test',
+        email: 'a@b.com',
+        subject: 'Hi',
+        message: 'Hello',
       );
       expect(a, b);
     });

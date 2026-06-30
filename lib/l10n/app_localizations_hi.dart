@@ -18,7 +18,8 @@ class AppLocalizationsHi extends AppLocalizations {
   String get heroTitle => 'वरिष्ठ फ्लटर डेवलपर';
 
   @override
-  String get heroBio => 'मैं Flutter के साथ उच्च-प्रदर्शन, क्रॉस-प्लेटफ़ॉर्म ऐप्स बनाता हूँ — मोबाइल से वेब और डेस्कटॉप तक।';
+  String get heroBio =>
+      'मैं Flutter के साथ उच्च-प्रदर्शन, क्रॉस-प्लेटफ़ॉर्म ऐप्स बनाता हूँ — मोबाइल से वेब और डेस्कटॉप तक।';
 
   @override
   String get heroCtaProjects => 'मेरा काम देखें';
@@ -57,7 +58,8 @@ class AppLocalizationsHi extends AppLocalizations {
   String get projectsSectionTitle => 'मेरे प्रोजेक्ट';
 
   @override
-  String get projectsSectionSubtitle => 'ई-कॉमर्स, हेल्थकेयर, फिनटेक, लॉजिस्टिक्स पर वास्तविक ऐप्स।';
+  String get projectsSectionSubtitle =>
+      'ई-कॉमर्स, हेल्थकेयर, फिनटेक, लॉजिस्टिक्स पर वास्तविक ऐप्स।';
 
   @override
   String get filterAll => 'सभी';
@@ -78,13 +80,15 @@ class AppLocalizationsHi extends AppLocalizations {
   String get skillsSectionTitle => 'कौशल और तकनीक';
 
   @override
-  String get skillsSectionSubtitle => 'Flutter ऐप्स बनाने के लिए मैं जो तकनीक उपयोग करता हूँ।';
+  String get skillsSectionSubtitle =>
+      'Flutter ऐप्स बनाने के लिए मैं जो तकनीक उपयोग करता हूँ।';
 
   @override
   String get contactSectionTitle => 'मिलकर काम करें';
 
   @override
-  String get contactSectionSubtitle => 'वरिष्ठ / लीड Flutter भूमिकाओं के लिए उपलब्ध।';
+  String get contactSectionSubtitle =>
+      'वरिष्ठ / लीड Flutter भूमिकाओं के लिए उपलब्ध।';
 
   @override
   String get contactNameLabel => 'आपका नाम';

@@ -14,7 +14,10 @@ class HeroBloc extends Bloc<HeroEvent, HeroState> {
     on<LoadDeveloperInfo>(_onLoadDeveloperInfo);
   }
 
-  Future<void> _onLoadDeveloperInfo(LoadDeveloperInfo event, Emitter<HeroState> emit) async {
+  Future<void> _onLoadDeveloperInfo(
+    LoadDeveloperInfo event,
+    Emitter<HeroState> emit,
+  ) async {
     emit(HeroLoading());
     final result = await getDeveloperInfo(NoParams());
     result.fold(

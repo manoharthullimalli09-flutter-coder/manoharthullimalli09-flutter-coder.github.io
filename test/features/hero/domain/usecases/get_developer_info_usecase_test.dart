@@ -18,8 +18,9 @@ void main() {
   });
 
   test('returns DeveloperEntity from repository on success', () async {
-    when(() => mockRepo.getDeveloperInfo())
-        .thenAnswer((_) async => const Right(tDeveloper));
+    when(
+      () => mockRepo.getDeveloperInfo(),
+    ).thenAnswer((_) async => const Right(tDeveloper));
 
     final result = await usecase(NoParams());
 
@@ -29,8 +30,9 @@ void main() {
   });
 
   test('returns CacheFailure when repository fails', () async {
-    when(() => mockRepo.getDeveloperInfo())
-        .thenAnswer((_) async => const Left(CacheFailure()));
+    when(
+      () => mockRepo.getDeveloperInfo(),
+    ).thenAnswer((_) async => const Left(CacheFailure()));
 
     final result = await usecase(NoParams());
 

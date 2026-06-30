@@ -18,16 +18,16 @@ class ProjectsBloc extends Bloc<ProjectsEvent, ProjectsState> {
     on<ClearProjectFilter>(_onClearFilter);
   }
 
-  Future<void> _onLoadProjects(LoadProjects event, Emitter<ProjectsState> emit) async {
+  Future<void> _onLoadProjects(
+    LoadProjects event,
+    Emitter<ProjectsState> emit,
+  ) async {
     emit(ProjectsLoading());
     final result = await getProjects(NoParams());
-    result.fold(
-      (failure) => emit(ProjectsError(failure.message)),
-      (projects) {
-        _allProjects = projects;
-        emit(ProjectsLoaded(projects: projects, activeFilter: null));
-      },
-    );
+    result.fold((failure) => emit(ProjectsError(failure.message)), (projects) {
+      _allProjects = projects;
+      emit(ProjectsLoaded(projects: projects, activeFilter: null));
+    });
   }
 
   void _onFilter(FilterProjectsByPlatform event, Emitter<ProjectsState> emit) {

@@ -9,9 +9,13 @@ abstract class ProjectsLocalDataSource {
 class ProjectsLocalDataSourceImpl implements ProjectsLocalDataSource {
   @override
   Future<List<ProjectModel>> getProjects() async {
-    final jsonString = await rootBundle.loadString('assets/data/portfolio_data.json');
+    final jsonString = await rootBundle.loadString(
+      'assets/data/portfolio_data.json',
+    );
     final data = json.decode(jsonString) as Map<String, dynamic>;
     final list = data['projects'] as List;
-    return list.map((e) => ProjectModel.fromJson(e as Map<String, dynamic>)).toList();
+    return list
+        .map((e) => ProjectModel.fromJson(e as Map<String, dynamic>))
+        .toList();
   }
 }

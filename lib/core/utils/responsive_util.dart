@@ -13,7 +13,12 @@ class ResponsiveUtil {
   static bool isDesktop(BuildContext context) =>
       MediaQuery.sizeOf(context).width >= AppBreakpoints.desktop;
 
-  static T value<T>(BuildContext context, {required T mobile, required T tablet, required T desktop}) {
+  static T value<T>(
+    BuildContext context, {
+    required T mobile,
+    required T tablet,
+    required T desktop,
+  }) {
     if (isDesktop(context)) return desktop;
     if (isTablet(context)) return tablet;
     return mobile;
@@ -37,7 +42,8 @@ class ResponsiveLayout extends StatelessWidget {
     return LayoutBuilder(
       builder: (context, constraints) {
         if (constraints.maxWidth >= AppBreakpoints.desktop) return desktop;
-        if (constraints.maxWidth >= AppBreakpoints.tablet) return tablet ?? desktop;
+        if (constraints.maxWidth >= AppBreakpoints.tablet)
+          return tablet ?? desktop;
         return mobile;
       },
     );

@@ -35,7 +35,8 @@ class _ProjectsContent extends StatelessWidget {
           children: [
             const SectionHeader(
               title: 'My Projects',
-              subtitle: 'Real-world apps shipped across e-commerce, healthcare, fintech, logistics & social platforms.',
+              subtitle:
+                  'Real-world apps shipped across e-commerce, healthcare, fintech, logistics & social platforms.',
             ),
             const SizedBox(height: AppSizes.xl),
             // Filter chips
@@ -47,7 +48,9 @@ class _ProjectsContent extends StatelessWidget {
                 alignment: WrapAlignment.center,
                 children: _filters.map((f) {
                   final active = state is ProjectsLoaded
-                      ? (f == 'All' ? state.activeFilter == null : state.activeFilter == f.toLowerCase())
+                      ? (f == 'All'
+                            ? state.activeFilter == null
+                            : state.activeFilter == f.toLowerCase())
                       : f == 'All';
                   return _FilterChip(
                     label: f,
@@ -68,7 +71,10 @@ class _ProjectsContent extends StatelessWidget {
             if (state is ProjectsLoading)
               const CircularProgressIndicator(color: AppColors.primary)
             else if (state is ProjectsError)
-              Text(state.message, style: const TextStyle(color: AppColors.error))
+              Text(
+                state.message,
+                style: const TextStyle(color: AppColors.error),
+              )
             else if (state is ProjectsLoaded) ...[
               _ProjectGrid(projects: state.projects),
             ],
@@ -84,7 +90,11 @@ class _FilterChip extends StatelessWidget {
   final bool isActive;
   final VoidCallback onTap;
 
-  const _FilterChip({required this.label, required this.isActive, required this.onTap});
+  const _FilterChip({
+    required this.label,
+    required this.isActive,
+    required this.onTap,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -97,13 +107,15 @@ class _FilterChip extends StatelessWidget {
         selectedColor: AppColors.primary.withValues(alpha: 0.15),
         checkmarkColor: AppColors.primary,
         labelStyle: Theme.of(context).textTheme.labelMedium?.copyWith(
-              color: isActive ? AppColors.primary : AppColors.textSecondary,
-              fontWeight: isActive ? FontWeight.w600 : FontWeight.w400,
-            ),
+          color: isActive ? AppColors.primary : AppColors.textSecondary,
+          fontWeight: isActive ? FontWeight.w600 : FontWeight.w400,
+        ),
         side: BorderSide(
           color: isActive ? AppColors.primary : AppColors.border,
         ),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppSizes.radiusXl)),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(AppSizes.radiusXl),
+        ),
       ),
     );
   }

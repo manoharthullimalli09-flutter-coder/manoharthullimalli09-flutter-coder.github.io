@@ -43,7 +43,10 @@ void main() {
 
     final result = await repo.submitForm(tContactForm);
 
-    result.fold((f) => expect(f, isA<NetworkFailure>()), (_) => fail('Expected failure'));
+    result.fold(
+      (f) => expect(f, isA<NetworkFailure>()),
+      (_) => fail('Expected failure'),
+    );
   });
 
   test('returns Left(ServerFailure) on Dio server error', () async {
@@ -57,12 +60,16 @@ void main() {
 
     final result = await repo.submitForm(tContactForm);
 
-    result.fold((f) => expect(f, isA<ServerFailure>()), (_) => fail('Expected failure'));
+    result.fold(
+      (f) => expect(f, isA<ServerFailure>()),
+      (_) => fail('Expected failure'),
+    );
   });
 
   test('returns Left(ServerFailure) on unexpected exception', () async {
-    when(() => mockDataSource.submitForm(any()))
-        .thenThrow(Exception('unexpected'));
+    when(
+      () => mockDataSource.submitForm(any()),
+    ).thenThrow(Exception('unexpected'));
 
     final result = await repo.submitForm(tContactForm);
 

@@ -21,8 +21,9 @@ void main() {
 
   group('getProjects', () {
     test('returns Right(projects) on success', () async {
-      when(() => mockDataSource.getProjects())
-          .thenAnswer((_) async => [tProject]);
+      when(
+        () => mockDataSource.getProjects(),
+      ).thenAnswer((_) async => [tProject]);
 
       final result = await repo.getProjects();
 
@@ -38,7 +39,10 @@ void main() {
       final result = await repo.getProjects();
 
       expect(result.isLeft(), true);
-      result.fold((f) => expect(f, isA<ParseFailure>()), (_) => fail('Expected failure'));
+      result.fold(
+        (f) => expect(f, isA<ParseFailure>()),
+        (_) => fail('Expected failure'),
+      );
     });
 
     test('returns Left(CacheFailure) on generic exception', () async {
@@ -52,8 +56,9 @@ void main() {
 
   group('getProjectsByPlatform', () {
     test('returns filtered list matching platform', () async {
-      when(() => mockDataSource.getProjects())
-          .thenAnswer((_) async => [tProject]);
+      when(
+        () => mockDataSource.getProjects(),
+      ).thenAnswer((_) async => [tProject]);
 
       final result = await repo.getProjectsByPlatform('android');
 
@@ -65,8 +70,9 @@ void main() {
     });
 
     test('returns empty list when no projects match platform', () async {
-      when(() => mockDataSource.getProjects())
-          .thenAnswer((_) async => [tProject]);
+      when(
+        () => mockDataSource.getProjects(),
+      ).thenAnswer((_) async => [tProject]);
 
       final result = await repo.getProjectsByPlatform('desktop');
 

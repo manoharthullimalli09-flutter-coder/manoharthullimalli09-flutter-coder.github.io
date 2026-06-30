@@ -24,10 +24,14 @@ class ProjectsRepositoryImpl implements ProjectsRepository {
   }
 
   @override
-  Future<Either<Failure, List<ProjectEntity>>> getProjectsByPlatform(String platform) async {
+  Future<Either<Failure, List<ProjectEntity>>> getProjectsByPlatform(
+    String platform,
+  ) async {
     try {
       final models = await dataSource.getProjects();
-      final filtered = models.where((p) => p.platforms.contains(platform)).toList();
+      final filtered = models
+          .where((p) => p.platforms.contains(platform))
+          .toList();
       return Right(filtered);
     } on TypeError catch (e) {
       return Left(ParseFailure('Projects data has unexpected format: $e'));

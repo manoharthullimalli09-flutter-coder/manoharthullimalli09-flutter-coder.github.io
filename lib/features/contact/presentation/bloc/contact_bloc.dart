@@ -14,7 +14,10 @@ class ContactBloc extends Bloc<ContactEvent, ContactState> {
     on<ResetContactForm>(_onReset);
   }
 
-  Future<void> _onSubmit(SubmitContactForm event, Emitter<ContactState> emit) async {
+  Future<void> _onSubmit(
+    SubmitContactForm event,
+    Emitter<ContactState> emit,
+  ) async {
     emit(ContactSubmitting());
     final result = await submitForm(event.form);
     result.fold(

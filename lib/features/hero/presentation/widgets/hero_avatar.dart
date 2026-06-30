@@ -31,7 +31,10 @@ class HeroAvatar extends StatelessWidget {
             height: 280,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
-              border: Border.all(color: AppColors.primary.withValues(alpha: 0.3), width: 2),
+              border: Border.all(
+                color: AppColors.primary.withValues(alpha: 0.3),
+                width: 2,
+              ),
             ),
           ),
           // Photo circle — zoomed in slightly so the image bleeds past the

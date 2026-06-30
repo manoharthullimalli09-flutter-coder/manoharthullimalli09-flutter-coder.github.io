@@ -29,8 +29,9 @@ void main() {
   blocTest<SkillsCubit, SkillsState>(
     'emits [Loading, Loaded] when loadSkills succeeds',
     build: () {
-      when(() => mockUseCase(any()))
-          .thenAnswer((_) async => Right(tSkillCategoriesTyped));
+      when(
+        () => mockUseCase(any()),
+      ).thenAnswer((_) async => Right(tSkillCategoriesTyped));
       return cubit;
     },
     act: (c) => c.loadSkills(),
@@ -41,8 +42,9 @@ void main() {
   blocTest<SkillsCubit, SkillsState>(
     'emits [Loading, Error] when loadSkills fails',
     build: () {
-      when(() => mockUseCase(any()))
-          .thenAnswer((_) async => const Left(CacheFailure('Failed')));
+      when(
+        () => mockUseCase(any()),
+      ).thenAnswer((_) async => const Left(CacheFailure('Failed')));
       return cubit;
     },
     act: (c) => c.loadSkills(),
@@ -52,8 +54,9 @@ void main() {
   blocTest<SkillsCubit, SkillsState>(
     'loaded state contains correct categories',
     build: () {
-      when(() => mockUseCase(any()))
-          .thenAnswer((_) async => Right(tSkillCategoriesTyped));
+      when(
+        () => mockUseCase(any()),
+      ).thenAnswer((_) async => Right(tSkillCategoriesTyped));
       return cubit;
     },
     act: (c) => c.loadSkills(),

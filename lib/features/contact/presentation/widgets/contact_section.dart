@@ -34,7 +34,8 @@ class _ContactContent extends StatelessWidget {
       children: [
         const SectionHeader(
           title: 'Contact',
-          subtitle: 'Open to Senior / Lead Flutter roles. Let\'s build something great together.',
+          subtitle:
+              'Open to Senior / Lead Flutter roles. Let\'s build something great together.',
         ),
         const SizedBox(height: AppSizes.xxl),
         context.isDesktop
@@ -65,16 +66,28 @@ class _ContactInfo extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text("Let's Work Together", style: Theme.of(context).textTheme.headlineMedium),
+          Text(
+            "Let's Work Together",
+            style: Theme.of(context).textTheme.headlineMedium,
+          ),
           const SizedBox(height: AppSizes.md),
           Text(
             "I'm currently open to Senior Flutter Developer and Lead roles. Whether you have a project in mind or just want to connect, drop me a message.",
-            style: Theme.of(context).textTheme.bodyLarge?.copyWith(color: AppColors.textSecondary, height: 1.7),
+            style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+              color: AppColors.textSecondary,
+              height: 1.7,
+            ),
           ),
           const SizedBox(height: AppSizes.xl),
-          _ContactTile(icon: Icons.mail_outline_rounded, label: 'manohar.professional.flutter@gmail.com'),
+          _ContactTile(
+            icon: Icons.mail_outline_rounded,
+            label: 'manohar.professional.flutter@gmail.com',
+          ),
           const SizedBox(height: AppSizes.md),
-          _ContactTile(icon: Icons.location_on_outlined, label: 'India · Remote Available'),
+          _ContactTile(
+            icon: Icons.location_on_outlined,
+            label: 'India · Remote Available',
+          ),
           const SizedBox(height: AppSizes.xxl),
           const _SocialLinks(),
           const SizedBox(height: AppSizes.md),
@@ -105,7 +118,12 @@ class _ContactTile extends StatelessWidget {
         ),
         const SizedBox(width: AppSizes.md),
         Flexible(
-          child: Text(label, style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: AppColors.textSecondary)),
+          child: Text(
+            label,
+            style: Theme.of(
+              context,
+            ).textTheme.bodyMedium?.copyWith(color: AppColors.textSecondary),
+          ),
         ),
       ],
     );
@@ -115,7 +133,8 @@ class _ContactTile extends StatelessWidget {
 class _SocialLinks extends StatelessWidget {
   const _SocialLinks();
 
-  static const _github = 'https://github.com/manoharthullimalli09-flutter-coder';
+  static const _github =
+      'https://github.com/manoharthullimalli09-flutter-coder';
   static const _linkedin = 'https://www.linkedin.com/in/manohar-t-68a32231a';
 
   @override
@@ -125,7 +144,11 @@ class _SocialLinks extends StatelessWidget {
       runSpacing: AppSizes.sm,
       children: [
         _SocialBtn(icon: Icons.code_rounded, label: 'GitHub', url: _github),
-        _SocialBtn(icon: Icons.work_outline_rounded, label: 'LinkedIn', url: _linkedin),
+        _SocialBtn(
+          icon: Icons.work_outline_rounded,
+          label: 'LinkedIn',
+          url: _linkedin,
+        ),
       ],
     );
   }
@@ -135,7 +158,11 @@ class _SocialBtn extends StatelessWidget {
   final IconData icon;
   final String label;
   final String url;
-  const _SocialBtn({required this.icon, required this.label, required this.url});
+  const _SocialBtn({
+    required this.icon,
+    required this.label,
+    required this.url,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -146,8 +173,13 @@ class _SocialBtn extends StatelessWidget {
       style: OutlinedButton.styleFrom(
         foregroundColor: AppColors.textSecondary,
         side: const BorderSide(color: AppColors.border),
-        padding: const EdgeInsets.symmetric(horizontal: AppSizes.md, vertical: AppSizes.sm),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppSizes.radiusSm)),
+        padding: const EdgeInsets.symmetric(
+          horizontal: AppSizes.md,
+          vertical: AppSizes.sm,
+        ),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(AppSizes.radiusSm),
+        ),
       ),
     );
   }
@@ -166,8 +198,13 @@ class _DownloadResumeButton extends StatelessWidget {
         backgroundColor: AppColors.surface,
         foregroundColor: AppColors.textPrimary,
         side: const BorderSide(color: AppColors.border),
-        padding: const EdgeInsets.symmetric(horizontal: AppSizes.xl, vertical: AppSizes.md),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppSizes.radiusSm)),
+        padding: const EdgeInsets.symmetric(
+          horizontal: AppSizes.xl,
+          vertical: AppSizes.md,
+        ),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(AppSizes.radiusSm),
+        ),
         elevation: 0,
       ),
     );
@@ -199,12 +236,16 @@ class _ContactFormState extends State<_ContactForm> {
 
   void _submit(BuildContext context) {
     if (!_formKey.currentState!.validate()) return;
-    context.read<ContactBloc>().add(SubmitContactForm(ContactFormEntity(
-      name: _name.text.trim(),
-      email: _email.text.trim(),
-      subject: _subject.text.trim(),
-      message: _message.text.trim(),
-    )));
+    context.read<ContactBloc>().add(
+      SubmitContactForm(
+        ContactFormEntity(
+          name: _name.text.trim(),
+          email: _email.text.trim(),
+          subject: _subject.text.trim(),
+          message: _message.text.trim(),
+        ),
+      ),
+    );
   }
 
   @override
@@ -214,11 +255,18 @@ class _ContactFormState extends State<_ContactForm> {
         child: BlocConsumer<ContactBloc, ContactState>(
           listener: (context, state) {
             if (state is ContactSuccess) {
-              _name.clear(); _email.clear(); _subject.clear(); _message.clear();
+              _name.clear();
+              _email.clear();
+              _subject.clear();
+              _message.clear();
             }
           },
           builder: (context, state) {
-            if (state is ContactSuccess) return _SuccessView(onReset: () => context.read<ContactBloc>().add(ResetContactForm()));
+            if (state is ContactSuccess)
+              return _SuccessView(
+                onReset: () =>
+                    context.read<ContactBloc>().add(ResetContactForm()),
+              );
             return Form(
               key: _formKey,
               child: Column(
@@ -226,30 +274,70 @@ class _ContactFormState extends State<_ContactForm> {
                 children: [
                   Row(
                     children: [
-                      Expanded(child: _Field(controller: _name, label: 'Your Name', validator: (v) => v!.isEmpty ? 'Required' : null)),
+                      Expanded(
+                        child: _Field(
+                          controller: _name,
+                          label: 'Your Name',
+                          validator: (v) => v!.isEmpty ? 'Required' : null,
+                        ),
+                      ),
                       const SizedBox(width: AppSizes.md),
-                      Expanded(child: _Field(controller: _email, label: 'Your Email', keyboardType: TextInputType.emailAddress,
-                          validator: (v) => v!.isEmpty ? 'Required' : (!v.contains('@') ? 'Invalid email' : null))),
+                      Expanded(
+                        child: _Field(
+                          controller: _email,
+                          label: 'Your Email',
+                          keyboardType: TextInputType.emailAddress,
+                          validator: (v) => v!.isEmpty
+                              ? 'Required'
+                              : (!v.contains('@') ? 'Invalid email' : null),
+                        ),
+                      ),
                     ],
                   ),
                   const SizedBox(height: AppSizes.md),
-                  _Field(controller: _subject, label: 'Subject', validator: (v) => v!.isEmpty ? 'Required' : null),
+                  _Field(
+                    controller: _subject,
+                    label: 'Subject',
+                    validator: (v) => v!.isEmpty ? 'Required' : null,
+                  ),
                   const SizedBox(height: AppSizes.md),
-                  _Field(controller: _message, label: 'Message', maxLines: 5, validator: (v) => v!.isEmpty ? 'Required' : null),
+                  _Field(
+                    controller: _message,
+                    label: 'Message',
+                    maxLines: 5,
+                    validator: (v) => v!.isEmpty ? 'Required' : null,
+                  ),
                   const SizedBox(height: AppSizes.lg),
                   if (state is ContactError)
                     Padding(
                       padding: const EdgeInsets.only(bottom: AppSizes.md),
-                      child: Text(state.message, style: const TextStyle(color: AppColors.error), textAlign: TextAlign.center),
+                      child: Text(
+                        state.message,
+                        style: const TextStyle(color: AppColors.error),
+                        textAlign: TextAlign.center,
+                      ),
                     ),
                   SizedBox(
                     height: 52,
                     child: ElevatedButton.icon(
-                      onPressed: state is ContactSubmitting ? null : () => _submit(context),
+                      onPressed: state is ContactSubmitting
+                          ? null
+                          : () => _submit(context),
                       icon: state is ContactSubmitting
-                          ? const SizedBox(width: 16, height: 16, child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white))
+                          ? const SizedBox(
+                              width: 16,
+                              height: 16,
+                              child: CircularProgressIndicator(
+                                strokeWidth: 2,
+                                color: Colors.white,
+                              ),
+                            )
                           : const Icon(Icons.send_rounded, size: 18),
-                      label: Text(state is ContactSubmitting ? 'Sending...' : 'Send Message'),
+                      label: Text(
+                        state is ContactSubmitting
+                            ? 'Sending...'
+                            : 'Send Message',
+                      ),
                     ),
                   ),
                 ],
@@ -269,7 +357,13 @@ class _Field extends StatelessWidget {
   final TextInputType? keyboardType;
   final String? Function(String?)? validator;
 
-  const _Field({required this.controller, required this.label, this.maxLines = 1, this.keyboardType, this.validator});
+  const _Field({
+    required this.controller,
+    required this.label,
+    this.maxLines = 1,
+    this.keyboardType,
+    this.validator,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -292,13 +386,25 @@ class _SuccessView extends StatelessWidget {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        const Icon(Icons.check_circle_rounded, color: AppColors.success, size: 64),
+        const Icon(
+          Icons.check_circle_rounded,
+          color: AppColors.success,
+          size: 64,
+        ),
         const SizedBox(height: AppSizes.lg),
         Text("Message sent!", style: Theme.of(context).textTheme.headlineSmall),
         const SizedBox(height: AppSizes.sm),
-        Text("I'll get back to you soon.", style: Theme.of(context).textTheme.bodyLarge?.copyWith(color: AppColors.textSecondary)),
+        Text(
+          "I'll get back to you soon.",
+          style: Theme.of(
+            context,
+          ).textTheme.bodyLarge?.copyWith(color: AppColors.textSecondary),
+        ),
         const SizedBox(height: AppSizes.xl),
-        TextButton(onPressed: onReset, child: const Text("Send another message")),
+        TextButton(
+          onPressed: onReset,
+          child: const Text("Send another message"),
+        ),
       ],
     );
   }

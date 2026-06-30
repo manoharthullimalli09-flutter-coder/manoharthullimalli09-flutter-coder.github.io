@@ -9,18 +9,18 @@ class SkillModel extends SkillEntity {
   });
 
   factory SkillModel.fromJson(Map<String, dynamic> json) => SkillModel(
-        name: json['name'] as String,
-        proficiency: (json['proficiency'] as num).toDouble(),
-        category: json['category'] as String,
-        iconPath: json['iconPath'] as String?,
-      );
+    name: json['name'] as String,
+    proficiency: (json['proficiency'] as num).toDouble(),
+    category: json['category'] as String,
+    iconPath: json['iconPath'] as String?,
+  );
 
   Map<String, dynamic> toJson() => {
-        'name': name,
-        'proficiency': proficiency,
-        'category': category,
-        'iconPath': iconPath,
-      };
+    'name': name,
+    'proficiency': proficiency,
+    'category': category,
+    'iconPath': iconPath,
+  };
 }
 
 class SkillCategoryModel extends SkillCategoryEntity {

@@ -40,26 +40,39 @@ Future<void> init() async {
       receiveTimeout: const Duration(seconds: 10),
     )
     ..interceptors.addAll([
-      if (AppConfig.enableLogging) LogInterceptor(requestBody: true, responseBody: true),
+      if (AppConfig.enableLogging)
+        LogInterceptor(requestBody: true, responseBody: true),
     ]);
   sl.registerLazySingleton(() => dio);
 
   // --- Data sources ---
-  sl.registerLazySingleton<HeroLocalDataSource>(() => HeroLocalDataSourceImpl());
-  sl.registerLazySingleton<ProjectsLocalDataSource>(() => ProjectsLocalDataSourceImpl());
-  sl.registerLazySingleton<SkillsLocalDataSource>(() => SkillsLocalDataSourceImpl());
-  sl.registerLazySingleton<ContactRemoteDataSource>(() => ContactRemoteDataSourceImpl(
-        dio: sl(),
-        serviceId: AppConfig.emailJsServiceId,
-        templateId: AppConfig.emailJsTemplateId,
-        publicKey: AppConfig.emailJsPublicKey,
-      ));
+  sl.registerLazySingleton<HeroLocalDataSource>(
+    () => HeroLocalDataSourceImpl(),
+  );
+  sl.registerLazySingleton<ProjectsLocalDataSource>(
+    () => ProjectsLocalDataSourceImpl(),
+  );
+  sl.registerLazySingleton<SkillsLocalDataSource>(
+    () => SkillsLocalDataSourceImpl(),
+  );
+  sl.registerLazySingleton<ContactRemoteDataSource>(
+    () => ContactRemoteDataSourceImpl(
+      dio: sl(),
+      serviceId: AppConfig.emailJsServiceId,
+      templateId: AppConfig.emailJsTemplateId,
+      publicKey: AppConfig.emailJsPublicKey,
+    ),
+  );
 
   // --- Repositories ---
   sl.registerLazySingleton<HeroRepository>(() => HeroRepositoryImpl(sl()));
-  sl.registerLazySingleton<ProjectsRepository>(() => ProjectsRepositoryImpl(sl()));
+  sl.registerLazySingleton<ProjectsRepository>(
+    () => ProjectsRepositoryImpl(sl()),
+  );
   sl.registerLazySingleton<SkillsRepository>(() => SkillsRepositoryImpl(sl()));
-  sl.registerLazySingleton<ContactRepository>(() => ContactRepositoryImpl(sl()));
+  sl.registerLazySingleton<ContactRepository>(
+    () => ContactRepositoryImpl(sl()),
+  );
 
   // --- Use cases ---
   sl.registerLazySingleton(() => GetDeveloperInfoUseCase(sl()));

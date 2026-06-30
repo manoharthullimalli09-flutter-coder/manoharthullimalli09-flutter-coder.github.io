@@ -6,7 +6,11 @@ import '../../../../helpers/test_data.dart';
 void main() {
   group('SkillModel.fromJson', () {
     test('parses all fields correctly', () {
-      final json = {'name': 'Flutter', 'proficiency': 0.97, 'category': 'Flutter & Dart'};
+      final json = {
+        'name': 'Flutter',
+        'proficiency': 0.97,
+        'category': 'Flutter & Dart',
+      };
       final model = SkillModel.fromJson(json);
 
       expect(model.name, 'Flutter');
@@ -16,7 +20,11 @@ void main() {
     });
 
     test('parses proficiency from int correctly', () {
-      final json = {'name': 'Dart', 'proficiency': 1, 'category': 'Flutter & Dart'};
+      final json = {
+        'name': 'Dart',
+        'proficiency': 1,
+        'category': 'Flutter & Dart',
+      };
       final model = SkillModel.fromJson(json);
       expect(model.proficiency, 1.0);
     });
@@ -52,8 +60,16 @@ void main() {
 
   group('Equatable', () {
     test('two SkillModels with same data are equal', () {
-      const a = SkillModel(name: 'Flutter', proficiency: 0.97, category: 'Flutter & Dart');
-      const b = SkillModel(name: 'Flutter', proficiency: 0.97, category: 'Flutter & Dart');
+      const a = SkillModel(
+        name: 'Flutter',
+        proficiency: 0.97,
+        category: 'Flutter & Dart',
+      );
+      const b = SkillModel(
+        name: 'Flutter',
+        proficiency: 0.97,
+        category: 'Flutter & Dart',
+      );
       expect(a, b);
     });
   });

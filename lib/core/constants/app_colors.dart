@@ -8,9 +8,9 @@ class AppColors {
   static const Color border = Color(0xFF2E2E2E);
 
   // Accent
-  static const Color primary = Color(0xFF6C63FF);   // purple-indigo
+  static const Color primary = Color(0xFF6C63FF); // purple-indigo
   static const Color primaryLight = Color(0xFF9E97FF);
-  static const Color secondary = Color(0xFF00D4FF);  // cyan
+  static const Color secondary = Color(0xFF00D4FF); // cyan
   static const Color secondaryLight = Color(0xFF66E5FF);
 
   // Text

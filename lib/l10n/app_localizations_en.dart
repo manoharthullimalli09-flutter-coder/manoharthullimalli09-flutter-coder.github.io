@@ -18,7 +18,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get heroTitle => 'Senior Flutter Developer';
 
   @override
-  String get heroBio => 'I build high-performance, cross-platform apps with Flutter — from pixel-perfect mobile UIs to full-featured web and desktop products.';
+  String get heroBio =>
+      'I build high-performance, cross-platform apps with Flutter — from pixel-perfect mobile UIs to full-featured web and desktop products.';
 
   @override
   String get heroCtaProjects => 'View My Work';
@@ -57,7 +58,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get projectsSectionTitle => 'My Projects';
 
   @override
-  String get projectsSectionSubtitle => 'Real-world apps shipped across e-commerce, healthcare, fintech, logistics, and social platforms.';
+  String get projectsSectionSubtitle =>
+      'Real-world apps shipped across e-commerce, healthcare, fintech, logistics, and social platforms.';
 
   @override
   String get filterAll => 'All';
@@ -78,13 +80,15 @@ class AppLocalizationsEn extends AppLocalizations {
   String get skillsSectionTitle => 'Skills & Tech Stack';
 
   @override
-  String get skillsSectionSubtitle => 'Technologies I use to build production-grade Flutter apps.';
+  String get skillsSectionSubtitle =>
+      'Technologies I use to build production-grade Flutter apps.';
 
   @override
   String get contactSectionTitle => 'Let\'s Work Together';
 
   @override
-  String get contactSectionSubtitle => 'Open to Senior / Lead Flutter roles. Let\'s build something great.';
+  String get contactSectionSubtitle =>
+      'Open to Senior / Lead Flutter roles. Let\'s build something great.';
 
   @override
   String get contactNameLabel => 'Your Name';

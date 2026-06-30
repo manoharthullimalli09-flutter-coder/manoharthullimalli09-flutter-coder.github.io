@@ -26,6 +26,7 @@ class FilterProjectsByPlatformUseCase
   FilterProjectsByPlatformUseCase(this.repository);
 
   @override
-  Future<Either<Failure, List<ProjectEntity>>> call(FilterProjectsByPlatformParams params) =>
-      repository.getProjectsByPlatform(params.platform);
+  Future<Either<Failure, List<ProjectEntity>>> call(
+    FilterProjectsByPlatformParams params,
+  ) => repository.getProjectsByPlatform(params.platform);
 }

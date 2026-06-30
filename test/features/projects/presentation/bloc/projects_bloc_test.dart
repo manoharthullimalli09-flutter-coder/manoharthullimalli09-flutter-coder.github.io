@@ -29,23 +29,22 @@ void main() {
   blocTest<ProjectsBloc, ProjectsState>(
     'emits [Loading, Loaded] when LoadProjects succeeds',
     build: () {
-      when(() => mockGetProjects(any()))
-          .thenAnswer((_) async => Right(tProjectsTyped));
+      when(
+        () => mockGetProjects(any()),
+      ).thenAnswer((_) async => Right(tProjectsTyped));
       return bloc;
     },
     act: (b) => b.add(LoadProjects()),
-    expect: () => [
-      isA<ProjectsLoading>(),
-      isA<ProjectsLoaded>(),
-    ],
+    expect: () => [isA<ProjectsLoading>(), isA<ProjectsLoaded>()],
     verify: (_) => verify(() => mockGetProjects(NoParams())).called(1),
   );
 
   blocTest<ProjectsBloc, ProjectsState>(
     'emits [Loading, Error] when LoadProjects fails',
     build: () {
-      when(() => mockGetProjects(any()))
-          .thenAnswer((_) async => const Left(CacheFailure('Load failed')));
+      when(
+        () => mockGetProjects(any()),
+      ).thenAnswer((_) async => const Left(CacheFailure('Load failed')));
       return bloc;
     },
     act: (b) => b.add(LoadProjects()),
@@ -55,8 +54,9 @@ void main() {
   blocTest<ProjectsBloc, ProjectsState>(
     'emits Loaded with filtered projects on FilterProjectsByPlatform',
     build: () {
-      when(() => mockGetProjects(any()))
-          .thenAnswer((_) async => Right(tProjectsTyped));
+      when(
+        () => mockGetProjects(any()),
+      ).thenAnswer((_) async => Right(tProjectsTyped));
       return bloc;
     },
     act: (b) async {
@@ -74,8 +74,9 @@ void main() {
   blocTest<ProjectsBloc, ProjectsState>(
     'emits Loaded with activeFilter null on ClearProjectFilter',
     build: () {
-      when(() => mockGetProjects(any()))
-          .thenAnswer((_) async => Right(tProjectsTyped));
+      when(
+        () => mockGetProjects(any()),
+      ).thenAnswer((_) async => Right(tProjectsTyped));
       return bloc;
     },
     act: (b) async {
@@ -99,8 +100,9 @@ void main() {
   blocTest<ProjectsBloc, ProjectsState>(
     'loaded state carries correct projects list',
     build: () {
-      when(() => mockGetProjects(any()))
-          .thenAnswer((_) async => Right(tProjectsTyped));
+      when(
+        () => mockGetProjects(any()),
+      ).thenAnswer((_) async => Right(tProjectsTyped));
       return bloc;
     },
     act: (b) => b.add(LoadProjects()),

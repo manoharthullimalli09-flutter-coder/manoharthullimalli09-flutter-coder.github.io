@@ -10,6 +10,8 @@ extension ContextExtensions on BuildContext {
   double get screenHeight => MediaQuery.sizeOf(this).height;
 
   bool get isMobile => screenWidth < AppBreakpoints.tablet;
-  bool get isTablet => screenWidth >= AppBreakpoints.tablet && screenWidth < AppBreakpoints.desktop;
+  bool get isTablet =>
+      screenWidth >= AppBreakpoints.tablet &&
+      screenWidth < AppBreakpoints.desktop;
   bool get isDesktop => screenWidth >= AppBreakpoints.desktop;
 }

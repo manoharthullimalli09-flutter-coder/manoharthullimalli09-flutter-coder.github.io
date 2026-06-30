@@ -30,6 +30,18 @@ class ProjectEntity extends Equatable {
   });
 
   @override
-  List<Object?> get props => [id, title, description, category, platforms,
-      techStack, imageUrl, playStoreUrl, appStoreUrl, webUrl, githubUrl, isFeatured];
+  List<Object?> get props => [
+    id,
+    title,
+    description,
+    category,
+    platforms,
+    techStack,
+    imageUrl,
+    playStoreUrl,
+    appStoreUrl,
+    webUrl,
+    githubUrl,
+    isFeatured,
+  ];
 }

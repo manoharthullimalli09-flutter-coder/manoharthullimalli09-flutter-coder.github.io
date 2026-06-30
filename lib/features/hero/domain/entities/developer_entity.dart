@@ -14,11 +14,11 @@ class SocialLinks extends Equatable {
   });
 
   factory SocialLinks.fromJson(Map<String, dynamic> json) => SocialLinks(
-        github: json['github'] as String? ?? '',
-        linkedin: json['linkedin'] as String? ?? '',
-        twitter: json['twitter'] as String? ?? '',
-        resumeUrl: json['resume'] as String? ?? '',
-      );
+    github: json['github'] as String? ?? '',
+    linkedin: json['linkedin'] as String? ?? '',
+    twitter: json['twitter'] as String? ?? '',
+    resumeUrl: json['resume'] as String? ?? '',
+  );
 
   @override
   List<Object> get props => [github, linkedin, twitter, resumeUrl];
@@ -49,7 +49,14 @@ class DeveloperEntity extends Equatable {
 
   @override
   List<Object> get props => [
-        name, title, bio, email, profileImageUrl,
-        yearsOfExperience, projectsCompleted, platformsSupported, socialLinks,
-      ];
+    name,
+    title,
+    bio,
+    email,
+    profileImageUrl,
+    yearsOfExperience,
+    projectsCompleted,
+    platformsSupported,
+    socialLinks,
+  ];
 }

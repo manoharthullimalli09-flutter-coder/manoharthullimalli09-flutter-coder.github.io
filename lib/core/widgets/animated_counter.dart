@@ -43,10 +43,7 @@ class _AnimatedCounterState extends State<AnimatedCounter>
       animation: _animation,
       builder: (context, _) {
         final value = (_animation.value * widget.end).round();
-        return Text(
-          '$value${widget.suffix}',
-          style: widget.style,
-        );
+        return Text('$value${widget.suffix}', style: widget.style);
       },
     );
   }

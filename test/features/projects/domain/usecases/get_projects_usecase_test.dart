@@ -18,8 +18,9 @@ void main() {
   });
 
   test('returns list of projects on success', () async {
-    when(() => mockRepo.getProjects())
-        .thenAnswer((_) async => Right(tProjectsTyped));
+    when(
+      () => mockRepo.getProjects(),
+    ).thenAnswer((_) async => Right(tProjectsTyped));
 
     final result = await usecase(NoParams());
 
@@ -29,8 +30,9 @@ void main() {
   });
 
   test('returns CacheFailure when repository fails', () async {
-    when(() => mockRepo.getProjects())
-        .thenAnswer((_) async => const Left(CacheFailure()));
+    when(
+      () => mockRepo.getProjects(),
+    ).thenAnswer((_) async => const Left(CacheFailure()));
 
     final result = await usecase(NoParams());
 
@@ -43,8 +45,9 @@ void main() {
     setUp(() => filterUsecase = FilterProjectsByPlatformUseCase(mockRepo));
 
     test('delegates to repository with platform param', () async {
-      when(() => mockRepo.getProjectsByPlatform('android'))
-          .thenAnswer((_) async => Right(tProjectsTyped));
+      when(
+        () => mockRepo.getProjectsByPlatform('android'),
+      ).thenAnswer((_) async => Right(tProjectsTyped));
 
       final result = await filterUsecase(
         const FilterProjectsByPlatformParams('android'),
@@ -55,8 +58,9 @@ void main() {
     });
 
     test('returns failure when platform not found', () async {
-      when(() => mockRepo.getProjectsByPlatform('unknown'))
-          .thenAnswer((_) async => const Left(CacheFailure()));
+      when(
+        () => mockRepo.getProjectsByPlatform('unknown'),
+      ).thenAnswer((_) async => const Left(CacheFailure()));
 
       final result = await filterUsecase(
         const FilterProjectsByPlatformParams('unknown'),

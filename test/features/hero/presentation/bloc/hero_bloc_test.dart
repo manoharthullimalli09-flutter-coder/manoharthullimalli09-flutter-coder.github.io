@@ -29,7 +29,9 @@ void main() {
   blocTest<HeroBloc, HeroState>(
     'emits [HeroLoading, HeroLoaded] when LoadDeveloperInfo succeeds',
     build: () {
-      when(() => mockUseCase(any())).thenAnswer((_) async => const Right(tDeveloper));
+      when(
+        () => mockUseCase(any()),
+      ).thenAnswer((_) async => const Right(tDeveloper));
       return bloc;
     },
     act: (b) => b.add(LoadDeveloperInfo()),
@@ -40,8 +42,9 @@ void main() {
   blocTest<HeroBloc, HeroState>(
     'emits [HeroLoading, HeroError] when LoadDeveloperInfo fails',
     build: () {
-      when(() => mockUseCase(any()))
-          .thenAnswer((_) async => const Left(CacheFailure('Load failed')));
+      when(
+        () => mockUseCase(any()),
+      ).thenAnswer((_) async => const Left(CacheFailure('Load failed')));
       return bloc;
     },
     act: (b) => b.add(LoadDeveloperInfo()),

@@ -4,7 +4,10 @@
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
-  test('placeholder — full widget tests in features/*/presentation/widgets/', () {
-    expect(true, isTrue);
-  });
+  test(
+    'placeholder — full widget tests in features/*/presentation/widgets/',
+    () {
+      expect(true, isTrue);
+    },
+  );
 }
