@@ -81,7 +81,7 @@ class _ContactInfo extends StatelessWidget {
           const SizedBox(height: AppSizes.xl),
           _ContactTile(
             icon: Icons.mail_outline_rounded,
-            label: 'manohar.professional.flutter@gmail.com',
+            label: 'manohar.thullimalli09@gmail.com',
           ),
           const SizedBox(height: AppSizes.md),
           _ContactTile(

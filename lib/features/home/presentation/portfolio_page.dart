@@ -3,6 +3,7 @@ import '../../../core/constants/app_colors.dart';
 import '../../../core/constants/app_sizes.dart';
 import '../../../core/extensions/context_extensions.dart';
 import '../../../core/widgets/particles_background.dart';
+import '../../../core/widgets/portfolio_chatbot.dart';
 import '../../../core/widgets/portfolio_nav_bar.dart';
 import '../../contact/presentation/widgets/contact_section.dart';
 import '../../hero/presentation/widgets/hero_section.dart';
@@ -141,6 +142,13 @@ class _PortfolioPageState extends State<PortfolioPage> {
               scrollController: _scrollController,
               sectionKeys: [_heroKey, _projectsKey, _skillsKey, _contactKey],
             ),
+          ),
+
+          // Chatbot
+          const Positioned(
+            bottom: 24,
+            right: 24,
+            child: PortfolioChatbot(),
           ),
         ],
       ),

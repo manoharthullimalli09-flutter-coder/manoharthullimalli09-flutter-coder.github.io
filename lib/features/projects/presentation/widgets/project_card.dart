@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../../../../core/constants/app_colors.dart';
 import '../../../../core/constants/app_sizes.dart';
 import '../../../../core/widgets/glass_card.dart';
@@ -119,6 +120,41 @@ class _ProjectCardState extends State<ProjectCard> {
                             .map((t) => _TechChip(label: t))
                             .toList(),
                       ),
+                      // Store links
+                      if ((p.playStoreUrl?.isNotEmpty ?? false) ||
+                          (p.appStoreUrl?.isNotEmpty ?? false) ||
+                          (p.webUrl?.isNotEmpty ?? false)) ...[
+                        const SizedBox(height: AppSizes.sm),
+                        const Divider(color: AppColors.border, height: 1),
+                        const SizedBox(height: AppSizes.sm),
+                        Wrap(
+                          spacing: 6,
+                          runSpacing: 4,
+                          children: [
+                            if (p.playStoreUrl?.isNotEmpty ?? false)
+                              _StoreButton(
+                                label: 'Play Store',
+                                icon: Icons.android_rounded,
+                                color: const Color(0xFF4CAF50),
+                                url: p.playStoreUrl!,
+                              ),
+                            if (p.appStoreUrl?.isNotEmpty ?? false)
+                              _StoreButton(
+                                label: 'App Store',
+                                icon: Icons.apple_rounded,
+                                color: AppColors.textSecondary,
+                                url: p.appStoreUrl!,
+                              ),
+                            if (p.webUrl?.isNotEmpty ?? false)
+                              _StoreButton(
+                                label: 'Live Demo',
+                                icon: Icons.open_in_browser_rounded,
+                                color: AppColors.secondary,
+                                url: p.webUrl!,
+                              ),
+                          ],
+                        ),
+                      ],
                     ],
                   ),
                 ),
@@ -162,6 +198,37 @@ class _ProjectCardState extends State<ProjectCard> {
       default:
         return Icons.dashboard_outlined;
     }
+  }
+}
+
+class _StoreButton extends StatelessWidget {
+  final String label;
+  final IconData icon;
+  final Color color;
+  final String url;
+  const _StoreButton({required this.label, required this.icon, required this.color, required this.url});
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () => launchUrl(Uri.parse(url), mode: LaunchMode.externalApplication),
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+        decoration: BoxDecoration(
+          color: color.withValues(alpha: 0.1),
+          borderRadius: BorderRadius.circular(4),
+          border: Border.all(color: color.withValues(alpha: 0.4)),
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(icon, size: 12, color: color),
+            const SizedBox(width: 4),
+            Text(label, style: TextStyle(color: color, fontSize: 10, fontWeight: FontWeight.w600)),
+          ],
+        ),
+      ),
+    );
   }
 }
 

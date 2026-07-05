@@ -3,7 +3,7 @@
     "name": "Manohar Thullimalli",
     "title": "Senior Flutter Developer",
     "bio": "I build high-performance, cross-platform apps with Flutter — from pixel-perfect mobile UIs to full-featured web and desktop products. 5+ years of shipping production apps across Android, iOS, Web, and Desktop for e-commerce, enterprise, and social platforms.",
-    "email": "manohar.professional.flutter@gmail.com",
+    "email": "manohar.thullimalli09@gmail.com",
     "profileImageUrl": "assets/images/profile.jpg",
     "yearsOfExperience": 5,
     "projectsCompleted": 20,
@@ -17,72 +17,75 @@
   },
   "projects": [
     {
-      "id": "ecommerce-app",
-      "title": "E-Commerce Marketplace",
-      "description": "A full-featured shopping platform with real-time inventory, Razorpay & Stripe payment integration, push notifications via FCM, and a vendor dashboard. Serves 10,000+ active users.",
-      "category": "E-Commerce",
-      "platforms": ["android", "ios"],
-      "techStack": ["Flutter", "BLoC", "Firebase", "Razorpay", "Stripe", "FCM", "Clean Architecture"],
-      "imageUrl": "assets/images/project_ecommerce.webp",
-      "playStoreUrl": "",
-      "appStoreUrl": "",
-      "isFeatured": true
-    },
-    {
-      "id": "healthcare-app",
-      "title": "Healthcare Patient Portal",
-      "description": "Enterprise B2B SaaS for patient appointment booking, digital prescriptions, and doctor-patient video consultations. Integrated HL7-compliant REST APIs with offline-first data sync.",
-      "category": "Healthcare",
-      "platforms": ["android", "ios", "web"],
-      "techStack": ["Flutter", "BLoC", "REST API", "Dio", "Hive", "WebRTC", "Clean Architecture"],
-      "imageUrl": "assets/images/project_healthcare.webp",
-      "playStoreUrl": "",
-      "appStoreUrl": "",
-      "webUrl": "",
-      "isFeatured": true
-    },
-    {
-      "id": "fintech-app",
-      "title": "FinTech Invoice Manager",
-      "description": "B2B invoicing and expense tracking tool with PDF generation, multi-currency support, and bank reconciliation. Used by 500+ SMEs across South Asia.",
-      "category": "FinTech",
-      "platforms": ["android", "ios", "web", "desktop"],
-      "techStack": ["Flutter", "Riverpod", "Firebase", "PDF Generation", "REST API", "Clean Architecture"],
-      "imageUrl": "assets/images/project_fintech.webp",
-      "isFeatured": true
-    },
-    {
-      "id": "logistics-app",
-      "title": "Logistics Tracking Platform",
-      "description": "Real-time shipment tracking with Google Maps integration, QR code scanning, and driver dispatch management. Reduced delivery delays by 35% for the client.",
-      "category": "Logistics",
-      "platforms": ["android", "ios"],
-      "techStack": ["Flutter", "BLoC", "Google Maps", "WebSocket", "QR Code", "Clean Architecture"],
-      "imageUrl": "assets/images/project_logistics.webp",
-      "playStoreUrl": "",
-      "appStoreUrl": ""
-    },
-    {
-      "id": "social-app",
-      "title": "Community Social Platform",
-      "description": "A social networking app with real-time chat (WebSocket), activity feeds, story posting, and event creation. Built for a community of 25,000+ users.",
+      "id": "heartintune",
+      "title": "HeartInTune — Meditation App",
+      "description": "Production meditation & wellness app for the global Heartfulness organization. Features live guided meditation sessions, a gem reward system based on meditation streaks, session history, and community features. Published on both Play Store and App Store.",
       "category": "Social",
       "platforms": ["android", "ios"],
-      "techStack": ["Flutter", "BLoC", "Firebase", "WebSocket", "FCM", "Clean Architecture"],
-      "imageUrl": "assets/images/project_social.webp",
-      "playStoreUrl": "",
+      "techStack": ["Flutter", "BLoC", "Firebase", "WebSocket", "FCM", "REST API", "Clean Architecture"],
+      "imageUrl": "assets/images/project_heartintune.webp",
+      "playStoreUrl": "https://play.google.com/store/apps/details?id=org.heartfulness.heartintune.prod",
       "appStoreUrl": "",
       "isFeatured": true
+    },
+    {
+      "id": "sampangi",
+      "title": "Sampangi — Real Estate Platform",
+      "description": "Full-featured real estate app for property discovery, listings, and buyer-seller connections. Includes advanced search filters, property galleries, map-based browsing, and inquiry management. Live on Play Store and App Store.",
+      "category": "E-Commerce",
+      "platforms": ["android", "ios"],
+      "techStack": ["Flutter", "BLoC", "REST API", "Dio", "Google Maps", "FCM", "Clean Architecture"],
+      "imageUrl": "assets/images/project_sampangi.webp",
+      "playStoreUrl": "https://play.google.com/store/apps/details?id=marami.task.sampangi",
+      "appStoreUrl": "",
+      "isFeatured": true
+    },
+    {
+      "id": "my-elegant-group",
+      "title": "My Elegant Group",
+      "description": "Real estate client app for My Elegant Group, enabling property browsing, project showcases, floor plan viewing, and direct enquiry submission. Smooth onboarding and rich media galleries for premium property listings.",
+      "category": "E-Commerce",
+      "platforms": ["android", "ios"],
+      "techStack": ["Flutter", "BLoC", "REST API", "Dio", "FCM", "Clean Architecture"],
+      "imageUrl": "assets/images/project_elegant.webp",
+      "playStoreUrl": "https://play.google.com/store/apps/details?id=task.marami.MyElegantGroup",
+      "appStoreUrl": "",
+      "isFeatured": false
+    },
+    {
+      "id": "aduri-infra",
+      "title": "Aduri Infra",
+      "description": "Real estate and infrastructure company app for Aduri Infra, featuring ongoing project updates, property listings, virtual site visits, and lead capture. Designed for both residential and commercial segments.",
+      "category": "Enterprise",
+      "platforms": ["android", "ios"],
+      "techStack": ["Flutter", "BLoC", "REST API", "Dio", "FCM", "Clean Architecture"],
+      "imageUrl": "assets/images/project_aduri.webp",
+      "playStoreUrl": "https://play.google.com/store/apps/details?id=task.marami.AduriInfra",
+      "appStoreUrl": "",
+      "isFeatured": false
+    },
+    {
+      "id": "maabhoomi",
+      "title": "Maa Bhoomi — Land & Property",
+      "description": "Property and land management app with plot discovery, land record browsing, and buyer enquiry features. Helps users find verified land listings with location-based search and project timeline tracking.",
+      "category": "E-Commerce",
+      "platforms": ["android", "ios"],
+      "techStack": ["Flutter", "BLoC", "REST API", "Google Maps", "Dio", "Clean Architecture"],
+      "imageUrl": "assets/images/project_maabhoomi.webp",
+      "playStoreUrl": "https://play.google.com/store/apps/details?id=marami.task.maabhoomi",
+      "appStoreUrl": "",
+      "isFeatured": false
     },
     {
       "id": "hr-dashboard",
       "title": "HR Productivity Dashboard",
-      "description": "Cross-platform desktop and web HR suite with leave management, attendance tracking, payroll summaries, and role-based access control.",
+      "description": "Cross-platform desktop and web HR suite with leave management, attendance tracking, payroll summaries, and role-based access control. Built to run on Web and Desktop from a single Flutter codebase.",
       "category": "Enterprise",
       "platforms": ["web", "desktop"],
       "techStack": ["Flutter Web", "Flutter Desktop", "BLoC", "REST API", "Dio", "Clean Architecture"],
       "imageUrl": "assets/images/project_hr.webp",
-      "webUrl": ""
+      "webUrl": "",
+      "isFeatured": false
     }
   ],
   "skillCategories": [
@@ -90,7 +93,7 @@
       "name": "Flutter & Dart",
       "skills": [
         { "name": "Flutter (All Platforms)", "proficiency": 0.97, "category": "Flutter & Dart" },
-        { "name": "Dart", "proficiency": 0.95, "category": "Flutter & Dart" },
+        { "name": "Dart", "proficiency": 0.97, "category": "Flutter & Dart" },
         { "name": "Custom Animations", "proficiency": 0.90, "category": "Flutter & Dart" },
         { "name": "CustomPainter / Canvas", "proficiency": 0.85, "category": "Flutter & Dart" },
         { "name": "Platform Channels", "proficiency": 0.80, "category": "Flutter & Dart" }
