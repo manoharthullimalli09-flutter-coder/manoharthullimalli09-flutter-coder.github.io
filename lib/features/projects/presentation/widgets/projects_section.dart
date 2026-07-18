@@ -162,52 +162,36 @@ class _ExpandingPanelsState extends State<_ExpandingPanels> {
 
   @override
   Widget build(BuildContext context) {
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        final n = widget.projects.length;
-        final gap = AppSizes.sm * (n - 1);
-        final available = constraints.maxWidth - gap;
+    final n = widget.projects.length;
+    final anyHovered = _hoveredIndex != null;
 
-        // Hovered card gets 38% of total, others share the rest equally
-        final expandedW = available * 0.38;
-        final collapsedW = (available - expandedW) / (n - 1);
-        final defaultW = available / n;
+    return SizedBox(
+      height: 460,
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: widget.projects.asMap().entries.map((entry) {
+          final i = entry.key;
+          final isHovered = _hoveredIndex == i;
 
-        return SizedBox(
-          height: 460,
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: widget.projects.asMap().entries.map((entry) {
-              final i = entry.key;
-              final project = entry.value;
-              final isHovered = _hoveredIndex == i;
-              final hasHover = _hoveredIndex != null;
-
-              final width = hasHover
-                  ? (isHovered ? expandedW : collapsedW)
-                  : defaultW;
-
-              return AnimatedContainer(
-                duration: const Duration(milliseconds: 400),
-                curve: Curves.easeInOut,
-                width: width,
-                margin: EdgeInsets.only(right: i < n - 1 ? AppSizes.sm : 0),
-                child: MouseRegion(
-                  onEnter: (_) => setState(() => _hoveredIndex = i),
-                  onExit: (_) => setState(() => _hoveredIndex = null),
-                  child: FadeInUp(
-                    delay: Duration(milliseconds: 80 * i),
-                    child: ProjectPanelCard(
-                      project: project,
-                      isExpanded: isHovered || (!hasHover && i == 0),
-                    ),
+          return Expanded(
+            child: Padding(
+              padding: EdgeInsets.only(right: i < n - 1 ? AppSizes.md : 0),
+              child: MouseRegion(
+                onEnter: (_) => setState(() => _hoveredIndex = i),
+                onExit: (_) => setState(() => _hoveredIndex = null),
+                child: FadeInUp(
+                  delay: Duration(milliseconds: 80 * i),
+                  child: ProjectPanelCard(
+                    project: entry.value,
+                    isHovered: isHovered,
+                    anyHovered: anyHovered,
                   ),
                 ),
-              );
-            }).toList(),
-          ),
-        );
-      },
+              ),
+            ),
+          );
+        }).toList(),
+      ),
     );
   }
 }

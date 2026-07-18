@@ -310,159 +310,180 @@ class _TechChip extends StatelessWidget {
   }
 }
 
-// ── Expanding panel card (desktop Infosys-style) ──────────────────────────────
+// ── Infosys-style panel card (desktop) ───────────────────────────────────────
 
 class ProjectPanelCard extends StatelessWidget {
   final ProjectEntity project;
-  final bool isExpanded;
+  final bool isHovered;
+  final bool anyHovered;
 
   const ProjectPanelCard({
     super.key,
     required this.project,
-    required this.isExpanded,
+    required this.isHovered,
+    required this.anyHovered,
   });
 
   @override
   Widget build(BuildContext context) {
     final p = project;
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(AppSizes.radiusMd),
-      child: Stack(
-        fit: StackFit.expand,
-        children: [
-          // Background: real image or gradient
-          if (p.imageUrl.isNotEmpty)
-            Image.asset(
-              p.imageUrl,
-              fit: BoxFit.cover,
-              errorBuilder: (_, __, ___) => _GradientBg(category: p.category),
-            )
-          else
-            _GradientBg(category: p.category),
+    final isDark = Theme.of(context).brightness == Brightness.dark;
 
-          // Persistent dark gradient at bottom for legibility
-          Container(
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                stops: const [0.35, 1.0],
-                colors: [
-                  Colors.transparent,
-                  Colors.black.withValues(alpha: 0.88),
-                ],
-              ),
-            ),
+    return AnimatedContainer(
+      duration: const Duration(milliseconds: 320),
+      curve: isHovered ? Curves.easeOutBack : Curves.easeOut,
+      transformAlignment: Alignment.center,
+      transform: Matrix4.identity()
+        ..translate(0.0, isHovered ? -14.0 : (anyHovered ? 5.0 : 0.0))
+        ..scale(isHovered ? 1.04 : (anyHovered ? 0.97 : 1.0)),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(16),
+        boxShadow: [
+          BoxShadow(
+            color: (isHovered ? AppColors.primary : Colors.black)
+                .withValues(alpha: isHovered ? 0.28 : 0.10),
+            blurRadius: isHovered ? 36 : 10,
+            offset: Offset(0, isHovered ? 18 : 4),
           ),
-
-          // Content overlay at bottom
-          Positioned(
-            left: 0,
-            right: 0,
-            bottom: 0,
-            child: Padding(
-              padding: const EdgeInsets.all(AppSizes.md),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  // Title — always visible
-                  Text(
-                    p.title,
-                    style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                      color: Colors.white,
-                      fontWeight: FontWeight.w700,
-                    ),
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-
-                  // Expandable content — revealed on hover
-                  AnimatedSize(
-                    duration: const Duration(milliseconds: 350),
-                    curve: Curves.easeOut,
-                    child: isExpanded
-                        ? Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              const SizedBox(height: AppSizes.xs),
-                              Text(
-                                p.description,
-                                style: const TextStyle(
-                                  color: Colors.white70,
-                                  fontSize: 11.5,
-                                  height: 1.5,
-                                ),
-                                maxLines: 3,
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                              const SizedBox(height: AppSizes.sm),
-                              // Platform badges
-                              Wrap(
-                                spacing: 4,
-                                runSpacing: 4,
-                                children: p.platforms
-                                    .map((pl) => _PlatformBadge(platform: pl))
-                                    .toList(),
-                              ),
-                              if (p.playStoreUrl?.isNotEmpty ?? false) ...[
-                                const SizedBox(height: AppSizes.sm),
-                                _StoreButton(
-                                  label: 'Play Store',
-                                  icon: Icons.android_rounded,
-                                  color: const Color(0xFF4CAF50),
-                                  url: p.playStoreUrl!,
-                                ),
-                              ],
-                              if (p.appStoreUrl?.isNotEmpty ?? false) ...[
-                                const SizedBox(height: 4),
-                                _StoreButton(
-                                  label: 'App Store',
-                                  icon: Icons.apple_rounded,
-                                  color: AppColors.textSecondary,
-                                  url: p.appStoreUrl!,
-                                ),
-                              ],
-                              if (p.webUrl?.isNotEmpty ?? false) ...[
-                                const SizedBox(height: 4),
-                                _StoreButton(
-                                  label: 'Live Demo',
-                                  icon: Icons.open_in_browser_rounded,
-                                  color: AppColors.secondary,
-                                  url: p.webUrl!,
-                                ),
-                              ],
-                            ],
-                          )
-                        : const SizedBox.shrink(),
-                  ),
-                ],
-              ),
-            ),
-          ),
-
-          // Featured badge
-          if (p.isFeatured)
-            Positioned(
-              top: AppSizes.sm,
-              right: AppSizes.sm,
-              child: Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: AppSizes.sm,
-                  vertical: 3,
-                ),
-                decoration: BoxDecoration(
-                  color: AppColors.primary,
-                  borderRadius: BorderRadius.circular(AppSizes.radiusXl),
-                ),
-                child: Text(
-                  'Featured',
-                  style: Theme.of(context).textTheme.labelSmall
-                      ?.copyWith(color: Colors.white),
-                ),
-              ),
-            ),
         ],
+      ),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // ── Image top (60%) ──────────────────────────────────
+            Expanded(
+              flex: 6,
+              child: Stack(
+                fit: StackFit.expand,
+                children: [
+                  if (p.imageUrl.isNotEmpty)
+                    Image.asset(
+                      p.imageUrl,
+                      fit: BoxFit.cover,
+                      errorBuilder: (_, __, ___) =>
+                          _GradientBg(category: p.category),
+                    )
+                  else
+                    _GradientBg(category: p.category),
+                  if (p.isFeatured)
+                    Positioned(
+                      top: 12,
+                      right: 12,
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 10, vertical: 4),
+                        decoration: BoxDecoration(
+                          color: AppColors.primary,
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        child: Text(
+                          'Featured',
+                          style: Theme.of(context)
+                              .textTheme
+                              .labelSmall
+                              ?.copyWith(color: Colors.white),
+                        ),
+                      ),
+                    ),
+                ],
+              ),
+            ),
+
+            // ── Content bottom (40%) ─────────────────────────────
+            Expanded(
+              flex: 4,
+              child: Container(
+                width: double.infinity,
+                color: isDark ? AppColors.surface : Colors.white,
+                padding: const EdgeInsets.fromLTRB(16, 14, 16, 14),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      p.title,
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w700,
+                        color: isDark
+                            ? AppColors.textPrimary
+                            : const Color(0xFF1A1A2E),
+                      ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    const SizedBox(height: 6),
+                    Expanded(
+                      child: Text(
+                        p.description,
+                        style: TextStyle(
+                          fontSize: 11.5,
+                          height: 1.5,
+                          color: isDark
+                              ? AppColors.textSecondary
+                              : const Color(0xFF555555),
+                        ),
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 3,
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    Row(
+                      children: [
+                        // Platform badges
+                        ...p.platforms.take(2).map((pl) => Padding(
+                              padding: const EdgeInsets.only(right: 4),
+                              child: _PlatformBadge(platform: pl),
+                            )),
+                        const Spacer(),
+                        // Store / demo link
+                        if (p.playStoreUrl?.isNotEmpty ?? false)
+                          GestureDetector(
+                            onTap: () => launchUrl(Uri.parse(p.playStoreUrl!),
+                                mode: LaunchMode.externalApplication),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Text('Play Store',
+                                    style: const TextStyle(
+                                      color: AppColors.primary,
+                                      fontSize: 11,
+                                      fontWeight: FontWeight.w600,
+                                    )),
+                                const SizedBox(width: 2),
+                                const Icon(Icons.arrow_outward_rounded,
+                                    size: 12, color: AppColors.primary),
+                              ],
+                            ),
+                          )
+                        else if (p.webUrl?.isNotEmpty ?? false)
+                          GestureDetector(
+                            onTap: () => launchUrl(Uri.parse(p.webUrl!),
+                                mode: LaunchMode.externalApplication),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                const Text('Live Demo',
+                                    style: TextStyle(
+                                      color: AppColors.secondary,
+                                      fontSize: 11,
+                                      fontWeight: FontWeight.w600,
+                                    )),
+                                const SizedBox(width: 2),
+                                const Icon(Icons.arrow_outward_rounded,
+                                    size: 12, color: AppColors.secondary),
+                              ],
+                            ),
+                          ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
