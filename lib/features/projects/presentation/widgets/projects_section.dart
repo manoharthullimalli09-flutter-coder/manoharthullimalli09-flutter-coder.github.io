@@ -36,7 +36,7 @@ class _ProjectsContent extends StatelessWidget {
             const SectionHeader(
               title: 'My Projects',
               subtitle:
-                  'Real-world apps shipped across e-commerce, healthcare, fintech, logistics & social platforms.',
+                  'Real-world apps shipped across meditation, real estate, and enterprise platforms.',
             ),
             const SizedBox(height: AppSizes.xl),
             // Filter chips
@@ -49,8 +49,8 @@ class _ProjectsContent extends StatelessWidget {
                 children: _filters.map((f) {
                   final active = state is ProjectsLoaded
                       ? (f == 'All'
-                            ? state.activeFilter == null
-                            : state.activeFilter == f.toLowerCase())
+                          ? state.activeFilter == null
+                          : state.activeFilter == f.toLowerCase())
                       : f == 'All';
                   return _FilterChip(
                     label: f,
@@ -69,15 +69,15 @@ class _ProjectsContent extends StatelessWidget {
             ),
             const SizedBox(height: AppSizes.xl),
             if (state is ProjectsLoading)
-              const CircularProgressIndicator(color: AppColors.primary)
-            else if (state is ProjectsError)
-              Text(
-                state.message,
-                style: const TextStyle(color: AppColors.error),
+              const Padding(
+                padding: EdgeInsets.all(AppSizes.xxxl),
+                child: CircularProgressIndicator(color: AppColors.primary),
               )
-            else if (state is ProjectsLoaded) ...[
+            else if (state is ProjectsError)
+              Text(state.message,
+                  style: const TextStyle(color: AppColors.error))
+            else if (state is ProjectsLoaded)
               _ProjectGrid(projects: state.projects),
-            ],
           ],
         );
       },
@@ -98,24 +98,21 @@ class _FilterChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AnimatedContainer(
-      duration: const Duration(milliseconds: 200),
-      child: FilterChip(
-        label: Text(label),
-        selected: isActive,
-        onSelected: (_) => onTap(),
-        selectedColor: AppColors.primary.withValues(alpha: 0.15),
-        checkmarkColor: AppColors.primary,
-        labelStyle: Theme.of(context).textTheme.labelMedium?.copyWith(
-          color: isActive ? AppColors.primary : AppColors.textSecondary,
-          fontWeight: isActive ? FontWeight.w600 : FontWeight.w400,
-        ),
-        side: BorderSide(
-          color: isActive ? AppColors.primary : AppColors.border,
-        ),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(AppSizes.radiusXl),
-        ),
+    return FilterChip(
+      label: Text(label),
+      selected: isActive,
+      onSelected: (_) => onTap(),
+      selectedColor: AppColors.primary.withValues(alpha: 0.15),
+      checkmarkColor: AppColors.primary,
+      labelStyle: Theme.of(context).textTheme.labelMedium?.copyWith(
+            color: isActive ? AppColors.primary : AppColors.textSecondary,
+            fontWeight: isActive ? FontWeight.w600 : FontWeight.w400,
+          ),
+      side: BorderSide(
+        color: isActive ? AppColors.primary : AppColors.border,
+      ),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(AppSizes.radiusXl),
       ),
     );
   }
@@ -127,70 +124,22 @@ class _ProjectGrid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (context.isDesktop) {
-      return _ExpandingPanels(projects: projects);
-    }
-    final cols = context.isTablet ? 2 : 1;
+    final cols = context.isDesktop ? 3 : (context.isTablet ? 2 : 1);
+    final ratio = context.isDesktop ? 0.68 : (context.isTablet ? 0.75 : 1.1);
+
     return GridView.builder(
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: cols,
-        crossAxisSpacing: AppSizes.lg,
-        mainAxisSpacing: AppSizes.lg,
-        childAspectRatio: 0.9,
+        crossAxisSpacing: 20,
+        mainAxisSpacing: 20,
+        childAspectRatio: ratio,
       ),
       itemCount: projects.length,
       itemBuilder: (_, i) => FadeInUp(
-        delay: Duration(milliseconds: 100 * i),
+        delay: Duration(milliseconds: 80 * i),
         child: ProjectCard(project: projects[i]),
-      ),
-    );
-  }
-}
-
-class _ExpandingPanels extends StatefulWidget {
-  final List<ProjectEntity> projects;
-  const _ExpandingPanels({required this.projects});
-
-  @override
-  State<_ExpandingPanels> createState() => _ExpandingPanelsState();
-}
-
-class _ExpandingPanelsState extends State<_ExpandingPanels> {
-  int? _hoveredIndex;
-
-  @override
-  Widget build(BuildContext context) {
-    final n = widget.projects.length;
-    final anyHovered = _hoveredIndex != null;
-
-    return SizedBox(
-      height: 460,
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: widget.projects.asMap().entries.map((entry) {
-          final i = entry.key;
-          final isHovered = _hoveredIndex == i;
-
-          return Expanded(
-            child: Padding(
-              padding: EdgeInsets.only(right: i < n - 1 ? AppSizes.md : 0),
-              child: MouseRegion(
-                onEnter: (_) => setState(() => _hoveredIndex = i),
-                onExit: (_) => setState(() => _hoveredIndex = null),
-                child: FadeInUp(
-                  delay: Duration(milliseconds: 80 * i),
-                  child: ProjectPanelCard(
-                    project: entry.value,
-                    isHovered: isHovered,
-                    anyHovered: anyHovered,
-                  ),
-                ),
-              ),
-            ),
-          );
-        }).toList(),
       ),
     );
   }
