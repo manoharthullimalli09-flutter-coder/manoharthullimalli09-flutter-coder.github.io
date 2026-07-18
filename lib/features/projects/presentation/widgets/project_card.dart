@@ -38,14 +38,11 @@ class _ProjectCardState extends State<ProjectCard> {
                 borderRadius: const BorderRadius.vertical(
                   top: Radius.circular(AppSizes.radiusMd),
                 ),
-                child: SizedBox(
-                  height: 160,
-                  width: double.infinity,
-                  child: Stack(
-                    fit: StackFit.expand,
-                    children: [
-                      // Gradient background always visible
-                      Container(
+                child: Stack(
+                  children: [
+                    // Gradient always fills behind the image
+                    Positioned.fill(
+                      child: Container(
                         decoration: BoxDecoration(
                           gradient: LinearGradient(
                             begin: Alignment.topLeft,
@@ -54,30 +51,37 @@ class _ProjectCardState extends State<ProjectCard> {
                           ),
                         ),
                       ),
-                      // Real image on top if available
-                      if (p.imageUrl.isNotEmpty)
-                        Image.asset(
-                          p.imageUrl,
-                          width: double.infinity,
-                          height: double.infinity,
-                          fit: BoxFit.cover,
-                          errorBuilder: (_, __, ___) => Center(
+                    ),
+                    // Image: full width, natural height (no crop)
+                    if (p.imageUrl.isNotEmpty)
+                      Image.asset(
+                        p.imageUrl,
+                        width: double.infinity,
+                        fit: BoxFit.fitWidth,
+                        errorBuilder: (_, __, ___) => SizedBox(
+                          height: 160,
+                          child: Center(
                             child: Icon(
                               _categoryIcon(p.category),
                               size: 56,
                               color: Colors.white.withValues(alpha: 0.3),
                             ),
                           ),
-                        )
-                      else
-                        Center(
+                        ),
+                      )
+                    else
+                      SizedBox(
+                        height: 160,
+                        width: double.infinity,
+                        child: Center(
                           child: Icon(
                             _categoryIcon(p.category),
                             size: 56,
                             color: Colors.white.withValues(alpha: 0.3),
                           ),
                         ),
-                      if (p.isFeatured)
+                      ),
+                    if (p.isFeatured)
                       Positioned(
                         top: AppSizes.sm,
                         right: AppSizes.sm,
@@ -99,32 +103,30 @@ class _ProjectCardState extends State<ProjectCard> {
                           ),
                         ),
                       ),
-                    ],
-                  ),
+                  ],
                 ),
               ),
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.all(AppSizes.md),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        p.title,
-                        style: Theme.of(context).textTheme.titleMedium,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
+              Padding(
+                padding: const EdgeInsets.all(AppSizes.md),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      p.title,
+                      style: Theme.of(context).textTheme.titleMedium,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    const SizedBox(height: AppSizes.xs),
+                    Text(
+                      p.description,
+                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                        color: AppColors.textSecondary,
                       ),
-                      const SizedBox(height: AppSizes.xs),
-                      Text(
-                        p.description,
-                        style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                          color: AppColors.textSecondary,
-                        ),
-                        maxLines: 3,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                      const Spacer(),
+                      maxLines: 3,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    const SizedBox(height: AppSizes.sm),
                       // Platform badges
                       Wrap(
                         spacing: 4,
@@ -181,7 +183,6 @@ class _ProjectCardState extends State<ProjectCard> {
                     ],
                   ),
                 ),
-              ),
             ],
           ),
         ),
