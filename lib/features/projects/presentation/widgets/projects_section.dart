@@ -118,29 +118,86 @@ class _FilterChip extends StatelessWidget {
   }
 }
 
+// ── Grid ─────────────────────────────────────────────────────────────────────
+
 class _ProjectGrid extends StatelessWidget {
   final List<ProjectEntity> projects;
   const _ProjectGrid({required this.projects});
 
   @override
   Widget build(BuildContext context) {
-    final cols = context.isDesktop ? 3 : (context.isTablet ? 2 : 1);
-    final ratio = context.isDesktop ? 0.65 : (context.isTablet ? 0.68 : 0.72);
+    // Mobile: single column, no hover needed
+    if (context.isMobile) {
+      return Column(
+        children: [
+          for (var i = 0; i < projects.length; i++) ...[
+            if (i > 0) const SizedBox(height: 20),
+            FadeInUp(
+              delay: Duration(milliseconds: 80 * i),
+              child: ProjectCard(project: projects[i]),
+            ),
+          ],
+        ],
+      );
+    }
 
-    return GridView.builder(
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: cols,
-        crossAxisSpacing: 20,
-        mainAxisSpacing: 20,
-        childAspectRatio: ratio,
-      ),
-      itemCount: projects.length,
-      itemBuilder: (_, i) => FadeInUp(
-        delay: Duration(milliseconds: 80 * i),
-        child: ProjectCard(project: projects[i]),
-      ),
+    // Desktop: 3 per row | Tablet: 2 per row
+    final chunkSize = context.isDesktop ? 3 : 2;
+    final chunks = <List<ProjectEntity>>[];
+    for (var i = 0; i < projects.length; i += chunkSize) {
+      final end = (i + chunkSize).clamp(0, projects.length);
+      chunks.add(projects.sublist(i, end));
+    }
+
+    return Column(
+      children: [
+        for (var i = 0; i < chunks.length; i++) ...[
+          if (i > 0) const SizedBox(height: 28),
+          FadeInUp(
+            delay: Duration(milliseconds: 120 * i),
+            child: _HoverableRow(projects: chunks[i]),
+          ),
+        ],
+      ],
+    );
+  }
+}
+
+/// Tracks which card is hovered and tells all siblings, enabling the
+/// Infosys-style grow/shrink coordinated animation.
+class _HoverableRow extends StatefulWidget {
+  final List<ProjectEntity> projects;
+  const _HoverableRow({required this.projects});
+
+  @override
+  State<_HoverableRow> createState() => _HoverableRowState();
+}
+
+class _HoverableRowState extends State<_HoverableRow> {
+  int? _hoveredIndex;
+
+  @override
+  Widget build(BuildContext context) {
+    final items = widget.projects;
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.end,
+      children: [
+        for (var i = 0; i < items.length; i++) ...[
+          if (i > 0) const SizedBox(width: 20),
+          Expanded(
+            child: MouseRegion(
+              onEnter: (_) => setState(() => _hoveredIndex = i),
+              onExit: (_) => setState(() => _hoveredIndex = null),
+              cursor: SystemMouseCursors.click,
+              child: ProjectCard(
+                project: items[i],
+                isHovered: _hoveredIndex == i,
+                anyHovered: _hoveredIndex != null,
+              ),
+            ),
+          ),
+        ],
+      ],
     );
   }
 }

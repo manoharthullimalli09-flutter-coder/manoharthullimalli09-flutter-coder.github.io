@@ -3,50 +3,58 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../../../core/constants/app_colors.dart';
 import '../../domain/entities/project_entity.dart';
 
-class ProjectCard extends StatefulWidget {
+/// Stateless — hover state is owned by [_HoverableRow] and passed in.
+class ProjectCard extends StatelessWidget {
   final ProjectEntity project;
-  const ProjectCard({super.key, required this.project});
+  final bool isHovered;
+  final bool anyHovered;
 
-  @override
-  State<ProjectCard> createState() => _ProjectCardState();
-}
-
-class _ProjectCardState extends State<ProjectCard> {
-  bool _hovered = false;
+  const ProjectCard({
+    super.key,
+    required this.project,
+    this.isHovered = false,
+    this.anyHovered = false,
+  });
 
   @override
   Widget build(BuildContext context) {
-    final p = widget.project;
+    final p = project;
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
-    return MouseRegion(
-      onEnter: (_) => setState(() => _hovered = true),
-      onExit: (_) => setState(() => _hovered = false),
-      cursor: SystemMouseCursors.click,
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 300),
-        curve: _hovered ? Curves.easeOutBack : Curves.easeOut,
-        transform: Matrix4.translationValues(0, _hovered ? -14 : 0, 0),
-        transformAlignment: Alignment.bottomCenter,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(16),
-          boxShadow: [
-            BoxShadow(
-              color: (_hovered ? AppColors.primary : Colors.black)
-                  .withValues(alpha: _hovered ? 0.32 : 0.14),
-              blurRadius: _hovered ? 52 : 16,
-              offset: Offset(0, _hovered ? 28 : 6),
-            ),
-          ],
-        ),
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(16),
-          child: SizedBox.expand(
-            child: Stack(
-              children: [
-                // ── Full-card image ─────────────────────────────────────────
-                Positioned.fill(
-                  child: p.imageUrl.isNotEmpty
+    // Image section height drives the Infosys "grow/shrink" effect
+    final imageH = isHovered ? 280.0 : (anyHovered ? 180.0 : 225.0);
+
+    return AnimatedContainer(
+      duration: const Duration(milliseconds: 400),
+      curve: isHovered ? Curves.easeOutCubic : Curves.easeInCubic,
+      transform: Matrix4.translationValues(0, isHovered ? -20 : 0, 0),
+      transformAlignment: Alignment.bottomCenter,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(16),
+        boxShadow: [
+          BoxShadow(
+            color: (isHovered ? AppColors.primary : Colors.black)
+                .withValues(alpha: isHovered ? 0.35 : 0.12),
+            blurRadius: isHovered ? 56 : 16,
+            offset: Offset(0, isHovered ? 32 : 5),
+          ),
+        ],
+      ),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            // ── Image header — height animates on hover ─────────────────
+            AnimatedContainer(
+              duration: const Duration(milliseconds: 400),
+              curve: isHovered ? Curves.easeOutCubic : Curves.easeInCubic,
+              height: imageH,
+              child: Stack(
+                fit: StackFit.expand,
+                children: [
+                  p.imageUrl.isNotEmpty
                       ? Image.asset(
                           p.imageUrl,
                           fit: BoxFit.cover,
@@ -54,151 +62,104 @@ class _ProjectCardState extends State<ProjectCard> {
                               _CategoryGradient(category: p.category),
                         )
                       : _CategoryGradient(category: p.category),
-                ),
-
-                // ── Gradient scrim at bottom (helps content panel contrast) ─
-                Positioned(
-                  left: 0,
-                  right: 0,
-                  bottom: 0,
-                  height: 200,
-                  child: DecoratedBox(
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        begin: Alignment.topCenter,
-                        end: Alignment.bottomCenter,
-                        colors: [
-                          Colors.transparent,
-                          Colors.black.withValues(alpha: 0.18),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-
-                // ── Featured badge ──────────────────────────────────────────
-                if (p.isFeatured)
-                  Positioned(
-                    top: 14,
-                    right: 14,
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 10, vertical: 4),
-                      decoration: BoxDecoration(
-                        color: AppColors.primary,
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      child: const Text(
-                        'Featured',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 11,
-                          fontWeight: FontWeight.w600,
-                          letterSpacing: 0.3,
+                  if (p.isFeatured)
+                    Positioned(
+                      top: 14,
+                      right: 14,
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 10, vertical: 4),
+                        decoration: BoxDecoration(
+                          color: AppColors.primary,
+                          borderRadius: BorderRadius.circular(20),
                         ),
-                      ),
-                    ),
-                  ),
-
-                // ── Content panel — floats at card bottom over the image ────
-                Positioned(
-                  left: 12,
-                  right: 12,
-                  bottom: 12,
-                  child: Container(
-                    padding: const EdgeInsets.fromLTRB(16, 14, 16, 14),
-                    decoration: BoxDecoration(
-                      color: isDark
-                          ? const Color(0xFF12122A).withValues(alpha: 0.96)
-                          : Colors.white.withValues(alpha: 0.97),
-                      borderRadius: BorderRadius.circular(12),
-                      border: Border.all(
-                        color: isDark
-                            ? Colors.white.withValues(alpha: 0.06)
-                            : Colors.black.withValues(alpha: 0.06),
-                      ),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withValues(alpha: 0.22),
-                          blurRadius: 20,
-                          offset: const Offset(0, 8),
-                        ),
-                      ],
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        // Title
-                        Text(
-                          p.title,
+                        child: const Text(
+                          'Featured',
                           style: TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.w700,
-                            color: isDark
-                                ? AppColors.textPrimary
-                                : const Color(0xFF0D0D2B),
-                            height: 1.2,
+                            color: Colors.white,
+                            fontSize: 11,
+                            fontWeight: FontWeight.w600,
                           ),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
                         ),
-                        const SizedBox(height: 7),
-
-                        // Description
-                        Text(
-                          p.description,
-                          style: TextStyle(
-                            fontSize: 12,
-                            height: 1.55,
-                            color: isDark
-                                ? AppColors.textSecondary
-                                : const Color(0xFF4A4A6A),
-                          ),
-                          maxLines: 3,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                        const SizedBox(height: 12),
-
-                        // Footer: platform badges + store link
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            ...p.platforms.take(2).map(
-                                  (pl) => Padding(
-                                    padding: const EdgeInsets.only(right: 5),
-                                    child: _PlatformBadge(platform: pl),
-                                  ),
-                                ),
-                            const Spacer(),
-                            if (p.playStoreUrl?.isNotEmpty ?? false)
-                              _ArrowLink(
-                                label: 'Play Store',
-                                url: p.playStoreUrl!,
-                                color: const Color(0xFF34C759),
-                              )
-                            else if (p.webUrl?.isNotEmpty ?? false)
-                              _ArrowLink(
-                                label: 'Live Demo',
-                                url: p.webUrl!,
-                                color: AppColors.secondary,
-                              ),
-                          ],
-                        ),
-                      ],
+                      ),
                     ),
-                  ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
+
+            // ── Content section — always fixed below image ────────────────
+            Container(
+              color: isDark ? const Color(0xFF13132B) : Colors.white,
+              padding: const EdgeInsets.fromLTRB(20, 18, 20, 18),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    p.title,
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w700,
+                      color: isDark
+                          ? AppColors.textPrimary
+                          : const Color(0xFF0D0D2B),
+                      height: 1.2,
+                    ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  const SizedBox(height: 8),
+                  SizedBox(
+                    height: 62, // locks to exactly 3 lines — no reflow on hover
+                    child: Text(
+                      p.description,
+                      style: TextStyle(
+                        fontSize: 13,
+                        height: 1.55,
+                        color: isDark
+                            ? AppColors.textSecondary
+                            : const Color(0xFF55556B),
+                      ),
+                      maxLines: 3,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                  const SizedBox(height: 14),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      ...p.platforms.take(2).map(
+                            (pl) => Padding(
+                              padding: const EdgeInsets.only(right: 5),
+                              child: _PlatformBadge(platform: pl),
+                            ),
+                          ),
+                      const Spacer(),
+                      if (p.playStoreUrl?.isNotEmpty ?? false)
+                        _ArrowLink(
+                          label: 'Play Store',
+                          url: p.playStoreUrl!,
+                          color: const Color(0xFF34C759),
+                        )
+                      else if (p.webUrl?.isNotEmpty ?? false)
+                        _ArrowLink(
+                          label: 'Live Demo',
+                          url: p.webUrl!,
+                          color: AppColors.secondary,
+                        ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ],
         ),
       ),
     );
   }
 }
 
-// ── Sub-widgets ─────────────────────────────────────────────────────────────
+// ── Sub-widgets ──────────────────────────────────────────────────────────────
 
 class _CategoryGradient extends StatelessWidget {
   final String category;
@@ -233,9 +194,10 @@ class _PlatformBadge extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     final (color, label) = switch (platform) {
       'android' => (const Color(0xFF4CAF50), 'Android'),
-      'ios' => (const Color(0xFF9E9E9E), 'iOS'),
+      'ios' => (isDark ? const Color(0xFFBBBBBB) : const Color(0xFF777777), 'iOS'),
       'web' => (AppColors.secondary, 'Web'),
       'desktop' => (const Color(0xFF9C27B0), 'Desktop'),
       _ => (AppColors.primary, platform),
@@ -243,9 +205,9 @@ class _PlatformBadge extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 3),
       decoration: BoxDecoration(
-        color: color.withValues(alpha: 0.14),
+        color: color.withValues(alpha: 0.12),
         borderRadius: BorderRadius.circular(5),
-        border: Border.all(color: color.withValues(alpha: 0.45)),
+        border: Border.all(color: color.withValues(alpha: 0.4)),
       ),
       child: Text(
         label.toUpperCase(),
@@ -279,7 +241,7 @@ class _ArrowLink extends StatelessWidget {
             label,
             style: TextStyle(
               color: color,
-              fontSize: 11,
+              fontSize: 12,
               fontWeight: FontWeight.w700,
               decoration: TextDecoration.underline,
               decorationColor: color.withValues(alpha: 0.5),
