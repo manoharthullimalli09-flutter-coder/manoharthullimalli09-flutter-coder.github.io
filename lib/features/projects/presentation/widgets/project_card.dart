@@ -309,3 +309,187 @@ class _TechChip extends StatelessWidget {
     );
   }
 }
+
+// ── Expanding panel card (desktop Infosys-style) ──────────────────────────────
+
+class ProjectPanelCard extends StatelessWidget {
+  final ProjectEntity project;
+  final bool isExpanded;
+
+  const ProjectPanelCard({
+    super.key,
+    required this.project,
+    required this.isExpanded,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final p = project;
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(AppSizes.radiusMd),
+      child: Stack(
+        fit: StackFit.expand,
+        children: [
+          // Background: real image or gradient
+          if (p.imageUrl.isNotEmpty)
+            Image.asset(
+              p.imageUrl,
+              fit: BoxFit.cover,
+              errorBuilder: (_, __, ___) => _GradientBg(category: p.category),
+            )
+          else
+            _GradientBg(category: p.category),
+
+          // Persistent dark gradient at bottom for legibility
+          Container(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                stops: const [0.35, 1.0],
+                colors: [
+                  Colors.transparent,
+                  Colors.black.withValues(alpha: 0.88),
+                ],
+              ),
+            ),
+          ),
+
+          // Content overlay at bottom
+          Positioned(
+            left: 0,
+            right: 0,
+            bottom: 0,
+            child: Padding(
+              padding: const EdgeInsets.all(AppSizes.md),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  // Title — always visible
+                  Text(
+                    p.title,
+                    style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                      color: Colors.white,
+                      fontWeight: FontWeight.w700,
+                    ),
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+
+                  // Expandable content — revealed on hover
+                  AnimatedSize(
+                    duration: const Duration(milliseconds: 350),
+                    curve: Curves.easeOut,
+                    child: isExpanded
+                        ? Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const SizedBox(height: AppSizes.xs),
+                              Text(
+                                p.description,
+                                style: const TextStyle(
+                                  color: Colors.white70,
+                                  fontSize: 11.5,
+                                  height: 1.5,
+                                ),
+                                maxLines: 3,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                              const SizedBox(height: AppSizes.sm),
+                              // Platform badges
+                              Wrap(
+                                spacing: 4,
+                                runSpacing: 4,
+                                children: p.platforms
+                                    .map((pl) => _PlatformBadge(platform: pl))
+                                    .toList(),
+                              ),
+                              if (p.playStoreUrl?.isNotEmpty ?? false) ...[
+                                const SizedBox(height: AppSizes.sm),
+                                _StoreButton(
+                                  label: 'Play Store',
+                                  icon: Icons.android_rounded,
+                                  color: const Color(0xFF4CAF50),
+                                  url: p.playStoreUrl!,
+                                ),
+                              ],
+                              if (p.appStoreUrl?.isNotEmpty ?? false) ...[
+                                const SizedBox(height: 4),
+                                _StoreButton(
+                                  label: 'App Store',
+                                  icon: Icons.apple_rounded,
+                                  color: AppColors.textSecondary,
+                                  url: p.appStoreUrl!,
+                                ),
+                              ],
+                              if (p.webUrl?.isNotEmpty ?? false) ...[
+                                const SizedBox(height: 4),
+                                _StoreButton(
+                                  label: 'Live Demo',
+                                  icon: Icons.open_in_browser_rounded,
+                                  color: AppColors.secondary,
+                                  url: p.webUrl!,
+                                ),
+                              ],
+                            ],
+                          )
+                        : const SizedBox.shrink(),
+                  ),
+                ],
+              ),
+            ),
+          ),
+
+          // Featured badge
+          if (p.isFeatured)
+            Positioned(
+              top: AppSizes.sm,
+              right: AppSizes.sm,
+              child: Container(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: AppSizes.sm,
+                  vertical: 3,
+                ),
+                decoration: BoxDecoration(
+                  color: AppColors.primary,
+                  borderRadius: BorderRadius.circular(AppSizes.radiusXl),
+                ),
+                child: Text(
+                  'Featured',
+                  style: Theme.of(context).textTheme.labelSmall
+                      ?.copyWith(color: Colors.white),
+                ),
+              ),
+            ),
+        ],
+      ),
+    );
+  }
+}
+
+class _GradientBg extends StatelessWidget {
+  final String category;
+  const _GradientBg({required this.category});
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = switch (category.toLowerCase()) {
+      'e-commerce' => [const Color(0xFF6C63FF), const Color(0xFF9E97FF)],
+      'healthcare' => [const Color(0xFF00897B), const Color(0xFF4DB6AC)],
+      'social' => [const Color(0xFFAD1457), const Color(0xFFF06292)],
+      'fintech' => [const Color(0xFF1565C0), const Color(0xFF42A5F5)],
+      'logistics' => [const Color(0xFFE65100), const Color(0xFFFF8A65)],
+      _ => [const Color(0xFF37474F), const Color(0xFF78909C)],
+    };
+    return Container(
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: colors,
+        ),
+      ),
+    );
+  }
+}

@@ -127,7 +127,10 @@ class _ProjectGrid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final cols = context.isDesktop ? 3 : (context.isTablet ? 2 : 1);
+    if (context.isDesktop) {
+      return _ExpandingPanels(projects: projects);
+    }
+    final cols = context.isTablet ? 2 : 1;
     return GridView.builder(
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
@@ -135,13 +138,76 @@ class _ProjectGrid extends StatelessWidget {
         crossAxisCount: cols,
         crossAxisSpacing: AppSizes.lg,
         mainAxisSpacing: AppSizes.lg,
-        childAspectRatio: context.isDesktop ? 0.85 : 1.0,
+        childAspectRatio: 0.9,
       ),
       itemCount: projects.length,
       itemBuilder: (_, i) => FadeInUp(
         delay: Duration(milliseconds: 100 * i),
         child: ProjectCard(project: projects[i]),
       ),
+    );
+  }
+}
+
+class _ExpandingPanels extends StatefulWidget {
+  final List<ProjectEntity> projects;
+  const _ExpandingPanels({required this.projects});
+
+  @override
+  State<_ExpandingPanels> createState() => _ExpandingPanelsState();
+}
+
+class _ExpandingPanelsState extends State<_ExpandingPanels> {
+  int? _hoveredIndex;
+
+  @override
+  Widget build(BuildContext context) {
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final n = widget.projects.length;
+        final gap = AppSizes.sm * (n - 1);
+        final available = constraints.maxWidth - gap;
+
+        // Hovered card gets 38% of total, others share the rest equally
+        final expandedW = available * 0.38;
+        final collapsedW = (available - expandedW) / (n - 1);
+        final defaultW = available / n;
+
+        return SizedBox(
+          height: 460,
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: widget.projects.asMap().entries.map((entry) {
+              final i = entry.key;
+              final project = entry.value;
+              final isHovered = _hoveredIndex == i;
+              final hasHover = _hoveredIndex != null;
+
+              final width = hasHover
+                  ? (isHovered ? expandedW : collapsedW)
+                  : defaultW;
+
+              return AnimatedContainer(
+                duration: const Duration(milliseconds: 400),
+                curve: Curves.easeInOut,
+                width: width,
+                margin: EdgeInsets.only(right: i < n - 1 ? AppSizes.sm : 0),
+                child: MouseRegion(
+                  onEnter: (_) => setState(() => _hoveredIndex = i),
+                  onExit: (_) => setState(() => _hoveredIndex = null),
+                  child: FadeInUp(
+                    delay: Duration(milliseconds: 80 * i),
+                    child: ProjectPanelCard(
+                      project: project,
+                      isExpanded: isHovered || (!hasHover && i == 0),
+                    ),
+                  ),
+                ),
+              );
+            }).toList(),
+          ),
+        );
+      },
     );
   }
 }
