@@ -58,7 +58,7 @@ class _ProjectCardState extends State<ProjectCard> {
                       if (p.imageUrl.isNotEmpty)
                         Image.asset(
                           p.imageUrl,
-                          fit: BoxFit.contain,
+                          fit: BoxFit.cover,
                           errorBuilder: (_, __, ___) => Icon(
                             _categoryIcon(p.category),
                             size: 56,
