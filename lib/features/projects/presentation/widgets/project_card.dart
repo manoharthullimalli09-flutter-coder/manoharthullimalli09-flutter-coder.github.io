@@ -56,11 +56,12 @@ class _ProjectCardState extends State<ProjectCard> {
                       ),
                       // Real image on top if available
                       if (p.imageUrl.isNotEmpty)
-                        Image.asset(
-                          p.imageUrl,
-                          fit: BoxFit.cover,
-                          errorBuilder: (_, __, ___) => Center(
-                            child: Icon(
+                        Padding(
+                          padding: const EdgeInsets.all(20),
+                          child: Image.asset(
+                            p.imageUrl,
+                            fit: BoxFit.contain,
+                            errorBuilder: (_, __, ___) => Icon(
                               _categoryIcon(p.category),
                               size: 56,
                               color: Colors.white.withValues(alpha: 0.3),

@@ -23,7 +23,7 @@
       "category": "Social",
       "platforms": ["android", "ios"],
       "techStack": ["Flutter", "BLoC", "Firebase", "WebSocket", "FCM", "REST API", "Clean Architecture"],
-      "imageUrl": "assets/images/project_heartintune.webp",
+      "imageUrl": "assets/images/heartintune.webp",
       "playStoreUrl": "https://play.google.com/store/apps/details?id=org.heartfulness.heartintune.prod",
       "appStoreUrl": "",
       "isFeatured": true
@@ -35,7 +35,7 @@
       "category": "E-Commerce",
       "platforms": ["android", "ios"],
       "techStack": ["Flutter", "BLoC", "REST API", "Dio", "Google Maps", "FCM", "Clean Architecture"],
-      "imageUrl": "assets/images/project_sampangi.webp",
+      "imageUrl": "assets/images/sampangi.webp",
       "playStoreUrl": "https://play.google.com/store/apps/details?id=marami.task.sampangi",
       "appStoreUrl": "",
       "isFeatured": true
@@ -47,7 +47,7 @@
       "category": "E-Commerce",
       "platforms": ["android", "ios"],
       "techStack": ["Flutter", "BLoC", "REST API", "Dio", "FCM", "Clean Architecture"],
-      "imageUrl": "assets/images/project_elegant.webp",
+      "imageUrl": "assets/images/elegant.webp",
       "playStoreUrl": "https://play.google.com/store/apps/details?id=task.marami.MyElegantGroup",
       "appStoreUrl": "",
       "isFeatured": false
@@ -59,7 +59,7 @@
       "category": "Enterprise",
       "platforms": ["android", "ios"],
       "techStack": ["Flutter", "BLoC", "REST API", "Dio", "FCM", "Clean Architecture"],
-      "imageUrl": "assets/images/project_aduri.webp",
+      "imageUrl": "assets/images/aduri.webp",
       "playStoreUrl": "https://play.google.com/store/apps/details?id=task.marami.AduriInfra",
       "appStoreUrl": "",
       "isFeatured": false
@@ -71,7 +71,7 @@
       "category": "E-Commerce",
       "platforms": ["android", "ios"],
       "techStack": ["Flutter", "BLoC", "REST API", "Google Maps", "Dio", "Clean Architecture"],
-      "imageUrl": "assets/images/project_maabhoomi.webp",
+      "imageUrl": "assets/images/maabhoomi.webp",
       "playStoreUrl": "https://play.google.com/store/apps/details?id=marami.task.maabhoomi",
       "appStoreUrl": "",
       "isFeatured": false
