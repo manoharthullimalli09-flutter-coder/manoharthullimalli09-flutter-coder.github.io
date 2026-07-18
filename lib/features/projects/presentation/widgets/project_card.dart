@@ -33,16 +33,19 @@ class _ProjectCardState extends State<ProjectCard> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Project image / gradient placeholder
+              // Project image / gradient header
               ClipRRect(
                 borderRadius: const BorderRadius.vertical(
                   top: Radius.circular(AppSizes.radiusMd),
                 ),
-                child: Stack(
-                  children: [
-                    // Gradient always fills behind the image
-                    Positioned.fill(
-                      child: Container(
+                child: SizedBox(
+                  height: 200,
+                  width: double.infinity,
+                  child: Stack(
+                    fit: StackFit.expand,
+                    children: [
+                      // Gradient background
+                      Container(
                         decoration: BoxDecoration(
                           gradient: LinearGradient(
                             begin: Alignment.topLeft,
@@ -51,59 +54,47 @@ class _ProjectCardState extends State<ProjectCard> {
                           ),
                         ),
                       ),
-                    ),
-                    // Image: full width, natural height (no crop)
-                    if (p.imageUrl.isNotEmpty)
-                      Image.asset(
-                        p.imageUrl,
-                        width: double.infinity,
-                        fit: BoxFit.fitWidth,
-                        errorBuilder: (_, __, ___) => SizedBox(
-                          height: 160,
-                          child: Center(
-                            child: Icon(
-                              _categoryIcon(p.category),
-                              size: 56,
-                              color: Colors.white.withValues(alpha: 0.3),
-                            ),
-                          ),
-                        ),
-                      )
-                    else
-                      SizedBox(
-                        height: 160,
-                        width: double.infinity,
-                        child: Center(
-                          child: Icon(
+                      // Full logo — contained, never cropped
+                      if (p.imageUrl.isNotEmpty)
+                        Image.asset(
+                          p.imageUrl,
+                          fit: BoxFit.contain,
+                          errorBuilder: (_, __, ___) => Icon(
                             _categoryIcon(p.category),
                             size: 56,
                             color: Colors.white.withValues(alpha: 0.3),
                           ),
+                        )
+                      else
+                        Icon(
+                          _categoryIcon(p.category),
+                          size: 56,
+                          color: Colors.white.withValues(alpha: 0.3),
                         ),
-                      ),
-                    if (p.isFeatured)
-                      Positioned(
-                        top: AppSizes.sm,
-                        right: AppSizes.sm,
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: AppSizes.sm,
-                            vertical: 3,
-                          ),
-                          decoration: BoxDecoration(
-                            color: AppColors.primary,
-                            borderRadius: BorderRadius.circular(
-                              AppSizes.radiusXl,
+                      if (p.isFeatured)
+                        Positioned(
+                          top: AppSizes.sm,
+                          right: AppSizes.sm,
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: AppSizes.sm,
+                              vertical: 3,
+                            ),
+                            decoration: BoxDecoration(
+                              color: AppColors.primary,
+                              borderRadius: BorderRadius.circular(
+                                AppSizes.radiusXl,
+                              ),
+                            ),
+                            child: Text(
+                              'Featured',
+                              style: Theme.of(context).textTheme.labelSmall
+                                  ?.copyWith(color: Colors.white),
                             ),
                           ),
-                          child: Text(
-                            'Featured',
-                            style: Theme.of(context).textTheme.labelSmall
-                                ?.copyWith(color: Colors.white),
-                          ),
                         ),
-                      ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
               Padding(
