@@ -34,28 +34,48 @@ class _ProjectCardState extends State<ProjectCard> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // Project image / gradient placeholder
-              Container(
-                height: 160,
-                decoration: BoxDecoration(
-                  borderRadius: const BorderRadius.vertical(
-                    top: Radius.circular(AppSizes.radiusMd),
-                  ),
-                  gradient: LinearGradient(
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                    colors: _categoryGradient(p.category),
-                  ),
+              ClipRRect(
+                borderRadius: const BorderRadius.vertical(
+                  top: Radius.circular(AppSizes.radiusMd),
                 ),
-                child: Stack(
-                  children: [
-                    Center(
-                      child: Icon(
-                        _categoryIcon(p.category),
-                        size: 56,
-                        color: Colors.white.withValues(alpha: 0.3),
+                child: SizedBox(
+                  height: 160,
+                  width: double.infinity,
+                  child: Stack(
+                    fit: StackFit.expand,
+                    children: [
+                      // Gradient background always visible
+                      Container(
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                            colors: _categoryGradient(p.category),
+                          ),
+                        ),
                       ),
-                    ),
-                    if (p.isFeatured)
+                      // Real image on top if available
+                      if (p.imageUrl.isNotEmpty)
+                        Image.asset(
+                          p.imageUrl,
+                          fit: BoxFit.cover,
+                          errorBuilder: (_, __, ___) => Center(
+                            child: Icon(
+                              _categoryIcon(p.category),
+                              size: 56,
+                              color: Colors.white.withValues(alpha: 0.3),
+                            ),
+                          ),
+                        )
+                      else
+                        Center(
+                          child: Icon(
+                            _categoryIcon(p.category),
+                            size: 56,
+                            color: Colors.white.withValues(alpha: 0.3),
+                          ),
+                        ),
+                      if (p.isFeatured)
                       Positioned(
                         top: AppSizes.sm,
                         right: AppSizes.sm,
@@ -77,7 +97,8 @@ class _ProjectCardState extends State<ProjectCard> {
                           ),
                         ),
                       ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
               Expanded(
