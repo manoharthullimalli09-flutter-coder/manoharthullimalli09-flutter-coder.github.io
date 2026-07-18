@@ -125,7 +125,7 @@ class _ProjectGrid extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cols = context.isDesktop ? 3 : (context.isTablet ? 2 : 1);
-    final ratio = context.isDesktop ? 0.68 : (context.isTablet ? 0.75 : 1.1);
+    final ratio = context.isDesktop ? 0.65 : (context.isTablet ? 0.68 : 0.72);
 
     return GridView.builder(
       shrinkWrap: true,
