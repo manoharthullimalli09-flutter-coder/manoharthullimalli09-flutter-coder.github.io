@@ -16,7 +16,10 @@
       "Bash(tasklist)",
       "Bash(grep -vE \"^animate: true$\")",
       "Bash(python -c ' *)",
-      "PowerShell(flutter build web --release --target lib/main_prod.dart --base-href \"/\" --tree-shake-icons 2>&1 | Select-String -Pattern \"Built|Failed|error:\" | Select-Object -Last 4; Write-Output \"--- bundle size ---\"; \"{0:N2} MB\" -f \\(\\(Get-ChildItem build\\\\web -Recurse -File | Measure-Object -Property Length -Sum\\).Sum / 1MB\\))"
+      "PowerShell(flutter build web --release --target lib/main_prod.dart --base-href \"/\" --tree-shake-icons 2>&1 | Select-String -Pattern \"Built|Failed|error:\" | Select-Object -Last 4; Write-Output \"--- bundle size ---\"; \"{0:N2} MB\" -f \\(\\(Get-ChildItem build\\\\web -Recurse -File | Measure-Object -Property Length -Sum\\).Sum / 1MB\\))",
+      "Bash(git remote *)",
+      "Bash(git config *)",
+      "Bash(git commit *)"
     ]
   }
 }
