@@ -6,7 +6,17 @@
       "Bash(flutter pub *)",
       "Bash(flutter analyze *)",
       "Bash(flutter test *)",
-      "Read(//private/tmp/**)"
+      "Read(//private/tmp/**)",
+      "WebFetch(domain:manoharthullimalli09-flutter-coder.github.io)",
+      "Bash(grep -v \"^animate: true$\")",
+      "Bash(flutter build *)",
+      "PowerShell(flutter build web --release --target lib/main_prod.dart --base-href \"/\" --tree-shake-icons 2>&1)",
+      "Bash(grep -vE \"^animate: true$\" \"C:\\\\Users\\\\RDP0008\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\c--Users-RDP0008-projects-my-project-manoharthullimalli09-flutter-coder-github-io\\\\d9eab019-5971-41cf-90a2-5d6b6f24f1bb\\\\tasks\\\\bjp1nnws2.output\")",
+      "Bash(grep -E \"^[0-9]+:[0-9]+ \\\\+[0-9]+ -[0-9]+.*\\\\[E\\\\]$\")",
+      "Bash(tasklist)",
+      "Bash(grep -vE \"^animate: true$\")",
+      "Bash(python -c ' *)",
+      "PowerShell(flutter build web --release --target lib/main_prod.dart --base-href \"/\" --tree-shake-icons 2>&1 | Select-String -Pattern \"Built|Failed|error:\" | Select-Object -Last 4; Write-Output \"--- bundle size ---\"; \"{0:N2} MB\" -f \\(\\(Get-ChildItem build\\\\web -Recurse -File | Measure-Object -Property Length -Sum\\).Sum / 1MB\\))"
     ]
   }
 }

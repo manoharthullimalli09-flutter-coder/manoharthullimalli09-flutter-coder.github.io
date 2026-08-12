@@ -123,7 +123,7 @@ lib/
 │   │   │   └── repositories/ # ProjectsRepositoryImpl (filter runs in-memory)
 │   │   └── presentation/
 │   │       ├── bloc/         # ProjectsBloc (LoadProjects, FilterByPlatform, ClearFilter), caches _allProjects
-│   │       └── widgets/      # ProjectsSection (filter chips), ProjectCard (hover lift, category gradient, platform badges, tech chips)
+│   │       └── widgets/      # ProjectsSection (filter chips + _HoverableRow width tween), ProjectCard (4:3 artwork + floating panel), ProjectDetailDialog (full description, stack, all links), project_chips.dart (PlatformBadge, TechChip, CategoryArtwork)
 │   │
 │   ├── skills/
 │   │   ├── domain/
@@ -658,8 +658,8 @@ Every section of this app must implicitly prove one or more of the following:
 
 ## Current Status
 
-> Last updated: 2026-06-30
-> `flutter analyze` → **0 issues** | `flutter test` → **67 tests passing**
+> Last updated: 2026-08-12
+> `flutter analyze` → **0 issues** | `flutter test` → **84 tests passing**
 
 ### Foundation
 - [x] Flutter project initialized (`flutter create . --org com.manoharthullimalli`)
@@ -679,20 +679,31 @@ Every section of this app must implicitly prove one or more of the following:
 - [x] `SectionHeader` — animated title with accent lines + subtitle
 - [x] `GradientText` — ShaderMask purple→cyan on any text
 - [x] `AnimatedCounter` — smooth count-up with CurvedAnimation
-- [x] `PortfolioNavBar` — sticky (transparent → frosted on scroll), desktop links + mobile hamburger + theme toggle
+- [x] `PortfolioNavBar` — sticky, desktop links + mobile hamburger + theme toggle
+  - Real frosted glass: `BackdropFilter` (sigma 18) + 88% tint, **mounted only while scrolled** — a `BackdropFilter` costs a `saveLayer` every frame even at sigma 0, and there is nothing to frost at the top of the page
+  - `PortfolioNavBar.height` (72) is the single source of truth for both the leading sliver spacer and section scroll targets
+  - `PortfolioNavBar.scrollToSection()` — shared by the nav links *and* the hero CTAs. `Scrollable.ensureVisible` aligns a target's top edge to the viewport top, which on this page is **behind** the bar, hiding every section header it lands on; this offsets by bar height + margin instead
 - [x] `ParticlesBackground` — `CustomPainter` animated particle field (40 particles, 20s loop, `RepaintBoundary`), wraps hero section
 
 ### Features — Web First
 - [x] Hero section — typewriter tagline, animated stat counters (5+ yrs, 20+ projects, 4 platforms), avatar with glow rings, available badge, CTA buttons wired to smooth-scroll (`onViewWork` → Projects, `onHireMe` → Contact), desktop side-by-side / mobile stacked
-- [x] Projects showcase — 6 projects, platform filter chips (All/Android/iOS/Web/Desktop), 3-col responsive grid, hover-lift card, category gradient header, platform badges, tech chips, featured label
+- [x] Projects showcase — 6 projects, platform filter chips (All/Android/iOS/Web/Desktop), 3-col desktop / 2-col tablet / 1-col mobile grid, featured label
+  - **Coordinated hover** (`_HoverableRow`) — the hovered card takes a larger share of the row's width and its siblings give the same amount back. Width is the *only* animated value: one `AnimationController` lerps a list of width shares that always sums to the same total, so the row's width is constant every frame and sliding the pointer between cards cannot overflow the `Row`
+  - **The two halves grow differently** — artwork keeps `ProjectCard.imageAspect` against the animated width and expands about a fixed centre line (all four sides, rising above its neighbours); the panel sits at a constant offset inside a constant-height box, so panels stay level and the row never changes height. Hover headroom is reserved even in a partial final row that cannot grow, so a lone card boxes out to the same height as the rows above
+  - `ProjectCard.imageAspect` = `4 / 3` — the one constant controlling artwork shape; lower is taller (16/9 read as a thin banner strip)
+  - Platform badges overlay the artwork (translucent, legible against any screenshot); the panel spends its space on `TechChip`s instead, clipped to one row so a widening card reveals more of the stack
+  - Store link is revealed on hover (desktop) with its height permanently reserved, and `IgnorePointer` while hidden so there is no invisible click target; always visible on mobile, which has no hover
 - [x] Skills section — 5 skill categories, animated bars (1200ms ease-out, primary→cyan lerp), responsive 3-col grid
 - [x] Contact section — desktop side-by-side / mobile stacked, validated form (name/email/subject/message), submitting state, success view, reset, social links (GitHub/LinkedIn), `_DownloadResumeButton` (calls `DownloadResumeUseCase`)
 - [x] Dark/light mode toggle — `ThemeCubit`, persisted via `SharedPreferences`, `AnimatedSwitcher` icon
 - [x] SEO meta tags in `web/index.html` — OG, Twitter Card, description, keywords, theme-color
 - [x] Branded web loader — `MT.` gradient logo + spinner, hides on `flutter-first-frame` event
 - [x] `PortfolioPage` — `CustomScrollView` + `Stack` overlay nav, `RepaintBoundary` on every section, footer with "Built with Flutter" tagline
-- [ ] Resume PDF asset — `Manohar_Thullimalli_Resume.pdf` not yet added to `assets/resume/` (use case + button already wired)
-- [ ] Profile photo — `assets/images/profile.jpg` not yet added (gradient avatar icon shown as fallback)
+- [x] Resume PDF asset — `assets/resume/Manohar_Thullimalli_Resume.pdf` present, wired to `DownloadResumeUseCase`
+- [x] Profile photo — `assets/images/profile.jpg` present
+- [x] Project cards — platform badges overlay the artwork; `techStack` renders as `TechChip`s clipped to one row; whole card opens `ProjectDetailDialog` (untruncated description, full stack, every store link)
+- [x] `CategoryArtwork` — gradient + category watermark glyph, so a project without a screenshot reads as designed rather than broken
+- [ ] `assets/images/project_hr.webp` — referenced by "HR Productivity Dashboard" but missing; currently falls back to `CategoryArtwork`
 
 ### Tests (67 passing, 0 failing)
 - [x] **Hero** — `DeveloperModel` (fromJson/toJson/copyWith/SocialLinks, 9 tests) · `HeroRepositoryImpl` (success/ParseFailure/CacheFailure, 3 tests) · `GetDeveloperInfoUseCase` (success/failure, 2 tests) · `HeroBloc` (initial/Loaded/Error, 3 tests)
@@ -700,7 +711,12 @@ Every section of this app must implicitly prove one or more of the following:
 - [x] **Skills** — `SkillModel`/`SkillCategoryModel` (fromJson/toJson/equality, 5 tests) · `SkillsRepositoryImpl` (success/ParseFailure/CacheFailure, 3 tests) · `GetSkillsUseCase` (success/failure, 2 tests) · `SkillsCubit` (initial/Loaded/Error/verify content, 4 tests)
 - [x] **Contact** — `ContactFormModel` (fromEntity/toEmailJsParams/equality, 3 tests) · `ContactRepositoryImpl` (success/NetworkFailure/ServerFailure/exception, 4 tests) · `SubmitContactFormUseCase` (success/ServerFailure/NetworkFailure, 3 tests) · `ContactBloc` (initial/Success/Error×2/Reset/entity equality, 6 tests)
 - [x] Shared test helpers — `test_data.dart` (all fixtures), `mock_repositories.dart` (mocktail mocks for all repos + use cases), `pump_app.dart` (real `ThemeCubit` with mocked prefs)
-- [ ] Widget tests for section widgets (pending)
+- [x] **Projects widget tests** (17) — `projects_section_test.dart`
+  - Hover geometry: hovered card widens / siblings narrow · every card in a row keeps the same height · tops and bottoms stay aligned · **artwork scales on all sides** (rise == drop about a fixed centre) · **panel changes width only, never vertical position**
+  - Layout safety: no `Row` overflow when sliding straight between cards mid-tween · partial final row matches full-row sizing · tech-chip clipping at 390/768/1440/1920px
+  - Content: tech stack renders on cards · store link revealed only on the hovered card · mobile shows links without hover
+  - Detail dialog: opens on tap · untruncated description · every technology the card clipped · every store link, not just the card's one · closes without disturbing the grid
+- [ ] Widget tests for hero / skills / contact sections (pending)
 - [ ] Integration test — full scroll, theme toggle, contact form (pending)
 - [ ] Web `RepaintBoundary` profiling — confirm 60fps in Chrome DevTools (pending)
 

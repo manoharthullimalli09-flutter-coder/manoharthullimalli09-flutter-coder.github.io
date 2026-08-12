@@ -30,16 +30,8 @@ class _PortfolioPageState extends State<PortfolioPage> {
     super.dispose();
   }
 
-  void _scrollTo(GlobalKey key) {
-    final ctx = key.currentContext;
-    if (ctx != null) {
-      Scrollable.ensureVisible(
-        ctx,
-        duration: const Duration(milliseconds: 600),
-        curve: Curves.easeInOut,
-      );
-    }
-  }
+  void _scrollTo(GlobalKey key) =>
+      PortfolioNavBar.scrollToSection(_scrollController, key);
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +47,9 @@ class _PortfolioPageState extends State<PortfolioPage> {
             controller: _scrollController,
             slivers: [
               // NavBar space
-              const SliverToBoxAdapter(child: SizedBox(height: 72)),
+              const SliverToBoxAdapter(
+                child: SizedBox(height: PortfolioNavBar.height),
+              ),
 
               // Hero
               SliverToBoxAdapter(

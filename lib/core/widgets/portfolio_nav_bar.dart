@@ -1,3 +1,5 @@
+import 'dart:ui' show ImageFilter;
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../constants/app_colors.dart';
@@ -6,6 +8,13 @@ import '../extensions/context_extensions.dart';
 import '../../features/theme_switcher/presentation/bloc/theme_cubit.dart';
 
 class PortfolioNavBar extends StatefulWidget {
+  /// Height of the sticky bar. Content scrolls beneath it, so section
+  /// targets and the leading spacer both have to account for it.
+  static const double height = 72;
+
+  /// Gap left between the bar and the top of the section it reveals.
+  static const double _scrollMargin = 16;
+
   final ScrollController scrollController;
   final List<GlobalKey> sectionKeys;
 
@@ -14,6 +23,27 @@ class PortfolioNavBar extends StatefulWidget {
     required this.scrollController,
     required this.sectionKeys,
   });
+
+  /// Brings [key]'s section to rest just below the bar.
+  ///
+  /// `Scrollable.ensureVisible` aligns the target's top edge with the
+  /// viewport's top edge — which on this page is behind the bar, hiding
+  /// every section header it lands on.
+  static void scrollToSection(ScrollController controller, GlobalKey key) {
+    final box = key.currentContext?.findRenderObject();
+    if (box is! RenderBox || !controller.hasClients) return;
+
+    final target = controller.offset +
+        box.localToGlobal(Offset.zero).dy -
+        height -
+        _scrollMargin;
+
+    controller.animateTo(
+      target.clamp(0.0, controller.position.maxScrollExtent),
+      duration: const Duration(milliseconds: 700),
+      curve: Curves.easeInOutCubic,
+    );
+  }
 
   @override
   State<PortfolioNavBar> createState() => _PortfolioNavBarState();
@@ -39,28 +69,20 @@ class _PortfolioNavBarState extends State<PortfolioNavBar> {
     super.dispose();
   }
 
-  void _scrollTo(GlobalKey key) {
-    final ctx = key.currentContext;
-    if (ctx != null) {
-      Scrollable.ensureVisible(
-        ctx,
-        duration: const Duration(milliseconds: 600),
-        curve: Curves.easeInOut,
-      );
-    }
-  }
+  void _scrollTo(GlobalKey key) =>
+      PortfolioNavBar.scrollToSection(widget.scrollController, key);
 
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    return AnimatedContainer(
+    // Opaque enough that section headers passing underneath cannot ghost
+    // through the bar, with a real blur behind it for the frosted look.
+    final tint = isDark ? AppColors.surface : Colors.white;
+
+    final bar = AnimatedContainer(
       duration: const Duration(milliseconds: 250),
       decoration: BoxDecoration(
-        color: _isScrolled
-            ? (isDark
-                  ? AppColors.surface.withValues(alpha: 0.95)
-                  : Colors.white.withValues(alpha: 0.95))
-            : Colors.transparent,
+        color: _isScrolled ? tint.withValues(alpha: 0.88) : Colors.transparent,
         border: _isScrolled
             ? Border(
                 bottom: BorderSide(
@@ -88,6 +110,18 @@ class _PortfolioNavBarState extends State<PortfolioNavBar> {
               ? _MobileNav(onTap: _scrollTo, sectionKeys: widget.sectionKeys)
               : _DesktopNav(onTap: _scrollTo, sectionKeys: widget.sectionKeys),
         ),
+      ),
+    );
+
+    // Mounted only while the bar is actually tinted. A BackdropFilter costs a
+    // saveLayer every frame even at sigma 0, and at the top of the page there
+    // is nothing behind the bar to frost.
+    if (!_isScrolled) return bar;
+
+    return ClipRect(
+      child: BackdropFilter(
+        filter: ImageFilter.blur(sigmaX: 18, sigmaY: 18),
+        child: bar,
       ),
     );
   }

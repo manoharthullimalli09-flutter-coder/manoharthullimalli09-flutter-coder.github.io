@@ -155,7 +155,7 @@ class _ProjectGrid extends StatelessWidget {
           if (i > 0) const SizedBox(height: 28),
           FadeInUp(
             delay: Duration(milliseconds: 120 * i),
-            child: _HoverableRow(projects: chunks[i]),
+            child: _HoverableRow(projects: chunks[i], slots: chunkSize),
           ),
         ],
       ],
@@ -163,41 +163,147 @@ class _ProjectGrid extends StatelessWidget {
   }
 }
 
-/// Tracks which card is hovered and tells all siblings, enabling the
-/// Infosys-style grow/shrink coordinated animation.
+/// Coordinated hover for a row of cards: the hovered card takes a larger
+/// share of the row's width and its siblings give the same amount back.
+///
+/// Width is the only thing this row animates. Each [ProjectCard] turns that
+/// into artwork that scales on every side while its panel stays level with
+/// the rest of the row — see that class for the split.
 class _HoverableRow extends StatefulWidget {
   final List<ProjectEntity> projects;
-  const _HoverableRow({required this.projects});
+
+  /// Cards are sized against the row's capacity, not its contents, so a
+  /// partial final row matches the rows above it instead of stretching.
+  final int slots;
+
+  const _HoverableRow({required this.projects, required this.slots});
 
   @override
   State<_HoverableRow> createState() => _HoverableRowState();
 }
 
-class _HoverableRowState extends State<_HoverableRow> {
-  int? _hoveredIndex;
+class _HoverableRowState extends State<_HoverableRow>
+    with SingleTickerProviderStateMixin {
+  static const _gap = 24.0;
+
+  /// Extra width the hovered card takes, as a fraction of an even share.
+  static const _growth = 0.20;
+  static const _duration = Duration(milliseconds: 420);
+
+  late final AnimationController _controller;
+  late List<double> _from;
+  late List<double> _to;
+  int? _hovered;
+
+  int get _count => widget.projects.length;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(duration: _duration, vsync: this)
+      ..value = 1;
+    _from = _sharesFor(null);
+    _to = _from;
+  }
+
+  @override
+  void didUpdateWidget(_HoverableRow oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    // Filter chips change the row's length and a resize changes its slot
+    // count; stale share lists would index out of range on the next frame.
+    if (oldWidget.projects.length != _count ||
+        oldWidget.slots != widget.slots) {
+      _hovered = null;
+      _from = _sharesFor(null);
+      _to = _from;
+      _controller.value = 1;
+    }
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  /// The shares always add up to the same total, whichever card is hovered,
+  /// so the row's width is constant on every frame — otherwise dragging the
+  /// pointer straight from one card to the next overflows the Row mid-tween.
+  List<double> _sharesFor(int? hovered) {
+    final base = 1 / widget.slots;
+    if (hovered == null || _count < 2) return List.filled(_count, base);
+    final gain = base * _growth;
+    return [
+      for (var i = 0; i < _count; i++)
+        i == hovered ? base + gain : base - gain / (_count - 1),
+    ];
+  }
+
+  List<double> get _shares {
+    final t = Curves.easeOutCubic.transform(_controller.value);
+    return [
+      for (var i = 0; i < _count; i++) _from[i] + (_to[i] - _from[i]) * t,
+    ];
+  }
+
+  void _hover(int? index) {
+    if (_hovered == index) return;
+    setState(() {
+      _from = _shares;
+      _to = _sharesFor(index);
+      _hovered = index;
+    });
+    _controller.forward(from: 0);
+  }
 
   @override
   Widget build(BuildContext context) {
-    final items = widget.projects;
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.end,
-      children: [
-        for (var i = 0; i < items.length; i++) ...[
-          if (i > 0) const SizedBox(width: 20),
-          Expanded(
-            child: MouseRegion(
-              onEnter: (_) => setState(() => _hoveredIndex = i),
-              onExit: (_) => setState(() => _hoveredIndex = null),
-              cursor: SystemMouseCursors.click,
-              child: ProjectCard(
-                project: items[i],
-                isHovered: _hoveredIndex == i,
-                anyHovered: _hoveredIndex != null,
-              ),
-            ),
-          ),
-        ],
-      ],
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final available = constraints.maxWidth - _gap * (widget.slots - 1);
+        final base = available / widget.slots;
+
+        // Artwork height at rest and at full hover. The card uses both to
+        // reserve a constant-height box, so the panels stay level while the
+        // artwork inside is free to grow past them.
+        //
+        // The headroom is reserved even in a row that cannot grow — a lone
+        // card in a partial final row must still box out to the same height
+        // as the full rows above it.
+        final baseImageHeight = base / ProjectCard.imageAspect;
+        final maxImageHeight =
+            base * (1 + _growth) / ProjectCard.imageAspect;
+
+        return AnimatedBuilder(
+          animation: _controller,
+          builder: (context, _) {
+            final shares = _shares;
+
+            return Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                for (var i = 0; i < _count; i++) ...[
+                  if (i > 0) const SizedBox(width: _gap),
+                  SizedBox(
+                    width: available * shares[i],
+                    child: MouseRegion(
+                      onEnter: (_) => _hover(i),
+                      onExit: (_) => _hover(null),
+                      cursor: SystemMouseCursors.click,
+                      child: ProjectCard(
+                        project: widget.projects[i],
+                        isHovered: _hovered == i,
+                        baseImageHeight: baseImageHeight,
+                        maxImageHeight: maxImageHeight,
+                      ),
+                    ),
+                  ),
+                ],
+              ],
+            );
+          },
+        );
+      },
     );
   }
 }
