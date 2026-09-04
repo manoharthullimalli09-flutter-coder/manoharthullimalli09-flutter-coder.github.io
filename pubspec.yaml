@@ -19,7 +19,7 @@ dependencies:
 
   # State management — BLoC only
   flutter_bloc: ^8.1.6
-  equatable: ^2.0.5
+  equatable: ^2.1.0
 
   # Dependency injection
   get_it: ^7.7.0
@@ -29,9 +29,9 @@ dependencies:
 
   # UI & Animations
   animate_do: ^3.3.4
-  lottie: ^3.1.2
+  lottie: ^3.5.1
   google_fonts: ^6.2.1
-  flutter_svg: ^2.0.10+1
+  flutter_svg: ^2.3.0
 
   # Responsive layout
   responsive_framework: ^1.4.0
@@ -41,11 +41,11 @@ dependencies:
 
   # Platform utilities
   url_launcher: ^6.3.0
-  window_manager: ^0.3.9
+  window_manager: ^0.5.2
   open_filex: ^4.5.0
 
   # Persistence
-  shared_preferences: ^2.3.1
+  shared_preferences: ^2.5.5
 
   # HTTP client
   dio: ^5.7.0
@@ -60,7 +60,7 @@ dev_dependencies:
     sdk: flutter
 
   flutter_lints: ^5.0.0
-  flutter_native_splash: ^2.4.1
+  flutter_native_splash: ^2.4.8
 
   # Testing
   bloc_test: ^9.1.7
