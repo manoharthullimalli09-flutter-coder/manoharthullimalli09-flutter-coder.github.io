@@ -37,7 +37,7 @@ dependencies:
   responsive_framework: ^1.4.0
 
   # Media
-  cached_network_image: ^3.3.1
+  cached_network_image: ^4.0.0
 
   # Platform utilities
   url_launcher: ^6.3.0
