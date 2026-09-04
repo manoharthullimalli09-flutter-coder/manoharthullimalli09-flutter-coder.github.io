@@ -22,7 +22,7 @@ dependencies:
   equatable: ^2.0.5
 
   # Dependency injection
-  get_it: ^7.7.0
+  get_it: ^9.2.1
 
   # Functional error handling
   dartz: ^0.10.1
