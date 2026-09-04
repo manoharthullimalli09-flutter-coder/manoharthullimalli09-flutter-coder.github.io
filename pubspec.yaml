@@ -28,7 +28,7 @@ dependencies:
   dartz: ^0.10.1
 
   # UI & Animations
-  animate_do: ^3.3.4
+  animate_do: ^5.1.0
   lottie: ^3.1.2
   google_fonts: ^6.2.1
   flutter_svg: ^2.0.10+1
