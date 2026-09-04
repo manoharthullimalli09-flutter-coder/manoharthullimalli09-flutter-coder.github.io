@@ -96,7 +96,8 @@ lib/
 │   ├── theme/                # AppTheme.dark() / AppTheme.light() — full Material 3 ThemeData
 │   ├── usecases/             # UseCase<Type, Params> abstract + NoParams
 │   ├── utils/                # ResponsiveUtil, ResponsiveLayout widget
-│   └── widgets/              # Shared UI: GlassCard, SectionHeader, GradientText, AnimatedCounter, PortfolioNavBar
+│   └── widgets/              # Shared UI: GlassCard, SectionHeader, GradientText, AnimatedCounter,
+│                             #   PortfolioNavBar, ParticlesBackground, PortfolioChatbot
 │
 ├── features/
 │   ├── hero/
@@ -167,13 +168,18 @@ lib/
 └── l10n.yaml                 # arb-dir, template, output config
 │
 assets/
-├── images/                   # profile.jpg, project screenshots (webp preferred)
+├── images/                   # profile.jpg + 5 shipped-app logos (heartintune, sampangi,
+│                             #   elegant, aduri, maabhoomi — all .webp, 480x480)
 ├── resume/                   # Manohar_Thullimalli_Resume.pdf
 └── data/
     └── portfolio_data.json   # developer, projects (6), skillCategories (5) — single source of truth
 │
 web/
-└── index.html                # SEO meta, OG/Twitter cards, branded loader (MT. gradient spinner)
+├── index.html                # SEO meta, OG/Twitter cards, branded loader (MT. gradient spinner)
+├── favicon.svg               # MT. gradient mark — primary icon, crisp at any size
+├── favicon.png               # raster fallback for browsers without SVG icon support
+├── manifest.json             # PWA name, theme colors, icon set
+└── icons/                    # Icon-192.png, Icon-512.png (also the OG/Twitter image)
 │
 .github/
 └── workflows/
@@ -408,7 +414,7 @@ testWidgets('ProjectCard displays title and tech chips', (tester) async {
 ### Web (PRIMARY PLATFORM)
 - **This is the main deliverable** — design and test web first, then verify other platforms
 - SEO meta tags in `web/index.html`: `og:title`, `og:description`, `og:image`, `twitter:card`
-- `PathUrlStrategy` — no `#` hash in URLs (`manoharthullimalli.github.io/projects` not `.../#/projects`)
+- `PathUrlStrategy` — no `#` hash in URLs (`manoharthullimalli09-flutter-coder.github.io/projects` not `.../#/projects`)
 - Preloader in `web/index.html` with branded splash while Flutter initializes
 - `<meta name="description">` and structured `<title>` for Google indexing
 - Smooth scroll behavior via `ScrollController` coordinated with go_router
@@ -440,8 +446,10 @@ The website must be **100% free to host** forever. GitHub Pages is the chosen pl
 
 ### Deployment URL (no cost)
 ```
-https://manoharthullimalli.github.io
+https://manoharthullimalli09-flutter-coder.github.io
 ```
+Served from the `gh-pages` branch, which the workflow below force-pushes on every
+green build of `main`.
 If a custom domain is purchased later, GitHub Pages supports it for free (just CNAME + DNS).
 
 ### GitHub Pages Setup
@@ -459,28 +467,56 @@ gh-pages -d build/web
 ```
 
 ### GitHub Actions CI/CD Workflow (free, runs on every push to main)
+Two jobs: `test` gates `deploy`, so a red analyzer or a failing test never reaches
+the live site. PRs run `test` only — `deploy` is guarded on a push to `main`.
+
 ```yaml
 # .github/workflows/deploy_web.yml
 name: Deploy Flutter Web to GitHub Pages
 on:
   push:
     branches: [main]
+  pull_request:
+    branches: [main]
+
 jobs:
-  deploy:
+  test:
+    name: Run Tests
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: subosito/flutter-action@v2
         with:
-          flutter-version: 'stable'
+          channel: stable
+          cache: true
       - run: flutter pub get
-      - run: flutter test                          # must pass before deploy
-      - run: flutter build web --release --base-href "/"
+      - run: flutter analyze
+      - run: flutter test --coverage
+
+  deploy:
+    name: Build & Deploy Web
+    runs-on: ubuntu-latest
+    needs: test
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+      - run: flutter pub get
+      - run: flutter gen-l10n
+      - run: flutter build web --release --target lib/main_prod.dart --base-href "/" --tree-shake-icons
       - uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: build/web
 ```
+
+> **Never pass `cname: ''` to `peaceiris/actions-gh-pages`.** An empty string still
+> writes a `CNAME` file, and GitHub's own "pages build and deployment" job then fails
+> on the empty custom domain — the Actions run goes green while the site silently
+> serves the previous build. Omit the key entirely unless a real domain is set.
 
 ### Web Performance Targets
 | Metric | Target | How achieved |
@@ -658,8 +694,9 @@ Every section of this app must implicitly prove one or more of the following:
 
 ## Current Status
 
-> Last updated: 2026-08-12
+> Last updated: 2026-09-04
 > `flutter analyze` → **0 issues** | `flutter test` → **84 tests passing**
+> Live: <https://manoharthullimalli09-flutter-coder.github.io>
 
 ### Foundation
 - [x] Flutter project initialized (`flutter create . --org com.manoharthullimalli`)
@@ -684,10 +721,15 @@ Every section of this app must implicitly prove one or more of the following:
   - `PortfolioNavBar.height` (72) is the single source of truth for both the leading sliver spacer and section scroll targets
   - `PortfolioNavBar.scrollToSection()` — shared by the nav links *and* the hero CTAs. `Scrollable.ensureVisible` aligns a target's top edge to the viewport top, which on this page is **behind** the bar, hiding every section header it lands on; this offsets by bar height + margin instead
 - [x] `ParticlesBackground` — `CustomPainter` animated particle field (40 particles, 20s loop, `RepaintBoundary`), wraps hero section
+- [x] `PortfolioChatbot` — floating FAB bottom-right, expands to a scrollable chat panel (scale + fade, 200ms)
+  - **Rule-based, no LLM and no network.** `_getResponse()` is a pure keyword matcher over the visitor's lowercased text: an ordered `if` chain of `_matches(q, [...synonyms])` returning canned answers on experience, skills, projects, availability, location, contact, resume, GitHub/LinkedIn, Flutter, and state management, with a fallback for anything unmatched. Free to host and works offline, in keeping with the rest of the app
+  - The one place `setState` is allowed to carry content: the message list is ephemeral view state that no other widget reads, and the responses are a pure function of the input, so there is no business logic for a BLoC to own
+  - **Its answers are hardcoded, not read from `portfolio_data.json`** — so they drift the moment the JSON changes. See the stale-content item under Known Gaps
 
 ### Features — Web First
 - [x] Hero section — typewriter tagline, animated stat counters (5+ yrs, 20+ projects, 4 platforms), avatar with glow rings, available badge, CTA buttons wired to smooth-scroll (`onViewWork` → Projects, `onHireMe` → Contact), desktop side-by-side / mobile stacked
 - [x] Projects showcase — 6 projects, platform filter chips (All/Android/iOS/Web/Desktop), 3-col desktop / 2-col tablet / 1-col mobile grid, featured label
+  - **The six are real, shipped apps, not samples** — HeartInTune (Heartfulness meditation, *featured*), Sampangi (real estate, *featured*), My Elegant Group, Aduri Infra, Maa Bhoomi (all live on Play Store with working `playStoreUrl`s), and the HR Productivity Dashboard (web/desktop, no public URL). Recruiter-facing copy leans on this — keep placeholder projects out of `portfolio_data.json`
   - **Coordinated hover** (`_HoverableRow`) — the hovered card takes a larger share of the row's width and its siblings give the same amount back. Width is the *only* animated value: one `AnimationController` lerps a list of width shares that always sums to the same total, so the row's width is constant every frame and sliding the pointer between cards cannot overflow the `Row`
   - **The two halves grow differently** — artwork keeps `ProjectCard.imageAspect` against the animated width and expands about a fixed centre line (all four sides, rising above its neighbours); the panel sits at a constant offset inside a constant-height box, so panels stay level and the row never changes height. Hover headroom is reserved even in a partial final row that cannot grow, so a lone card boxes out to the same height as the rows above
   - `ProjectCard.imageAspect` = `4 / 3` — the one constant controlling artwork shape; lower is taller (16/9 read as a thin banner strip)
@@ -701,11 +743,12 @@ Every section of this app must implicitly prove one or more of the following:
 - [x] `PortfolioPage` — `CustomScrollView` + `Stack` overlay nav, `RepaintBoundary` on every section, footer with "Built with Flutter" tagline
 - [x] Resume PDF asset — `assets/resume/Manohar_Thullimalli_Resume.pdf` present, wired to `DownloadResumeUseCase`
 - [x] Profile photo — `assets/images/profile.jpg` present
+- [x] `PortfolioChatbot` mounted as a `Positioned` overlay in `PortfolioPage`'s `Stack` — sits above every section, outside the `CustomScrollView`, so it stays pinned while the page scrolls
 - [x] Project cards — platform badges overlay the artwork; `techStack` renders as `TechChip`s clipped to one row; whole card opens `ProjectDetailDialog` (untruncated description, full stack, every store link)
 - [x] `CategoryArtwork` — gradient + category watermark glyph, so a project without a screenshot reads as designed rather than broken
 - [ ] `assets/images/project_hr.webp` — referenced by "HR Productivity Dashboard" but missing; currently falls back to `CategoryArtwork`
 
-### Tests (67 passing, 0 failing)
+### Tests (84 passing, 0 failing)
 - [x] **Hero** — `DeveloperModel` (fromJson/toJson/copyWith/SocialLinks, 9 tests) · `HeroRepositoryImpl` (success/ParseFailure/CacheFailure, 3 tests) · `GetDeveloperInfoUseCase` (success/failure, 2 tests) · `HeroBloc` (initial/Loaded/Error, 3 tests)
 - [x] **Projects** — `ProjectModel` (fromJson/toJson/equality, 3 tests) · `ProjectsRepositoryImpl` (getProjects + getByPlatform, 5 tests) · `GetProjectsUseCase` + `FilterProjectsByPlatformUseCase` (4 tests) · `ProjectsBloc` (initial/Loaded/Error/filter/clearFilter, 6 tests)
 - [x] **Skills** — `SkillModel`/`SkillCategoryModel` (fromJson/toJson/equality, 5 tests) · `SkillsRepositoryImpl` (success/ParseFailure/CacheFailure, 3 tests) · `GetSkillsUseCase` (success/failure, 2 tests) · `SkillsCubit` (initial/Loaded/Error/verify content, 4 tests)
@@ -738,6 +781,30 @@ Every section of this app must implicitly prove one or more of the following:
 - `flutter_web_plugins` must be listed as a `sdk: flutter` dep (not pub.dev) — provides `usePathUrlStrategy()`
 - Fonts: Inter loaded via `google_fonts` package (no local font files needed)
 - `Right(value)` in tests infers `Right<dynamic, T>` which doesn't equal `Right<Failure, T>` — always use `.fold()` assertions for repository return values
+- **Web resume download** — `DownloadResumeUseCase` resolves `Uri.base.resolve(assetPath)` on web so `url_launcher` receives a full `https://` URL it can open in a tab; a bare `assets/...` path is not a launchable URI. A browser may still block it as a popup if the tap isn't seen as a user gesture
+- **`peaceiris/actions-gh-pages` + `cname: ''`** — an empty CNAME breaks GitHub's Pages deploy while the Actions run stays green; see the Deployment section
+- **Project logos are square (480×480)** — `BoxFit.cover` against a wide card crops top and bottom, which reads as an intentional banner; `BoxFit.contain` letterboxes and `fitWidth` overflows an unbounded-height parent. `cover` is the deliberate choice
+- `GridView` + `childAspectRatio` was abandoned for the projects grid — a fixed ratio cannot express "hovered card grows, siblings shrink". The grid is hand-chunked into `_HoverableRow`s instead
+
+### Known Gaps — Content, Not Code
+
+These all pass `analyze` and `test`; they are places where the shipped data is
+thinner than what the UI claims. Worth fixing before sending the link to a recruiter.
+
+- [ ] **`PortfolioChatbot` still answers with the old placeholder projects** — asked about
+      work it lists "E-Commerce platform (10k+ users) / Healthcare Patient Portal /
+      FinTech Invoice Manager / Logistics Tracking / Community Social App", none of which
+      exist any more. The cards directly above it show the six real apps, so a visitor who
+      opens the chat sees the portfolio contradict itself. Fix by sourcing the answer from
+      `portfolio_data.json` rather than restating it in Dart
+- [ ] **Every `appStoreUrl` is `""`** — HeartInTune and Sampangi descriptions both say
+      "Published on both Play Store and App Store", and all five mobile apps carry an
+      `ios` platform badge, but only the Play Store links resolve. Either fill in the
+      App Store URLs or soften the copy
+- [ ] **`assets/images/project_hr.webp` absent** — "HR Productivity Dashboard" falls back
+      to `CategoryArtwork`. Correct behaviour, but it is the one card without real artwork
+- [ ] **Hero stat counters are round numbers** (`20+` projects) while `portfolio_data.json`
+      carries six — fine as a career total, but the two should not read as the same figure
 
 ### Cross-Platform Verification
 - [ ] Responsive verified: 375px (mobile) · 768px (tablet) · 1440px (desktop) · 1920px (wide)
@@ -746,8 +813,8 @@ Every section of this app must implicitly prove one or more of the following:
 - [ ] iOS build — universal, splash, archive
 
 ### Deployment
-- [ ] GitHub repo created — `github.com/manoharthullimalli/manoharthullimalli.github.io`
-- [ ] GitHub Pages live at `https://manoharthullimalli.github.io`
+- [x] GitHub repo created — `github.com/manoharthullimalli09-flutter-coder/manoharthullimalli09-flutter-coder.github.io`
+- [x] GitHub Pages live at `https://manoharthullimalli09-flutter-coder.github.io` — auto-deploys from `main` via Actions
 - [ ] Lighthouse score 90+ on Performance, Accessibility, SEO
 - [ ] Android build submitted to Play Store
 - [ ] iOS build submitted to App Store
