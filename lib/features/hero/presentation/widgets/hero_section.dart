@@ -85,7 +85,7 @@ class _HeroDesktop extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              _AvailableBadge(),
+              _AvailableBadge(location: dev.location),
               const SizedBox(height: AppSizes.lg),
               FadeInLeft(
                 duration: const Duration(milliseconds: 700),
@@ -176,7 +176,7 @@ class _HeroMobile extends StatelessWidget {
         const SizedBox(height: AppSizes.xl),
         FadeInDown(child: const HeroAvatar()),
         const SizedBox(height: AppSizes.xl),
-        _AvailableBadge(),
+        _AvailableBadge(location: dev.location),
         const SizedBox(height: AppSizes.md),
         FadeInUp(
           child: Text(
@@ -224,23 +224,26 @@ class _HeroMobile extends StatelessWidget {
 }
 
 class _AvailableBadge extends StatelessWidget {
+  final String location;
+
+  const _AvailableBadge({this.location = ''});
+
   @override
   Widget build(BuildContext context) {
+    // A Wrap, not a Row: at 375px the two pills together exceed the viewport
+    // and must break onto a second line rather than overflow.
     return FadeInDown(
-      child: Container(
-        padding: const EdgeInsets.symmetric(
-          horizontal: AppSizes.md,
-          vertical: AppSizes.xs,
-        ),
-        decoration: BoxDecoration(
-          color: AppColors.success.withValues(alpha: 0.1),
-          borderRadius: BorderRadius.circular(AppSizes.radiusXl),
-          border: Border.all(color: AppColors.success.withValues(alpha: 0.3)),
-        ),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Container(
+      child: Wrap(
+        spacing: AppSizes.sm,
+        runSpacing: AppSizes.sm,
+        alignment:
+            context.isMobile ? WrapAlignment.center : WrapAlignment.start,
+        crossAxisAlignment: WrapCrossAlignment.center,
+        children: [
+          _Pill(
+            color: AppColors.success,
+            label: 'Available for new opportunities',
+            leading: Container(
               width: 8,
               height: 8,
               decoration: const BoxDecoration(
@@ -248,15 +251,58 @@ class _AvailableBadge extends StatelessWidget {
                 shape: BoxShape.circle,
               ),
             ),
-            const SizedBox(width: AppSizes.sm),
-            Text(
-              'Available for new opportunities',
-              style: Theme.of(
-                context,
-              ).textTheme.labelMedium?.copyWith(color: AppColors.success),
+          ),
+          if (location.isNotEmpty)
+            _Pill(
+              color: AppColors.secondary,
+              label: location,
+              leading: const Icon(
+                Icons.place_outlined,
+                size: 13,
+                color: AppColors.secondary,
+              ),
             ),
-          ],
-        ),
+        ],
+      ),
+    );
+  }
+}
+
+class _Pill extends StatelessWidget {
+  final Color color;
+  final String label;
+  final Widget leading;
+
+  const _Pill({
+    required this.color,
+    required this.label,
+    required this.leading,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(
+        horizontal: AppSizes.md,
+        vertical: AppSizes.xs,
+      ),
+      decoration: BoxDecoration(
+        color: color.withValues(alpha: 0.1),
+        borderRadius: BorderRadius.circular(AppSizes.radiusXl),
+        border: Border.all(color: color.withValues(alpha: 0.3)),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          leading,
+          const SizedBox(width: AppSizes.sm),
+          Text(
+            label,
+            style: Theme.of(
+              context,
+            ).textTheme.labelMedium?.copyWith(color: color),
+          ),
+        ],
       ),
     );
   }

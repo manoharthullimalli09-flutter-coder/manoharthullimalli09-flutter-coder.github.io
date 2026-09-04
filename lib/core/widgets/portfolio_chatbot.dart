@@ -77,62 +77,89 @@ class _PortfolioChatbotState extends State<PortfolioChatbot>
   String _getResponse(String input) {
     final q = input.toLowerCase();
 
-    if (_matches(q, ['hello', 'hi', 'hey', 'greet', 'good morning', 'good evening'])) {
-      return "Hello! 👋 I'm here to tell you all about Manohar. What would you like to know?";
+    if (_matches(q, ['hello', 'hi ', 'hey', 'greet', 'good morning', 'good evening'])) {
+      return "Hello! 👋 I'm here to tell you all about Manohar. Ask about his experience, the teams he's led, his stack, or the apps he's shipped.";
     }
-    if (_matches(q, ['experience', 'years', 'how long', 'exp', 'senior'])) {
-      return "Manohar has 5+ years of professional Flutter experience, shipping production apps across Android, iOS, Web, and Desktop for clients in e-commerce, healthcare, fintech, logistics, and social platforms.";
+    if (_matches(q, ['available', 'hire', 'hiring', 'job', 'role', 'opportunity', 'recruit', 'looking for', 'notice period'])) {
+      return "Yes — Manohar is open to Senior / Lead Flutter Engineer roles.\n\nHe's based in Hyderabad and open to remote, hybrid, and relocation. Drop him a note via the Contact form below, or email manohar.thullimalli09@gmail.com.";
     }
-    if (_matches(q, ['skill', 'tech', 'stack', 'technology', 'know', 'expertise', 'language'])) {
-      return "Core stack:\n• Flutter & Dart (all platforms)\n• State: BLoC/Cubit, Riverpod, Provider\n• Backend: Firebase, REST APIs, Dio\n• Architecture: Clean Architecture, SOLID\n• Testing: Unit, Widget, Integration\n• CI/CD: GitHub Actions, Codemagic, Fastlane";
+    if (_matches(q, ['company', 'companies', 'employer', 'worked at', 'work at', 'currently', 'brane', 'eclature', 'marami', 'codeprism', 'career', 'history'])) {
+      return "Career so far:\n\n• Brane Enterprises — Senior Flutter Engineer (Lead), AI Applications · 2025–Present\n• Eclature Technologies — Senior Flutter Engineer / Frontend Team Lead · 2024–2025\n• Marami Infotech — Flutter Developer → Team Lead · 2023–2024\n• CodePrism Technologies — Junior Flutter Developer · 2021–2023\n\nAsk about any one of them for the details.";
     }
-    if (_matches(q, ['project', 'work', 'built', 'app', 'portfolio', 'showcase'])) {
-      return "Manohar has built 20+ production apps:\n• E-Commerce platform (10k+ users)\n• Healthcare Patient Portal\n• FinTech Invoice Manager (500+ SMEs)\n• Logistics Tracking Platform\n• Community Social App (25k+ users)\n• HR Productivity Dashboard\n\nScroll up to Projects to see full details!";
+    if (_matches(q, ['lead', 'leadership', 'team', 'manage', 'mentor', 'how many engineers'])) {
+      return "Manohar leads frontend teams — most recently a team of 6 Flutter engineers at Brane Enterprises, and a team of 6 at Eclature before that.\n\nHe owns architecture decisions, code review standards, estimation, release timelines, and mentoring, and works directly with clients to turn requirements into technical designs.";
     }
-    if (_matches(q, ['available', 'hire', 'open', 'job', 'role', 'opportunity', 'work with', 'recruit', 'looking'])) {
-      return "Yes! Manohar is currently open to Senior Flutter Developer and Lead Flutter roles. He's open to remote and India-based positions. Reach out via the Contact section!";
+    if (_matches(q, ['experience', 'years', 'how long', 'senior', 'background', 'summary', 'about'])) {
+      return "5+ years of production Flutter and Dart, currently Senior Flutter Engineer (Lead) at Brane Enterprises in Hyderabad.\n\nHe's shipped cross-platform apps across AI, healthcare, fintech, real estate, EdTech, and wellness — including a meditation platform that reached 1M+ global downloads — and has led frontend teams of up to 6 engineers.";
     }
-    if (_matches(q, ['location', 'where', 'country', 'india', 'remote', 'based'])) {
-      return "Manohar is based in India and is open to remote work worldwide. He's worked with international clients across South Asia and beyond.";
+    if (_matches(q, ['migration', 'migrate', 'native', 'kotlin', 'swift', 'java', 'add-to-app', 'add to app', 'platform channel', 'legacy'])) {
+      return "Native integration and migration is one of Manohar's strongest areas:\n\n• Migrated a portfolio of live native Android apps (Kotlin/Java) to Flutter incrementally via add-to-app — screens went out without pausing releases\n• Re-architected a live production app from Provider to BLoC + Clean Architecture while the team kept shipping\n• Platform channels (MethodChannel, EventChannel), Pigeon, native SDK bridging, background services\n• Bridged native audio capture in Kotlin and Swift for an on-device voice assistant";
     }
-    if (_matches(q, ['contact', 'email', 'reach', 'message', 'talk', 'connect'])) {
-      return "You can reach Manohar at:\n📧 manohar.thullimalli09@gmail.com\n\nOr use the Contact form at the bottom of this page — he typically responds within 24 hours.";
+    if (_matches(q, ['ai', 'voice', 'vad', 'llm', 'assistant', 'server-driven', 'server driven'])) {
+      return "At Brane Enterprises, Manohar builds AI-powered mobile apps:\n\n• A custom AI voice assistant using on-device Voice Activity Detection, bridging native audio capture through Kotlin and Swift platform channels\n• A server-driven UI engine with dynamic widget serialisation, so product teams ship UI changes without an app store release\n• A Dio networking layer with interceptors for retry, error normalisation, and secure token refresh";
+    }
+    if (_matches(q, ['skill', 'tech', 'stack', 'technology', 'expertise', 'know'])) {
+      return "Core stack:\n• Flutter & Dart — mobile, web, desktop\n• State: BLoC/Cubit, Provider, MVVM\n• Architecture: Clean Architecture, SOLID, GetIt DI, go_router, repository pattern, dartz Either\n• Networking: REST, Dio, WebSockets, Socket.IO, WebRTC, OAuth 2.0\n• Backend: Firebase (Auth, Firestore, FCM, Crashlytics, Remote Config), AWS, SQLite, Hive\n• Native: Kotlin, Java, Swift, platform channels, Pigeon, add-to-app\n• Testing: unit, widget, integration, bloc_test, mocktail\n• CI/CD: GitHub Actions, GitLab CI, Bitbucket Pipelines, Azure DevOps, Codemagic, Fastlane\n\nOther languages: Kotlin, Java, Swift, C, C++, Python, JavaScript, SQL.";
+    }
+    if (_matches(q, ['project', 'built', 'app', 'portfolio', 'showcase', 'shipped'])) {
+      return "Shipped apps featured on this page:\n\n• HeartInTune — Heartfulness meditation platform, 1M+ downloads\n• Sampangi — real estate discovery & listings\n• My Elegant Group — premium property showcase\n• Aduri Infra — infrastructure & project updates\n• Maa Bhoomi — land records & plot discovery\n• HR Productivity Dashboard — web + desktop HR suite\n\nAt Marami he delivered 10+ production real estate apps to Play Store and App Store in a single year, and was named Employee of the Year. Scroll up for full details.";
+    }
+    if (_matches(q, ['performance', 'fps', 'optimis', 'optimiz', 'fast', 'memory', 'startup', 'isolate', 'concurrency'])) {
+      return "Performance is a specialty:\n\n• Cut cold start time and eliminated frame drops on audio streaming and playlist screens using Flutter DevTools profiling and widget rebuild reduction\n• Dart concurrency — Isolates, Streams, Futures, async/await, the event loop\n• Memory-leak detection, 60/120 FPS rendering, app size and startup optimisation, lazy loading";
+    }
+    if (_matches(q, ['location', 'where', 'city', 'country', 'india', 'remote', 'based', 'relocat', 'hyderabad'])) {
+      return "Manohar is based in Hyderabad, Telangana, India 🇮🇳\n\nHe's open to remote work worldwide, hybrid, and relocation, and has delivered for globally distributed teams and international markets.";
+    }
+    if (_matches(q, ['contact', 'email', 'reach', 'phone', 'call', 'number', 'talk', 'connect'])) {
+      return "You can reach Manohar at:\n📧 manohar.thullimalli09@gmail.com\n📱 +91 63035 39396\n\nOr use the Contact form at the bottom of this page — he typically responds within 24 hours.";
     }
     if (_matches(q, ['resume', 'cv', 'download', 'pdf'])) {
-      return "You can download Manohar's resume using the 'Download Resume' button in the Contact section at the bottom of this page!";
+      return "Grab the full resume with the 'Download Resume' button in the Contact section below — it covers the full role history, the native migration work, and the complete skills breakdown.";
     }
-    if (_matches(q, ['github', 'code', 'open source', 'repository', 'repo'])) {
-      return "Manohar's GitHub: github.com/manoharthullimalli09-flutter-coder\n\nThis portfolio app itself is open source — built with Flutter, BLoC, and Clean Architecture!";
+    if (_matches(q, ['github', 'open source', 'repository', 'repo', 'source code'])) {
+      return "Manohar's GitHub: github.com/manoharthullimalli09-flutter-coder\n\nThis portfolio is open source and is itself the demo — one Flutter codebase running on Web, Android, iOS, macOS, Windows, and Linux, on Clean Architecture with BLoC, get_it, go_router, and dartz.";
     }
-    if (_matches(q, ['linkedin', 'profile', 'social'])) {
+    if (_matches(q, ['linkedin', 'social', 'profile'])) {
       return "Connect with Manohar on LinkedIn:\nlinkedin.com/in/manohar-t-68a32231a";
     }
-    if (_matches(q, ['flutter', 'dart', 'cross platform', 'mobile'])) {
-      return "Flutter is Manohar's primary technology. He's been building with it since early versions, shipping apps on all 6 platforms (Android, iOS, Web, macOS, Windows, Linux) from a single codebase.";
+    if (_matches(q, ['education', 'degree', 'college', 'university', 'study', 'graduate', 'b.tech', 'btech'])) {
+      return "B.Tech in Computer Science & Engineering from Eluru College of Engineering and Technology, Andhra Pradesh (2018–2021).\n\nHe started in ReactJS at CodePrism and moved to Flutter, which has been his primary technology ever since.";
     }
-    if (_matches(q, ['bloc', 'state management', 'riverpod', 'provider', 'getx'])) {
-      return "Manohar's preferred state management is BLoC/Cubit — used across all his enterprise projects. He's also proficient in Riverpod (88%), Provider (85%), and GetX (80%).";
+    if (_matches(q, ['language', 'speak', 'telugu', 'hindi', 'english', 'tamil'])) {
+      return "Languages Manohar speaks:\n• Telugu — native\n• English — professional\n• Hindi — conversational\n• Tamil — basic";
     }
-    if (_matches(q, ['firebase', 'backend', 'api', 'database'])) {
-      return "Manohar has extensive Firebase experience (Auth, Firestore, FCM, Cloud Functions) and works with REST APIs via Dio, WebSockets for real-time features, and has GraphQL experience too.";
+    if (_matches(q, ['flutter', 'dart', 'cross platform', 'cross-platform', 'mobile'])) {
+      return "Flutter is Manohar's primary technology — 5+ years of production work with it, shipping from a single codebase to Android, iOS, Web, macOS, Windows, and Linux.\n\nHe also works natively in Kotlin, Java, and Swift, which is what makes the hybrid add-to-app migrations possible.";
     }
-    if (_matches(q, ['architecture', 'clean', 'solid', 'pattern', 'design'])) {
-      return "Manohar follows Clean Architecture with strict SOLID principles — separating Presentation, Domain, and Data layers. Every project has BLoC for state, UseCases for business logic, and Repository pattern for data.";
+    if (_matches(q, ['bloc', 'state management', 'cubit', 'provider', 'riverpod', 'getx'])) {
+      return "BLoC/Cubit is Manohar's default, paired with Clean Architecture and GetIt dependency injection.\n\nHe led a full Provider → BLoC migration on a live production app at Brane, re-architecting it onto Clean Architecture with go_router navigation while the team kept shipping features — which cut state-related production defects.";
     }
-    if (_matches(q, ['test', 'testing', 'tdd', 'unit test', 'quality'])) {
-      return "Manohar practices TDD and writes unit, widget, and integration tests. This portfolio app has 67 passing tests with full CI/CD on GitHub Actions — tests run before every deployment.";
+    if (_matches(q, ['firebase', 'backend', 'api', 'database', 'websocket', 'realtime', 'real-time', 'webrtc'])) {
+      return "Backend and real-time work:\n\n• Firebase — Auth, Firestore, Cloud Messaging, Crashlytics, Analytics, Remote Config, App Distribution\n• REST APIs via Dio with interceptors, retry, and secure token refresh\n• WebSockets and Socket.IO for live features; WebRTC video consultation on a telemedicine platform\n• Offline-first sync with SQLite, Hive, and SharedPreferences";
     }
-    if (_matches(q, ['salary', 'rate', 'cost', 'price', 'ctc', 'pay'])) {
-      return "For salary/rate details, please reach out directly at manohar.thullimalli09@gmail.com — Manohar is happy to discuss based on the role and company.";
+    if (_matches(q, ['architecture', 'clean', 'solid', 'pattern', 'design', 'scalab'])) {
+      return "Manohar builds on Clean Architecture with strict SOLID separation of Presentation, Domain, and Data.\n\nBLoC for state, UseCases for business logic, repository pattern for data, GetIt for injection, and typed functional error handling with dartz Either — so feature modules stay independently unit-testable. He's also built feature-first modular and server-driven UI architectures.";
     }
-    if (_matches(q, ['playstore', 'play store', 'app store', 'publish', 'released', 'live'])) {
-      return "Yes! Manohar has published apps on both Google Play Store and Apple App Store. He handles the full release pipeline including signing, ProGuard, App Store Connect, and CI/CD automation.";
+    if (_matches(q, ['test', 'testing', 'tdd', 'quality', 'coverage'])) {
+      return "Manohar writes unit, widget, and integration tests with bloc_test and mocktail, and wires them into CI as a release quality gate.\n\nThis portfolio has 84 passing tests with zero analyzer issues — the GitHub Actions pipeline runs analyze and test, and a failure blocks the deploy.";
     }
-    if (_matches(q, ['thank', 'thanks', 'awesome', 'great', 'nice', 'cool', 'good'])) {
-      return "Thank you! 😊 Feel free to ask anything else, or reach out to Manohar directly — he'd love to hear from you!";
+    if (_matches(q, ['ci', 'cd', 'devops', 'pipeline', 'deploy', 'fastlane', 'codemagic'])) {
+      return "CI/CD is something he owns end to end:\n\n• GitHub Actions, GitLab CI, Bitbucket Pipelines, Azure DevOps, Codemagic, Fastlane\n• Automated build, test, and release pipelines with test execution as a quality gate\n• Build flavors and environment config, code signing, provisioning profiles, phased rollouts\n• Google Play Console, App Store Connect, TestFlight";
+    }
+    if (_matches(q, ['payment', 'razorpay', 'stripe', 'maps', 'google maps', 'location api', 'integration'])) {
+      return "Integrations he's shipped:\n\n• Razorpay payment flows for property booking, including signature verification and failure/retry handling\n• Google Maps SDK and Places API with custom filtering, geospatial querying, and location-based search\n• Push notifications (FCM, APNs), deep linking, and AI/LLM API integration";
+    }
+    if (_matches(q, ['salary', 'rate', 'ctc', 'pay', 'compensation', 'package'])) {
+      return "For compensation, reach out directly at manohar.thullimalli09@gmail.com — Manohar is happy to discuss based on the role, scope, and company.";
+    }
+    if (_matches(q, ['playstore', 'play store', 'app store', 'publish', 'released', 'live', 'download'])) {
+      return "Yes — Manohar has published to both Google Play and the App Store, and owns the full release pipeline: code signing, provisioning profiles, phased rollouts, and store review compliance.\n\nThe meditation platform he contributed to reached 1M+ global downloads, and he shipped 10+ production real estate apps to both stores in a single year.";
+    }
+    if (_matches(q, ['thank', 'thanks', 'awesome', 'great', 'nice', 'cool', 'perfect'])) {
+      return "Thank you! 😊 Ask anything else, or reach out to Manohar directly — he'd love to hear from you!";
     }
 
-    return "Great question! I don't have a specific answer for that, but you can ask Manohar directly at manohar.thullimalli09@gmail.com — or try asking about his experience, skills, projects, or availability! 😊";
+    return "I don't have a specific answer for that one, but you can ask Manohar directly at manohar.thullimalli09@gmail.com.\n\nTry asking about his experience, the teams he's led, native migration work, his stack, the apps he's shipped, or whether he's available! 😊";
   }
 
   bool _matches(String input, List<String> keywords) =>

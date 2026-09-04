@@ -1,19 +1,21 @@
 {
   "developer": {
     "name": "Manohar Thullimalli",
-    "title": "Senior Flutter Developer",
-    "bio": "I build high-performance, cross-platform apps with Flutter — from pixel-perfect mobile UIs to full-featured web and desktop products. 5+ years of shipping production apps across Android, iOS, Web, and Desktop for e-commerce, enterprise, and social platforms.",
+    "title": "Senior Flutter Engineer · Frontend Team Lead",
+    "bio": "Senior Flutter Engineer and frontend team lead with 5+ years of production Flutter and Dart, currently leading a team of 6 in Hyderabad. I build cross-platform apps on Clean Architecture and BLoC — and I go native when it counts: incremental Kotlin/Java-to-Flutter migrations via add-to-app, platform channels in Kotlin and Swift, and real-time work over WebSockets and WebRTC. Shipped across AI, healthcare, fintech, real estate, EdTech, and wellness, including a meditation platform that reached 1M+ global downloads.",
     "email": "manohar.thullimalli09@gmail.com",
     "profileImageUrl": "assets/images/profile.jpg",
     "yearsOfExperience": 5,
     "projectsCompleted": 20,
-    "platformsSupported": 4,
+    "platformsSupported": 6,
     "socialLinks": {
       "github": "https://github.com/manoharthullimalli09-flutter-coder",
       "linkedin": "https://www.linkedin.com/in/manohar-t-68a32231a",
       "twitter": "",
       "resume": "assets/resume/Manohar_Thullimalli_Resume.pdf"
-    }
+    },
+    "location": "Hyderabad, Telangana, India",
+    "phone": "+91 63035 39396"
   },
   "projects": [
     {
@@ -21,8 +23,19 @@
       "title": "HeartInTune — Meditation App",
       "description": "Production meditation & wellness app for the global Heartfulness organization. Features live guided meditation sessions, a gem reward system based on meditation streaks, session history, and community features. Published on both Play Store and App Store.",
       "category": "Social",
-      "platforms": ["android", "ios"],
-      "techStack": ["Flutter", "BLoC", "Firebase", "WebSocket", "FCM", "REST API", "Clean Architecture"],
+      "platforms": [
+        "android",
+        "ios"
+      ],
+      "techStack": [
+        "Flutter",
+        "BLoC",
+        "Firebase",
+        "WebSocket",
+        "FCM",
+        "REST API",
+        "Clean Architecture"
+      ],
       "imageUrl": "assets/images/heartintune.webp",
       "playStoreUrl": "https://play.google.com/store/apps/details?id=org.heartfulness.heartintune.prod",
       "appStoreUrl": "",
@@ -33,8 +46,19 @@
       "title": "Sampangi — Real Estate Platform",
       "description": "Full-featured real estate app for property discovery, listings, and buyer-seller connections. Includes advanced search filters, property galleries, map-based browsing, and inquiry management. Live on Play Store and App Store.",
       "category": "E-Commerce",
-      "platforms": ["android", "ios"],
-      "techStack": ["Flutter", "BLoC", "REST API", "Dio", "Google Maps", "FCM", "Clean Architecture"],
+      "platforms": [
+        "android",
+        "ios"
+      ],
+      "techStack": [
+        "Flutter",
+        "BLoC",
+        "REST API",
+        "Dio",
+        "Google Maps",
+        "FCM",
+        "Clean Architecture"
+      ],
       "imageUrl": "assets/images/sampangi.webp",
       "playStoreUrl": "https://play.google.com/store/apps/details?id=marami.task.sampangi",
       "appStoreUrl": "",
@@ -45,8 +69,18 @@
       "title": "My Elegant Group",
       "description": "Real estate client app for My Elegant Group, enabling property browsing, project showcases, floor plan viewing, and direct enquiry submission. Smooth onboarding and rich media galleries for premium property listings.",
       "category": "E-Commerce",
-      "platforms": ["android", "ios"],
-      "techStack": ["Flutter", "BLoC", "REST API", "Dio", "FCM", "Clean Architecture"],
+      "platforms": [
+        "android",
+        "ios"
+      ],
+      "techStack": [
+        "Flutter",
+        "BLoC",
+        "REST API",
+        "Dio",
+        "FCM",
+        "Clean Architecture"
+      ],
       "imageUrl": "assets/images/elegant.webp",
       "playStoreUrl": "https://play.google.com/store/apps/details?id=task.marami.MyElegantGroup",
       "appStoreUrl": "",
@@ -57,8 +91,18 @@
       "title": "Aduri Infra",
       "description": "Real estate and infrastructure company app for Aduri Infra, featuring ongoing project updates, property listings, virtual site visits, and lead capture. Designed for both residential and commercial segments.",
       "category": "Enterprise",
-      "platforms": ["android", "ios"],
-      "techStack": ["Flutter", "BLoC", "REST API", "Dio", "FCM", "Clean Architecture"],
+      "platforms": [
+        "android",
+        "ios"
+      ],
+      "techStack": [
+        "Flutter",
+        "BLoC",
+        "REST API",
+        "Dio",
+        "FCM",
+        "Clean Architecture"
+      ],
       "imageUrl": "assets/images/aduri.webp",
       "playStoreUrl": "https://play.google.com/store/apps/details?id=task.marami.AduriInfra",
       "appStoreUrl": "",
@@ -69,8 +113,18 @@
       "title": "Maa Bhoomi — Land & Property",
       "description": "Property and land management app with plot discovery, land record browsing, and buyer enquiry features. Helps users find verified land listings with location-based search and project timeline tracking.",
       "category": "E-Commerce",
-      "platforms": ["android", "ios"],
-      "techStack": ["Flutter", "BLoC", "REST API", "Google Maps", "Dio", "Clean Architecture"],
+      "platforms": [
+        "android",
+        "ios"
+      ],
+      "techStack": [
+        "Flutter",
+        "BLoC",
+        "REST API",
+        "Google Maps",
+        "Dio",
+        "Clean Architecture"
+      ],
       "imageUrl": "assets/images/maabhoomi.webp",
       "playStoreUrl": "https://play.google.com/store/apps/details?id=marami.task.maabhoomi",
       "appStoreUrl": "",
@@ -81,8 +135,18 @@
       "title": "HR Productivity Dashboard",
       "description": "Cross-platform desktop and web HR suite with leave management, attendance tracking, payroll summaries, and role-based access control. Built to run on Web and Desktop from a single Flutter codebase.",
       "category": "Enterprise",
-      "platforms": ["web", "desktop"],
-      "techStack": ["Flutter Web", "Flutter Desktop", "BLoC", "REST API", "Dio", "Clean Architecture"],
+      "platforms": [
+        "web",
+        "desktop"
+      ],
+      "techStack": [
+        "Flutter Web",
+        "Flutter Desktop",
+        "BLoC",
+        "REST API",
+        "Dio",
+        "Clean Architecture"
+      ],
       "imageUrl": "assets/images/project_hr.webp",
       "webUrl": "",
       "isFeatured": false
@@ -92,47 +156,191 @@
     {
       "name": "Flutter & Dart",
       "skills": [
-        { "name": "Flutter (All Platforms)", "proficiency": 0.97, "category": "Flutter & Dart" },
-        { "name": "Dart", "proficiency": 0.97, "category": "Flutter & Dart" },
-        { "name": "Custom Animations", "proficiency": 0.90, "category": "Flutter & Dart" },
-        { "name": "CustomPainter / Canvas", "proficiency": 0.85, "category": "Flutter & Dart" },
-        { "name": "Platform Channels", "proficiency": 0.80, "category": "Flutter & Dart" }
+        {
+          "name": "Flutter (mobile, web, desktop)",
+          "proficiency": 0.97,
+          "category": "Flutter & Dart"
+        },
+        {
+          "name": "Dart",
+          "proficiency": 0.97,
+          "category": "Flutter & Dart"
+        },
+        {
+          "name": "Custom Animations",
+          "proficiency": 0.9,
+          "category": "Flutter & Dart"
+        },
+        {
+          "name": "Isolates, Streams & async",
+          "proficiency": 0.88,
+          "category": "Flutter & Dart"
+        },
+        {
+          "name": "DevTools Profiling / 60–120 FPS",
+          "proficiency": 0.9,
+          "category": "Flutter & Dart"
+        }
       ]
     },
     {
-      "name": "State Management",
+      "name": "Architecture & State",
       "skills": [
-        { "name": "BLoC / Cubit", "proficiency": 0.97, "category": "State Management" },
-        { "name": "Riverpod", "proficiency": 0.88, "category": "State Management" },
-        { "name": "Provider", "proficiency": 0.85, "category": "State Management" },
-        { "name": "GetX", "proficiency": 0.80, "category": "State Management" }
+        {
+          "name": "BLoC / Cubit",
+          "proficiency": 0.97,
+          "category": "Architecture & State"
+        },
+        {
+          "name": "Clean Architecture",
+          "proficiency": 0.95,
+          "category": "Architecture & State"
+        },
+        {
+          "name": "SOLID Principles",
+          "proficiency": 0.93,
+          "category": "Architecture & State"
+        },
+        {
+          "name": "GetIt DI / Repository Pattern",
+          "proficiency": 0.92,
+          "category": "Architecture & State"
+        },
+        {
+          "name": "go_router / Server-Driven UI",
+          "proficiency": 0.88,
+          "category": "Architecture & State"
+        },
+        {
+          "name": "Provider / MVVM (legacy refactor)",
+          "proficiency": 0.85,
+          "category": "Architecture & State"
+        }
       ]
     },
     {
-      "name": "Backend & APIs",
+      "name": "Native Integration",
       "skills": [
-        { "name": "Firebase (Auth, Firestore, FCM)", "proficiency": 0.92, "category": "Backend & APIs" },
-        { "name": "REST APIs / Dio", "proficiency": 0.95, "category": "Backend & APIs" },
-        { "name": "WebSocket", "proficiency": 0.80, "category": "Backend & APIs" },
-        { "name": "GraphQL", "proficiency": 0.70, "category": "Backend & APIs" }
+        {
+          "name": "Platform Channels / Pigeon",
+          "proficiency": 0.9,
+          "category": "Native Integration"
+        },
+        {
+          "name": "Native → Flutter Migration (add-to-app)",
+          "proficiency": 0.9,
+          "category": "Native Integration"
+        },
+        {
+          "name": "Kotlin / Java (Android)",
+          "proficiency": 0.85,
+          "category": "Native Integration"
+        },
+        {
+          "name": "Swift (iOS)",
+          "proficiency": 0.8,
+          "category": "Native Integration"
+        },
+        {
+          "name": "Native SDK Bridging",
+          "proficiency": 0.85,
+          "category": "Native Integration"
+        }
       ]
     },
     {
-      "name": "Architecture & Testing",
+      "name": "Backend & Real-Time",
       "skills": [
-        { "name": "Clean Architecture", "proficiency": 0.95, "category": "Architecture & Testing" },
-        { "name": "SOLID Principles", "proficiency": 0.92, "category": "Architecture & Testing" },
-        { "name": "Unit & Widget Testing", "proficiency": 0.88, "category": "Architecture & Testing" },
-        { "name": "TDD", "proficiency": 0.82, "category": "Architecture & Testing" }
+        {
+          "name": "REST APIs / Dio",
+          "proficiency": 0.95,
+          "category": "Backend & Real-Time"
+        },
+        {
+          "name": "Firebase (Auth, Firestore, FCM)",
+          "proficiency": 0.92,
+          "category": "Backend & Real-Time"
+        },
+        {
+          "name": "WebSockets / Socket.IO",
+          "proficiency": 0.88,
+          "category": "Backend & Real-Time"
+        },
+        {
+          "name": "WebRTC",
+          "proficiency": 0.78,
+          "category": "Backend & Real-Time"
+        },
+        {
+          "name": "Offline-First (SQLite, Hive)",
+          "proficiency": 0.87,
+          "category": "Backend & Real-Time"
+        },
+        {
+          "name": "OAuth 2.0 / Secure Tokens",
+          "proficiency": 0.85,
+          "category": "Backend & Real-Time"
+        }
       ]
     },
     {
-      "name": "DevOps & Tools",
+      "name": "Testing & DevOps",
       "skills": [
-        { "name": "GitHub Actions", "proficiency": 0.85, "category": "DevOps & Tools" },
-        { "name": "Codemagic / Fastlane", "proficiency": 0.80, "category": "DevOps & Tools" },
-        { "name": "Git", "proficiency": 0.95, "category": "DevOps & Tools" },
-        { "name": "Play Store / App Store", "proficiency": 0.90, "category": "DevOps & Tools" }
+        {
+          "name": "Unit / Widget / Integration Tests",
+          "proficiency": 0.9,
+          "category": "Testing & DevOps"
+        },
+        {
+          "name": "bloc_test / mocktail",
+          "proficiency": 0.9,
+          "category": "Testing & DevOps"
+        },
+        {
+          "name": "GitHub Actions / GitLab CI",
+          "proficiency": 0.9,
+          "category": "Testing & DevOps"
+        },
+        {
+          "name": "Codemagic / Fastlane",
+          "proficiency": 0.82,
+          "category": "Testing & DevOps"
+        },
+        {
+          "name": "Play Console / App Store Connect",
+          "proficiency": 0.92,
+          "category": "Testing & DevOps"
+        }
+      ]
+    },
+    {
+      "name": "Leadership & Delivery",
+      "skills": [
+        {
+          "name": "Frontend Team Leadership (6 engineers)",
+          "proficiency": 0.92,
+          "category": "Leadership & Delivery"
+        },
+        {
+          "name": "Architecture Decision Ownership",
+          "proficiency": 0.92,
+          "category": "Leadership & Delivery"
+        },
+        {
+          "name": "Code Review Standards / Mentoring",
+          "proficiency": 0.9,
+          "category": "Leadership & Delivery"
+        },
+        {
+          "name": "Client Requirement Translation",
+          "proficiency": 0.88,
+          "category": "Leadership & Delivery"
+        },
+        {
+          "name": "Agile / Scrum / Kanban",
+          "proficiency": 0.88,
+          "category": "Leadership & Delivery"
+        }
       ]
     }
   ]

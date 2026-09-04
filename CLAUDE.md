@@ -172,7 +172,7 @@ assets/
 │                             #   elegant, aduri, maabhoomi — all .webp, 480x480)
 ├── resume/                   # Manohar_Thullimalli_Resume.pdf
 └── data/
-    └── portfolio_data.json   # developer, projects (6), skillCategories (5) — single source of truth
+    └── portfolio_data.json   # developer, projects (6), skillCategories (6) — single source of truth
 │
 web/
 ├── index.html                # SEO meta, OG/Twitter cards, branded loader (MT. gradient spinner)
@@ -705,7 +705,7 @@ Every section of this app must implicitly prove one or more of the following:
 - [x] `get_it` injection_container.dart wired (DataSources → Repos → UseCases → BLoC factories)
 - [x] `Dio` client with `LogInterceptor` (dev flavor only); `ErrorInterceptor` maps `DioException` → `Failure`
 - [x] Design system — `AppColors` (dark palette), `AppTheme.dark()/.light()`, `AppSizes`, `AppBreakpoints`
-- [x] `portfolio_data.json` — 6 real projects + 5 skill categories + developer bio
+- [x] `portfolio_data.json` — 6 real projects + 6 skill categories (32 skills) + developer bio, all restated from the 2026 resume
 - [x] `go_router` routes (`/`, `/projects`, `/skills`, `/contact`) → all serve `PortfolioPage`
 - [x] `PathUrlStrategy` via `flutter_web_plugins` — no `#` hash in web URLs
 - [x] Localization — `app_en.arb` + `app_hi.arb`, generated `AppLocalizations` via `l10n.yaml`
@@ -735,13 +735,13 @@ Every section of this app must implicitly prove one or more of the following:
   - `ProjectCard.imageAspect` = `4 / 3` — the one constant controlling artwork shape; lower is taller (16/9 read as a thin banner strip)
   - Platform badges overlay the artwork (translucent, legible against any screenshot); the panel spends its space on `TechChip`s instead, clipped to one row so a widening card reveals more of the stack
   - Store link is revealed on hover (desktop) with its height permanently reserved, and `IgnorePointer` while hidden so there is no invisible click target; always visible on mobile, which has no hover
-- [x] Skills section — 5 skill categories, animated bars (1200ms ease-out, primary→cyan lerp), responsive 3-col grid
+- [x] Skills section — 6 skill categories, animated bars (1200ms ease-out, primary→cyan lerp), responsive 3-col grid
 - [x] Contact section — desktop side-by-side / mobile stacked, validated form (name/email/subject/message), submitting state, success view, reset, social links (GitHub/LinkedIn), `_DownloadResumeButton` (calls `DownloadResumeUseCase`)
 - [x] Dark/light mode toggle — `ThemeCubit`, persisted via `SharedPreferences`, `AnimatedSwitcher` icon
 - [x] SEO meta tags in `web/index.html` — OG, Twitter Card, description, keywords, theme-color
 - [x] Branded web loader — `MT.` gradient logo + spinner, hides on `flutter-first-frame` event
 - [x] `PortfolioPage` — `CustomScrollView` + `Stack` overlay nav, `RepaintBoundary` on every section, footer with "Built with Flutter" tagline
-- [x] Resume PDF asset — `assets/resume/Manohar_Thullimalli_Resume.pdf` present, wired to `DownloadResumeUseCase`
+- [x] Resume PDF asset — `assets/resume/Manohar_Thullimalli_Resume.pdf` (2-page, 2026 Senior Flutter Engineer version), wired to `DownloadResumeUseCase`. The **filename is fixed** — `DownloadResumeUseCase._assetPath` hardcodes it, so replace the file in place rather than adding a new one
 - [x] Profile photo — `assets/images/profile.jpg` present
 - [x] `PortfolioChatbot` mounted as a `Positioned` overlay in `PortfolioPage`'s `Stack` — sits above every section, outside the `CustomScrollView`, so it stays pinned while the page scrolls
 - [x] Project cards — platform badges overlay the artwork; `techStack` renders as `TechChip`s clipped to one row; whole card opens `ProjectDetailDialog` (untruncated description, full stack, every store link)
@@ -772,6 +772,7 @@ Every section of this app must implicitly prove one or more of the following:
 - **`_ProjectGrid` / `_StatRow` types** — were untyped (`List` / `dynamic`); now `List<ProjectEntity>` and `DeveloperEntity`.
 - **Hero CTA callbacks** — `onViewWork` / `onHireMe` threaded from `HeroSection` → `_HeroContent` → `_HeroDesktop`/`_HeroMobile` → `_CTAButtons`; `PortfolioPage` wires them to `_scrollTo(GlobalKey)`.
 - **`DownloadResumeUseCase`** — opens `assets/resume/Manohar_Thullimalli_Resume.pdf` via `url_launcher`; registered in DI as `LazySingleton`.
+- **`DeveloperEntity.location` / `.phone`** — added from the resume, both defaulting to `''` so every existing construction site and fixture stays valid. `location` renders as a second pill beside the hero's availability badge; the pills sit in a `Wrap`, not a `Row`, because together they exceed 375px and must break rather than overflow.
 
 ### Implementation Notes
 - `Color.withOpacity()` is deprecated in this Flutter SDK — **all color opacity uses `.withValues(alpha:)`** throughout the codebase
@@ -791,20 +792,20 @@ Every section of this app must implicitly prove one or more of the following:
 These all pass `analyze` and `test`; they are places where the shipped data is
 thinner than what the UI claims. Worth fixing before sending the link to a recruiter.
 
-- [ ] **`PortfolioChatbot` still answers with the old placeholder projects** — asked about
-      work it lists "E-Commerce platform (10k+ users) / Healthcare Patient Portal /
-      FinTech Invoice Manager / Logistics Tracking / Community Social App", none of which
-      exist any more. The cards directly above it show the six real apps, so a visitor who
-      opens the chat sees the portfolio contradict itself. Fix by sourcing the answer from
-      `portfolio_data.json` rather than restating it in Dart
+- [ ] **`PortfolioChatbot` answers are still hardcoded in Dart, not read from
+      `portfolio_data.json`** — the content is now correct (rewritten from the 2026 resume:
+      real employers, real apps, Hyderabad, 1M+ downloads, 84 tests), but it will drift
+      again the next time the JSON changes. Sourcing it from the JSON is the durable fix
 - [ ] **Every `appStoreUrl` is `""`** — HeartInTune and Sampangi descriptions both say
       "Published on both Play Store and App Store", and all five mobile apps carry an
       `ios` platform badge, but only the Play Store links resolve. Either fill in the
       App Store URLs or soften the copy
 - [ ] **`assets/images/project_hr.webp` absent** — "HR Productivity Dashboard" falls back
       to `CategoryArtwork`. Correct behaviour, but it is the one card without real artwork
-- [ ] **Hero stat counters are round numbers** (`20+` projects) while `portfolio_data.json`
-      carries six — fine as a career total, but the two should not read as the same figure
+- [ ] **Hero stat counters are career totals** (`20+` projects) while the grid shows six —
+      fine as written, but the two should never be presented as the same figure.
+      `platformsSupported` is now `6` (Web, Android, iOS, macOS, Windows, Linux), matching
+      the resume's open-source entry
 
 ### Cross-Platform Verification
 - [ ] Responsive verified: 375px (mobile) · 768px (tablet) · 1440px (desktop) · 1920px (wide)

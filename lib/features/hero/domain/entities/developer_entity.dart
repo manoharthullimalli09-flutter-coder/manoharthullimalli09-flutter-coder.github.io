@@ -29,6 +29,8 @@ class DeveloperEntity extends Equatable {
   final String title;
   final String bio;
   final String email;
+  final String location;
+  final String phone;
   final String profileImageUrl;
   final int yearsOfExperience;
   final int projectsCompleted;
@@ -40,6 +42,8 @@ class DeveloperEntity extends Equatable {
     required this.title,
     required this.bio,
     required this.email,
+    this.location = '',
+    this.phone = '',
     required this.profileImageUrl,
     required this.yearsOfExperience,
     required this.projectsCompleted,
@@ -53,6 +57,8 @@ class DeveloperEntity extends Equatable {
     title,
     bio,
     email,
+    location,
+    phone,
     profileImageUrl,
     yearsOfExperience,
     projectsCompleted,
