@@ -16,6 +16,13 @@ class ContactRepositoryImpl implements ContactRepository {
     try {
       await dataSource.submitForm(ContactFormModel.fromEntity(form));
       return const Right(unit);
+    } on ContactNotConfiguredException {
+      return const Left(
+        ServerFailure(
+          'The contact form is not configured on this build. '
+          'Please email manohar.thullimalli09@gmail.com directly.',
+        ),
+      );
     } on DioException catch (e) {
       if (e.type == DioExceptionType.connectionError) {
         return const Left(NetworkFailure());

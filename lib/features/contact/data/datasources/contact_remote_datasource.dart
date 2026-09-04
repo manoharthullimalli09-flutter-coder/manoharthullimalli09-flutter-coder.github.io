@@ -18,11 +18,26 @@ class ContactRemoteDataSourceImpl implements ContactRemoteDataSource {
     required this.publicKey,
   });
 
+  bool get _isConfigured =>
+      serviceId.isNotEmpty && templateId.isNotEmpty && publicKey.isNotEmpty;
+
   @override
   Future<void> submitForm(ContactFormModel form) async {
+    if (!_isConfigured) {
+      throw const ContactNotConfiguredException();
+    }
     await dio.post(
       '/api/v1.0/email/send',
       data: form.toEmailJsParams(serviceId, templateId, publicKey),
     );
   }
+}
+
+/// Thrown when the build carries no EmailJS credentials, so the form can say
+/// something useful rather than surfacing a 400 from the API.
+class ContactNotConfiguredException implements Exception {
+  const ContactNotConfiguredException();
+
+  @override
+  String toString() => 'EmailJS credentials were not provided at build time.';
 }

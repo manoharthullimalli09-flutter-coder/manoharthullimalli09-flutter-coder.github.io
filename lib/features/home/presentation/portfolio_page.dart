@@ -7,6 +7,7 @@ import '../../../core/widgets/portfolio_chatbot.dart';
 import '../../../core/widgets/portfolio_nav_bar.dart';
 import '../../contact/presentation/widgets/contact_section.dart';
 import '../../hero/presentation/widgets/hero_section.dart';
+import '../../playground/presentation/widgets/playground_section.dart';
 import '../../projects/presentation/widgets/projects_section.dart';
 import '../../skills/presentation/widgets/skills_section.dart';
 
@@ -22,6 +23,7 @@ class _PortfolioPageState extends State<PortfolioPage> {
   final _heroKey = GlobalKey();
   final _projectsKey = GlobalKey();
   final _skillsKey = GlobalKey();
+  final _playgroundKey = GlobalKey();
   final _contactKey = GlobalKey();
 
   @override
@@ -108,6 +110,23 @@ class _PortfolioPageState extends State<PortfolioPage> {
               // Divider
               const SliverToBoxAdapter(child: _SectionDivider()),
 
+              // Playground
+              SliverToBoxAdapter(
+                child: RepaintBoundary(
+                  child: _Section(
+                    key: _playgroundKey,
+                    padding: EdgeInsets.symmetric(
+                      horizontal: hPad,
+                      vertical: AppSizes.sectionPaddingV,
+                    ),
+                    child: _MaxWidth(child: const PlaygroundSection()),
+                  ),
+                ),
+              ),
+
+              // Divider
+              const SliverToBoxAdapter(child: _SectionDivider()),
+
               // Contact
               SliverToBoxAdapter(
                 child: RepaintBoundary(
@@ -134,7 +153,13 @@ class _PortfolioPageState extends State<PortfolioPage> {
             right: 0,
             child: PortfolioNavBar(
               scrollController: _scrollController,
-              sectionKeys: [_heroKey, _projectsKey, _skillsKey, _contactKey],
+              sectionKeys: [
+                _heroKey,
+                _projectsKey,
+                _skillsKey,
+                _playgroundKey,
+                _contactKey,
+              ],
             ),
           ),
 

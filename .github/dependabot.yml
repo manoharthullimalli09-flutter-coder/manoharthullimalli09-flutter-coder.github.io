@@ -1,0 +1,24 @@
+version: 2
+
+updates:
+  # Dart/Flutter packages. go_router, flutter_bloc and get_it are all several
+  # majors behind; grouping the safe bumps keeps the noise down while still
+  # surfacing majors as separate, reviewable PRs.
+  - package-ecosystem: pub
+    directory: /
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 5
+    groups:
+      minor-and-patch:
+        update-types:
+          - minor
+          - patch
+
+  # Pinned action versions go stale too; this is how a compromised or
+  # deprecated action gets noticed.
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 3

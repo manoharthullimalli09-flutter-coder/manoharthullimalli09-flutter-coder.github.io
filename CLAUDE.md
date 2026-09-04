@@ -152,6 +152,20 @@ lib/
 │   │       ├── bloc/         # ContactBloc (SubmitContactForm, ResetContactForm), ContactState
 │   │       └── widgets/      # ContactSection (desktop side-by-side / mobile stacked), _ContactForm (validated), _SuccessView
 │   │
+│   ├── playground/           # Interactive tools visitors actually use
+│   │   ├── domain/
+│   │   │   ├── entities/     # TransactionEntity + TallySummaryEntity, EmiResultEntity,
+│   │   │   │                 #   SipResultEntity, SalaryBreakdownEntity, BreathingPattern
+│   │   │   ├── repositories/ # TallyRepository, StreakRepository (split, not one fat interface)
+│   │   │   └── usecases/     # CalculateEmi/Sip/Salary (pure, SyncUseCase), tally + streak (async)
+│   │   ├── data/
+│   │   │   ├── models/       # TransactionModel (fromJson/toJson, unknown type → expense)
+│   │   │   ├── datasources/  # PlaygroundLocalDataSource (SharedPreferences → localStorage on web)
+│   │   │   └── repositories/ # TallyRepositoryImpl, StreakRepositoryImpl
+│   │   └── presentation/
+│   │       ├── bloc/         # TallyBloc (events), Emi/Sip/Salary/Breathing/Playground Cubits
+│   │       └── widgets/      # PlaygroundSection (tabs), *_tool.dart, ToolLayout, playground_shared
+│   │
 │   ├── home/
 │   │   └── presentation/
 │   │       └── portfolio_page.dart   # Full scroll shell: CustomScrollView + Stack NavBar overlay, RepaintBoundary per section, _Footer
@@ -692,10 +706,98 @@ Every section of this app must implicitly prove one or more of the following:
 
 ---
 
+## Security — What Is and Is Not Possible Here
+
+**A Flutter web app cannot hide its code.** `flutter build web` has no `--obfuscate`
+flag (that is AOT-only: Android, iOS, desktop). The browser must be able to execute
+the bundle, so the bundle is readable. Treat everything shipped to the client as
+public and design around that instead of trying to defeat it.
+
+What is already true and worth keeping:
+
+| Control | State |
+|---|---|
+| dart2js minification | On by default in `--release`; no Dart class or method names survive in `main.dart.js` |
+| Source maps | **Off** — `--no-source-maps` is explicit in the workflow. Shipping them would publish readable Dart |
+| `--tree-shake-icons` | On — also strips the unused icon font (1.6 MB → 13 KB) |
+| Secrets in source | None. EmailJS credentials come from `--dart-define`, injected from repo secrets in CI |
+| XSS surface | None. Flutter renders through widgets, not HTML — there is no `Html`, `WebView` or `innerHTML` anywhere in `lib/`. Chatbot input is echoed into a `Text`, which cannot execute markup |
+| Attack surface | No backend, no database, no auth, no user accounts. Tally data never leaves the browser; the contact form stores nothing |
+| Referrer leakage | `strict-origin-when-cross-origin` — outbound links to Play Store, LinkedIn and GitHub do not receive the full URL |
+
+### The EmailJS credentials
+
+`AppConfig` reads `EMAILJS_SERVICE_ID`, `EMAILJS_TEMPLATE_ID`, and
+`EMAILJS_PUBLIC_KEY` from `String.fromEnvironment`. They are **not** in the
+repository. `AppConfig.isEmailConfigured` is false on a build without them, and
+the contact form says so rather than posting a request that fails opaquely.
+
+**This does not make them secret.** The browser sends them to EmailJS on every
+submission, so they are visible in the Network tab of any visitor's DevTools —
+verified by building with a probe value and grepping it out of `main.dart.js`.
+Moving them out of source removes them from the repo and from git history going
+forward; it does not hide them from users.
+
+The control that actually limits abuse is **server-side, in the EmailJS
+dashboard**: restrict the allowed origins to the portfolio's domain so a key
+lifted from the bundle cannot be used from anywhere else. Add reCAPTCHA there if
+the 200/month quota starts getting burned.
+
+> The keys committed before this change (`service_6i6dshm`, `template_18ixu8l`,
+> `0iFV81kJcmqT7fgXU`) are in git history on a public repository and must be
+> treated as permanently disclosed. Rotating them in the EmailJS dashboard is the
+> only thing that retires them — rewriting history does not, since the old objects
+> are already cloned and cached.
+
+### Supply chain and CI
+
+- `.github/dependabot.yml` — weekly `pub` and `github-actions` updates. Minor and
+  patch bumps are grouped; majors arrive as separate reviewable PRs. Without this
+  nothing ever got patched, which is how `go_router` drifted five majors behind.
+- The workflow declares least-privilege `permissions:` — `contents: read` at the
+  top and for `test`, `contents: write` only on `deploy`, which needs it to push
+  `gh-pages`. Otherwise `GITHUB_TOKEN` inherits the repository default.
+- CI triggers on `pull_request`, **not** `pull_request_target`, so a fork's PR runs
+  in a context without access to repository secrets. Do not change this trigger.
+
+### Known gaps (audited, not yet closed)
+
+- **No Content-Security-Policy.** GitHub Pages cannot set HTTP headers, so this has
+  to be a `<meta http-equiv>` tag. It is achievable — Flutter has a `--csp` build
+  flag that stops dynamic code generation — but the app runs the **CanvasKit**
+  renderer, which loads `canvaskit.wasm` and falls back to
+  `https://www.gstatic.com/flutter-canvaskit`. A policy that forgets `wasm-unsafe-eval`
+  or the gstatic origin white-screens the site. **Do not ship a CSP without loading
+  the built page in a real browser first.**
+- **`google_fonts` fetches Inter from `fonts.gstatic.com` at runtime.** Every
+  visitor's browser therefore contacts Google, sending their IP, and first paint
+  depends on a third party. Bundling the font files into `assets/` and setting
+  `GoogleFonts.config.allowRuntimeFetching = false` removes both problems.
+- **Dependencies are behind**, some by several majors (`go_router` 13 → 18,
+  `flutter_bloc` 8 → 9, `get_it` 7 → 9, `bloc_test` 9 → 10). These are breaking
+  upgrades and need to be done deliberately, one at a time, with the suite green
+  after each.
+
+### The repository is public on purpose
+
+The resume lists this portfolio as an open-source project and points recruiters at
+the source. That is the point of it. Do not make the repo private to "protect" the
+code — it would delete a hiring asset to prevent something that cannot be prevented
+anyway. Keep secrets out of it instead.
+
+### Personal data on the page
+
+Email, phone, and location are in `portfolio_data.json` and render on the page, so
+they are scrapeable by bots. That is a deliberate trade for being contactable — the
+same details are on the public resume. If the spam becomes a problem, drop the phone
+number from the JSON and leave the contact form as the channel.
+
+---
+
 ## Current Status
 
 > Last updated: 2026-09-04
-> `flutter analyze` → **0 issues** | `flutter test` → **84 tests passing**
+> `flutter analyze` → **0 issues** | `flutter test` → **122 tests passing** | web bundle **0.97 MB gzipped** (budget 3 MB)
 > Live: <https://manoharthullimalli09-flutter-coder.github.io>
 
 ### Foundation
@@ -735,6 +837,14 @@ Every section of this app must implicitly prove one or more of the following:
   - `ProjectCard.imageAspect` = `4 / 3` — the one constant controlling artwork shape; lower is taller (16/9 read as a thin banner strip)
   - Platform badges overlay the artwork (translucent, legible against any screenshot); the panel spends its space on `TechChip`s instead, clipped to one row so a widening card reveals more of the stack
   - Store link is revealed on hover (desktop) with its height permanently reserved, and `IgnorePointer` while hidden so there is no invisible click target; always visible on mobile, which has no hover
+- [x] **Playground section** — five working tools, on the home page between Skills and Contact
+  - **Expense Tally** — add income/expense, category chips, running balance, category donut. The only tool with persistence: entries survive a refresh via `SharedPreferences` (localStorage on web) and never leave the browser
+  - **In-Hand Salary (CTC)** — India, New Tax Regime FY 2025-26. Slabs, ₹75k standard deduction, 87A rebate to ₹12L, **marginal relief above the cliff**, 4% cess, ₹2,400/yr professional tax. Assumptions (basic %, metro HRA) are user-adjustable and the caveat is shown in a `ToolNote`
+  - **EMI** — standard amortisation; a 0% loan is special-cased so it splits evenly instead of dividing by zero
+  - **SIP** — future value of an annuity-due (each instalment compounds from the month it is paid)
+  - **Breathe** — Box / 4-7-8 / Calm patterns, animated `CustomPainter` ring. Zero-second phases are skipped so 4-7-8 has no dead beat; session count persists
+  - Tool selection lives in `PlaygroundCubit`, not `setState` — it is state the tree reads rather than owns
+  - `DonutChart` and the breathing ring are `CustomPainter` + `AnimatedBuilder` behind `RepaintBoundary`
 - [x] Skills section — 6 skill categories, animated bars (1200ms ease-out, primary→cyan lerp), responsive 3-col grid
 - [x] Contact section — desktop side-by-side / mobile stacked, validated form (name/email/subject/message), submitting state, success view, reset, social links (GitHub/LinkedIn), `_DownloadResumeButton` (calls `DownloadResumeUseCase`)
 - [x] Dark/light mode toggle — `ThemeCubit`, persisted via `SharedPreferences`, `AnimatedSwitcher` icon
@@ -748,7 +858,7 @@ Every section of this app must implicitly prove one or more of the following:
 - [x] `CategoryArtwork` — gradient + category watermark glyph, so a project without a screenshot reads as designed rather than broken
 - [ ] `assets/images/project_hr.webp` — referenced by "HR Productivity Dashboard" but missing; currently falls back to `CategoryArtwork`
 
-### Tests (84 passing, 0 failing)
+### Tests (122 passing, 0 failing)
 - [x] **Hero** — `DeveloperModel` (fromJson/toJson/copyWith/SocialLinks, 9 tests) · `HeroRepositoryImpl` (success/ParseFailure/CacheFailure, 3 tests) · `GetDeveloperInfoUseCase` (success/failure, 2 tests) · `HeroBloc` (initial/Loaded/Error, 3 tests)
 - [x] **Projects** — `ProjectModel` (fromJson/toJson/equality, 3 tests) · `ProjectsRepositoryImpl` (getProjects + getByPlatform, 5 tests) · `GetProjectsUseCase` + `FilterProjectsByPlatformUseCase` (4 tests) · `ProjectsBloc` (initial/Loaded/Error/filter/clearFilter, 6 tests)
 - [x] **Skills** — `SkillModel`/`SkillCategoryModel` (fromJson/toJson/equality, 5 tests) · `SkillsRepositoryImpl` (success/ParseFailure/CacheFailure, 3 tests) · `GetSkillsUseCase` (success/failure, 2 tests) · `SkillsCubit` (initial/Loaded/Error/verify content, 4 tests)
@@ -759,6 +869,7 @@ Every section of this app must implicitly prove one or more of the following:
   - Layout safety: no `Row` overflow when sliding straight between cards mid-tween · partial final row matches full-row sizing · tech-chip clipping at 390/768/1440/1920px
   - Content: tech stack renders on cards · store link revealed only on the hovered card · mobile shows links without hover
   - Detail dialog: opens on tap · untruncated description · every technology the card clipped · every store link, not just the card's one · closes without disturbing the grid
+- [x] **Playground** (38) — `calculators_test.dart` (13): EMI against the textbook ₹8,997 case, 0% loan, SIP annuity-due, salary component sum == CTC, 12 LPA pays no tax under the rebate, 25 LPA ≈ ₹2.74L, marginal relief, metro vs non-metro HRA, and every validation rejection · `tally_bloc_test.dart` (9): load/add/delete/clear, category grouping excluding income, newest-first ordering, **and a save failure keeping the entry visible** · `tally_repository_impl_test.dart` (7): storage round-trip, corrupt JSON degrading to empty rather than crashing, model round-trip, streak increment · `playground_section_test.dart` (9): tab switching, add-transaction flow, form validation, net balance across income and expense, breathing start/stop, **and every tool laid out at 390px without overflow**
 - [ ] Widget tests for hero / skills / contact sections (pending)
 - [ ] Integration test — full scroll, theme toggle, contact form (pending)
 - [ ] Web `RepaintBoundary` profiling — confirm 60fps in Chrome DevTools (pending)
@@ -783,6 +894,9 @@ Every section of this app must implicitly prove one or more of the following:
 - Fonts: Inter loaded via `google_fonts` package (no local font files needed)
 - `Right(value)` in tests infers `Right<dynamic, T>` which doesn't equal `Right<Failure, T>` — always use `.fold()` assertions for repository return values
 - **Web resume download** — `DownloadResumeUseCase` resolves `Uri.base.resolve(assetPath)` on web so `url_launcher` receives a full `https://` URL it can open in a tab; a bare `assets/...` path is not a launchable URI. A browser may still block it as a popup if the tap isn't seen as a user gesture
+- **`SyncUseCase`** (in `core/usecases/`) — same `Either` contract as `UseCase` without the `Future`, for pure computation. The calculators validate (a negative principal is a real `ValidationFailure`) but have nothing to await; wrapping them in a `Future` would be ceremony. They have no data layer at all, because they have no data source — that is Clean Architecture applied honestly, not skipped
+- **`PortfolioNavBar` indexes `sectionKeys` positionally** — inserting a section into `PortfolioPage` silently reassigns every link after it. Playground went in at index 3 and Contact had to move to 4 in *both* the desktop links and the mobile popup. Add a section and you must touch the nav bar
+- **`Wrap` does not rescue a `Row` from overflow** — a `Wrap` sizes each child to its natural width, so a long `Text` inside an unbounded `Row` child overflows instead of wrapping. `DonutLegend` caps each entry at the legend's own width via `LayoutBuilder` and lets the label ellipsize. Caught by the 390px widget test
 - **`peaceiris/actions-gh-pages` + `cname: ''`** — an empty CNAME breaks GitHub's Pages deploy while the Actions run stays green; see the Deployment section
 - **Project logos are square (480×480)** — `BoxFit.cover` against a wide card crops top and bottom, which reads as an intentional banner; `BoxFit.contain` letterboxes and `fitWidth` overflows an unbounded-height parent. `cover` is the deliberate choice
 - `GridView` + `childAspectRatio` was abandoned for the projects grid — a fixed ratio cannot express "hovered card grows, siblings shrink". The grid is hand-chunked into `_HoverableRow`s instead
